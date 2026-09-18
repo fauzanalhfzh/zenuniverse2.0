@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Lesson;
 use App\Models\LessonStep;
 use App\Models\User;
+use App\Services\Content\PublicId;
 use App\Services\Learning\GamificationService;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,6 +30,19 @@ class ProgressTest extends TestCase
             ->firstOrFail();
     }
 
+    private function publicOptionId(LessonStep $quiz, string $rawId, int $revision = 1): string
+    {
+        return PublicId::option($revision, $quiz->id, $rawId);
+    }
+
+    private function publicWrongOptionId(LessonStep $quiz, int $revision = 1): string
+    {
+        $raw = collect($quiz->content['options'])->pluck('id')
+            ->first(fn ($id) => $id !== $quiz->validation['correctOptionId']);
+
+        return $this->publicOptionId($quiz, (string) $raw, $revision);
+    }
+
     /**
      * @param  array<string, mixed>  $answer
      * @return array<string, mixed>
@@ -48,7 +62,7 @@ class ProgressTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $optionId = $quiz->validation['correctOptionId'];
+        $optionId = $this->publicOptionId($quiz, $quiz->validation['correctOptionId']);
 
         $response = $this->actingAs($user)->postJson('/learning/attempts', $this->payload(
             $quiz,
@@ -71,7 +85,7 @@ class ProgressTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $optionId = $quiz->validation['correctOptionId'];
+        $optionId = $this->publicOptionId($quiz, $quiz->validation['correctOptionId']);
         $attempt = '22222222-2222-4222-8222-222222222222';
 
         $this->actingAs($user)->postJson('/learning/attempts', $this->payload($quiz, ['type' => 'quiz', 'optionId' => $optionId], $attempt))->assertOk();
@@ -87,7 +101,7 @@ class ProgressTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $optionId = $quiz->validation['correctOptionId'];
+        $optionId = $this->publicOptionId($quiz, $quiz->validation['correctOptionId']);
         $attempt = '33333333-3333-4333-8333-333333333333';
 
         $this->actingAs($user)->postJson('/learning/attempts', $this->payload($quiz, ['type' => 'quiz', 'optionId' => $optionId], $attempt))->assertOk();
@@ -102,7 +116,7 @@ class ProgressTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $wrong = collect($quiz->content['options'])->pluck('id')->first(fn ($id) => $id !== $quiz->validation['correctOptionId']);
+        $wrong = $this->publicWrongOptionId($quiz);
 
         $response = $this->actingAs($user)->postJson('/learning/attempts', $this->payload(
             $quiz,
@@ -132,7 +146,7 @@ class ProgressTest extends TestCase
 
         $this->actingAs($user)->postJson('/learning/attempts', $this->payload(
             $quiz,
-            ['type' => 'quiz', 'optionId' => $quiz->validation['correctOptionId']],
+            ['type' => 'quiz', 'optionId' => $this->publicOptionId($quiz, $quiz->validation['correctOptionId'])],
             '55555555-5555-4555-8555-555555555555',
         ))->assertStatus(409)->assertJsonPath('error.code', 'no_hearts');
     }
@@ -144,7 +158,7 @@ class ProgressTest extends TestCase
 
         $this->actingAs($user)->postJson('/learning/attempts', $this->payload(
             $quiz,
-            ['type' => 'quiz', 'optionId' => $quiz->validation['correctOptionId']],
+            ['type' => 'quiz', 'optionId' => $this->publicOptionId($quiz, $quiz->validation['correctOptionId'])],
             '66666666-6666-4666-8666-666666666666',
             revision: 99,
         ))->assertStatus(409)->assertJsonPath('error.code', 'content_changed');
@@ -158,7 +172,7 @@ class ProgressTest extends TestCase
 
         $payload = $this->payload(
             $quiz,
-            ['type' => 'quiz', 'optionId' => $quiz->validation['correctOptionId']],
+            ['type' => 'quiz', 'optionId' => $this->publicOptionId($quiz, $quiz->validation['correctOptionId'])],
             '77777777-7777-4777-8777-777777777777',
         );
         $payload['lesson_id'] = $otherLesson->id;

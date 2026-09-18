@@ -247,7 +247,9 @@ Aturan baseline:
 
 ### Task 5: Read model dan DTO Inertia
 
-**Files:** `app/Http/Controllers/LearnController.php`, `LessonController.php`, `app/Http/Resources/LessonResource.php`, `resources/js/types/lesson.ts`, `tests/Feature/PublishedContentTest.php`, `routes/web.php`.
+**Files:** `app/Http/Controllers/LearnController.php`, `LessonController.php`, `app/Services/Content/PublishedContent.php`, `app/Services/Content/PublicId.php`, `resources/js/types/lesson.ts`, `tests/Feature/PublishedContentTest.php`, `routes/web.php`.
+
+Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumber dipakai controller, test, dan verifier. `PublicId` memetakan option/token privat ke ID opaque per revisi; `SubmitAttempt` menerjemahkannya kembali sebelum verifikasi.
 
 - [ ] Test auth, draft/archived/not found, unlock/progress, course order, dan lesson-step mismatch.
 - [ ] Controller mengirim props untuk halaman Inertia dan public DTO yang memuat `contentRevision`; jangan serialize CMS/model utuh.

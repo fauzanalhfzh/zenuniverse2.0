@@ -9,6 +9,7 @@ use App\Models\StepCompletion;
 use App\Models\User;
 use App\Models\UserGamification;
 use App\Models\XpTransaction;
+use App\Services\Content\PublicId;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Symfony\Component\Process\Process;
@@ -80,7 +81,7 @@ class ProgressConcurrencyTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $optionId = $quiz->validation['correctOptionId'];
+        $optionId = PublicId::option(1, $quiz->id, $quiz->validation['correctOptionId']);
 
         $this->runConcurrently([
             ['user' => $user, 'step' => $quiz, 'attempt' => 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'optionId' => $optionId],
@@ -96,7 +97,7 @@ class ProgressConcurrencyTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $optionId = $quiz->validation['correctOptionId'];
+        $optionId = PublicId::option(1, $quiz->id, $quiz->validation['correctOptionId']);
 
         $this->runConcurrently([
             ['user' => $user, 'step' => $quiz, 'attempt' => 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'optionId' => $optionId],
@@ -112,7 +113,8 @@ class ProgressConcurrencyTest extends TestCase
     {
         $user = User::factory()->create();
         $quiz = $this->publishedQuiz();
-        $wrong = collect($quiz->content['options'])->pluck('id')->first(fn ($id) => $id !== $quiz->validation['correctOptionId']);
+        $rawWrong = collect($quiz->content['options'])->pluck('id')->first(fn ($id) => $id !== $quiz->validation['correctOptionId']);
+        $wrong = PublicId::option(1, $quiz->id, (string) $rawWrong);
 
         $this->runConcurrently([
             ['user' => $user, 'step' => $quiz, 'attempt' => 'dddddddd-dddd-4ddd-8ddd-dddddddddddd', 'optionId' => $wrong],

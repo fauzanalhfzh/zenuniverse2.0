@@ -12,6 +12,7 @@ use App\Models\LessonStep;
 use App\Models\StepCompletion;
 use App\Models\User;
 use App\Models\UserGamification;
+use App\Services\Content\PublicId;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use JsonException;
@@ -64,6 +65,8 @@ class SubmitAttempt
             'revision' => $contentRevision,
             'answer' => $answer,
         ], JSON_THROW_ON_ERROR));
+
+        $answer = $this->translateAnswer($step, $contentRevision, $answer);
 
         return DB::transaction(function () use ($user, $step, $lesson, $course, $contentRevision, $attemptId, $answer, $payloadHash): array {
             $state = $this->lockState($user);
@@ -170,6 +173,52 @@ class SubmitAttempt
                 'completed' => $this->lessonCompleted($user, $lesson->id),
             ];
         }, 3);
+    }
+
+    /**
+     * Public option/token IDs are opaque; map them back to the private IDs the
+     * verifier understands. Unknown IDs are left untouched and fail verification.
+     *
+     * @param  array<string, mixed>  $answer
+     * @return array<string, mixed>
+     */
+    private function translateAnswer(LessonStep $step, int $revision, array $answer): array
+    {
+        $content = $step->content;
+
+        if ($step->type === StepType::Quiz && is_string($answer['optionId'] ?? null)) {
+            $map = [];
+
+            foreach ($this->objectList($content['options'] ?? null) as $option) {
+                $map[PublicId::option($revision, $step->id, (string) $option['id'])] = $option['id'];
+            }
+
+            $answer['optionId'] = $map[$answer['optionId']] ?? $answer['optionId'];
+        }
+
+        if ($step->type === StepType::CodeArrange && is_array($answer['tokenIds'] ?? null)) {
+            $map = [];
+
+            foreach ($this->objectList($content['tokens'] ?? null) as $token) {
+                $map[PublicId::token($revision, $step->id, (string) $token['id'])] = $token['id'];
+            }
+
+            $answer['tokenIds'] = array_map(fn ($id) => $map[$id] ?? $id, $answer['tokenIds']);
+        }
+
+        return $answer;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function objectList(mixed $value): array
+    {
+        if (! is_array($value)) {
+            return [];
+        }
+
+        return array_values(array_filter($value, 'is_array'));
     }
 
     /**
