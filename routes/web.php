@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\HeartSettingsController as AdminHeartSettingsController;
 use App\Http\Controllers\Admin\PlayerHeartsController as AdminPlayerHeartsController;
@@ -38,6 +39,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (): void {
     Route::post('/courses/{course}/archive', [AdminCourseController::class, 'archive'])->name('admin.courses.archive');
     Route::post('/courses/{course}/restore', [AdminCourseController::class, 'restore'])->name('admin.courses.restore');
     Route::delete('/courses/{course}', [AdminCourseController::class, 'destroy'])->name('admin.courses.destroy');
+    Route::post('/courses/{course}/duplicate', [AdminCourseController::class, 'duplicate'])->name('admin.courses.duplicate');
+
+    Route::post('/assets', [AdminAssetController::class, 'store'])->name('admin.assets.store');
+    Route::delete('/assets/{asset}', [AdminAssetController::class, 'destroy'])->name('admin.assets.destroy');
 
     Route::get('/settings/hearts', [AdminHeartSettingsController::class, 'show'])->name('admin.hearts.show');
     Route::put('/settings/hearts', [AdminHeartSettingsController::class, 'update'])->name('admin.hearts.update');

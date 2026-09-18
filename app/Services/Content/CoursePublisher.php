@@ -135,6 +135,45 @@ class CoursePublisher
         }, 3);
     }
 
+    public function duplicate(Course $source, string $newId, User $actor, ?string $title = null): Course
+    {
+        return DB::transaction(function () use ($source, $newId, $actor, $title): Course {
+            if (Course::query()->whereKey($newId)->exists()) {
+                throw new LearningException('duplicate_id', 'ID course sudah dipakai.', 422);
+            }
+
+            $draft = CourseDraft::query()->where('course_id', $source->id)->first();
+            $document = $draft instanceof CourseDraft ? $draft->document : $this->projectionDocument($source);
+            $document = $this->remapDocument($document, $newId);
+
+            if ($title !== null && trim($title) !== '') {
+                $document['title'] = $title;
+            }
+
+            $course = Course::create([
+                'id' => $newId,
+                'title' => (string) $document['title'],
+                'description' => (string) $document['description'],
+                'level' => (string) $document['level'],
+                'status' => 'draft',
+                'content_revision' => 1,
+                'planned_lesson_ids' => $document['plannedLessonIds'] ?? null,
+                'sort_order' => ((int) Course::query()->max('sort_order')) + 1,
+            ]);
+
+            CourseDraft::create([
+                'course_id' => $newId,
+                'document' => $document,
+                'revision' => 1,
+                'updated_by' => $actor->id,
+            ]);
+
+            $this->audit($actor, 'course.duplicated', $newId, ['source' => $source->id], ['title' => $document['title']]);
+
+            return $course;
+        }, 3);
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -293,6 +332,80 @@ class CoursePublisher
                 'content_id' => $row['id'],
             ], ['kind' => $row['kind']]);
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function projectionDocument(Course $course): array
+    {
+        $course->loadMissing('units.lessons.steps');
+
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'description' => $course->description,
+            'level' => $course->level,
+            'plannedLessonIds' => $course->planned_lesson_ids,
+            'units' => $course->units->map(fn (Unit $unit): array => [
+                'id' => $unit->id,
+                'title' => $unit->title,
+                'description' => $unit->description,
+                'lessons' => $unit->lessons->map(fn (Lesson $lesson): array => [
+                    'id' => $lesson->id,
+                    'title' => $lesson->title,
+                    'description' => $lesson->description,
+                    'completionRewardXp' => (int) $lesson->completion_reward_xp,
+                    'steps' => $lesson->steps->map(fn (LessonStep $step): array => [
+                        'id' => $step->id,
+                        'type' => $step->type->value,
+                        'reward' => ['xp' => (int) $step->reward_xp],
+                        'content' => $step->content,
+                        'validation' => $step->validation,
+                        'challenge' => $step->challenge,
+                    ])->all(),
+                ])->all(),
+            ])->all(),
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $document
+     * @return array<string, mixed>
+     */
+    private function remapDocument(array $document, string $newCourseId): array
+    {
+        $document['id'] = $newCourseId;
+
+        $document['units'] = array_map(function (array $unit) use ($newCourseId): array {
+            $unit['id'] = $this->remapId($newCourseId, (string) $unit['id']);
+            $unit['lessons'] = array_map(function (array $lesson) use ($newCourseId): array {
+                $lesson['id'] = $this->remapId($newCourseId, (string) $lesson['id']);
+                $lesson['steps'] = array_map(function (array $step) use ($newCourseId): array {
+                    $step['id'] = $this->remapId($newCourseId, (string) $step['id']);
+
+                    return $step;
+                }, $this->list($lesson['steps'] ?? null));
+
+                return $lesson;
+            }, $this->list($unit['lessons'] ?? null));
+
+            return $unit;
+        }, $this->list($document['units'] ?? null));
+
+        if (is_array($document['plannedLessonIds'] ?? null)) {
+            $document['plannedLessonIds'] = array_map(
+                fn ($id): string => $this->remapId($newCourseId, (string) $id),
+                $document['plannedLessonIds'],
+            );
+        }
+
+        return $document;
+    }
+
+    private function remapId(string $newCourseId, string $oldId): string
+    {
+        return substr($newCourseId, 0, 120).'-'.substr(sha1($oldId), 0, 8);
     }
 
     /**

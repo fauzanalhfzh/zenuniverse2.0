@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DuplicateCourseRequest;
 use App\Http\Requests\PublishCourseRequest;
 use App\Http\Requests\SaveDraftRequest;
 use App\Models\Course;
@@ -117,5 +118,19 @@ class CourseController extends Controller
         $this->publisher->delete($course, $request->user());
 
         return response()->json(['deleted' => true]);
+    }
+
+    public function duplicate(DuplicateCourseRequest $request, Course $course): JsonResponse
+    {
+        $data = $request->validated();
+
+        $copy = $this->publisher->duplicate(
+            $course,
+            (string) $data['new_id'],
+            $request->user(),
+            isset($data['title']) ? (string) $data['title'] : null,
+        );
+
+        return response()->json(['id' => $copy->id, 'status' => $copy->status], 201);
     }
 }

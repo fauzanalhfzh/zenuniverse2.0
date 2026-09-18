@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Course;
+use App\Models\CourseDraft;
 use App\Models\Lesson;
 use App\Models\ReservedContentId;
 use App\Models\StepCompletion;
@@ -223,5 +224,37 @@ class CmsTest extends TestCase
 
         $this->assertDatabaseMissing('courses', ['id' => $course->id]);
         $this->assertDatabaseMissing('course_drafts', ['course_id' => $course->id]);
+    }
+
+    public function test_duplicate_creates_new_draft_with_fresh_ids(): void
+    {
+        $admin = $this->admin();
+        $course = $this->publishedCourse();
+
+        $response = $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/duplicate", [
+            'new_id' => 'copy-course',
+            'title' => 'Salinan Course',
+        ]);
+
+        $response->assertStatus(201)->assertJsonPath('id', 'copy-course')->assertJsonPath('status', 'draft');
+
+        $draft = CourseDraft::where('course_id', 'copy-course')->firstOrFail();
+        $document = $draft->document;
+
+        $this->assertSame('Salinan Course', $document['title']);
+        $this->assertStringStartsWith('copy-course-', $document['units'][0]['id']);
+        $this->assertNotSame($course->units->first()->id, $document['units'][0]['id']);
+        $this->assertDatabaseMissing('course_drafts', ['course_id' => $course->id]);
+        $this->assertDatabaseHas('admin_audits', ['action' => 'course.duplicated', 'subject_id' => 'copy-course']);
+    }
+
+    public function test_duplicate_rejects_existing_id(): void
+    {
+        $admin = $this->admin();
+        $course = $this->publishedCourse();
+
+        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/duplicate", [
+            'new_id' => 'blockly-basics',
+        ])->assertStatus(422)->assertJsonPath('error.code', 'duplicate_id');
     }
 }
