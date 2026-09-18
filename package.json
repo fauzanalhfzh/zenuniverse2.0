@@ -10,7 +10,7 @@
         "check:fix": "vp check --fix",
         "types:check": "tsc --noEmit",
         "export:content": "node --import ./scripts/register-ts.mjs scripts/export-content.mts",
-        "test": "node --import ./scripts/register-ts.mjs --test \"scripts/**/*.test.ts\""
+        "test": "node --import ./scripts/register-ts.mjs --test \"scripts/**/*.test.ts\" \"resources/js/**/*.test.ts\""
     },
     "dependencies": {
         "@inertiajs/react": "^3.0.0",
