@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "exportedAt": "2026-09-18T11:33:05.322Z",
+  "sourceRevision": "d0c3c40",
+  "contentChecksum": "1b4fda024f5fab87ccc39fa062d2826897b3151f3eb885e23a018daa40a27770",
+  "totals": {
+    "courses": 6,
+    "published": 5,
+    "draft": 1,
+    "units": 30,
+    "lessons": 62,
+    "steps": 413
+  },
+  "courses": [
+    {
+      "id": "blockly-basics",
+      "status": "published",
+      "units": 10,
+      "lessons": 10,
+      "steps": 100,
+      "checksum": "f5507165c074a74c02f35162c533084eace8b9f06ef9d2b7bd36801e6189e74e"
+    },
+    {
+      "id": "python-fundamentals",
+      "status": "published",
+      "units": 10,
+      "lessons": 10,
+      "steps": 111,
+      "checksum": "30b3573d3540e68e43797e63e812f7dcd67a4a83f9264fdccadce034c6c32855"
+    },
+    {
+      "id": "javascript-fundamentals",
+      "status": "published",
+      "units": 2,
+      "lessons": 10,
+      "steps": 41,
+      "checksum": "d2e9d52ad3533cba67dc5ee31b20332bc2663da1f13673e474ec5968e84675a7"
+    },
+    {
+      "id": "html-fundamentals",
+      "status": "published",
+      "units": 2,
+      "lessons": 10,
+      "steps": 50,
+      "checksum": "abc2d54bc4ec7f5085e5062cdf5f1e764dcfabc2f1177d8761b2a4dea13cf1ad"
+    },
+    {
+      "id": "css-fundamentals",
+      "status": "published",
+      "units": 2,
+      "lessons": 10,
+      "steps": 50,
+      "checksum": "7001b6361a951ac4ad1cba1ec6d45e1aa50dab456df65e11ef1e487858793aef"
+    },
+    {
+      "id": "cpp-fundamentals",
+      "status": "draft",
+      "units": 4,
+      "lessons": 12,
+      "steps": 61,
+      "checksum": "75bc844a9bc868124f22f3b83d41d817e9494517257513a378f453ef113b9e39"
+    }
+  ]
+}

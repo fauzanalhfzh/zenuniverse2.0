@@ -8,7 +8,9 @@
         "dev": "vp dev",
         "check": "vp check",
         "check:fix": "vp check --fix",
-        "types:check": "tsc --noEmit"
+        "types:check": "tsc --noEmit",
+        "export:content": "node --import ./scripts/register-ts.mjs scripts/export-content.mts",
+        "test": "node --import ./scripts/register-ts.mjs --test \"scripts/**/*.test.ts\""
     },
     "dependencies": {
         "@inertiajs/react": "^3.0.0",

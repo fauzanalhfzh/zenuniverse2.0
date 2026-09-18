@@ -117,7 +117,7 @@ Dependency fitur ditambahkan hanya ketika task memerlukannya:
 | Efek source, jika digunakan | `framer-motion` 13.4.0, `ogl` 1.0.11                                                                     |
 | Schema TS                   | `zod` 4.6.5; jalankan fixture source sebelum menaikkan versi dari source 4.4.3                           |
 | E2E                         | `@playwright/test` 1.63.0                                                                                |
-| Export TS                   | `tsx` 4.23.13, hanya bila tooling existing tidak mencukupi                                               |
+| Export TS                   | Tanpa dependency baru: loader `scripts/register-ts.mjs` + type-stripping Node 24                         |
 | Font alternatif             | `@fontsource/figtree`, `@fontsource/fredoka` 5.3.0; utamakan fasilitas font plugin existing bila memadai |
 
 Jangan membawa Next.js, Supabase SDK, Elysia, Better Auth, Drizzle/PostgreSQL, Vercel Speed Insights, atau `server-only` ke target. Tipe Node mengikuti major runtime, bukan otomatis versi terbaru; native binary packages mengikuti parent tooling, tidak dinaikkan sendiri.
@@ -220,15 +220,15 @@ Aturan baseline:
 
 **Gate:** `php artisan test --filter=GoogleAuthTest` lulus pada DB test. Menjalankan server Laragon tidak otomatis membuktikan `.env` aplikasi sudah memakai MySQL; periksa koneksi, jangan instal/start ulang server.
 
-### Task 3: Schema konten/CMS dan seed
+### Task 3: Schema konten dan seed
 
 **Files:** migration/model content pada bagian 4, `app/Enums/StepType.php`, `app/Services/Content/ContentImporter.php`, `database/seeders/ContentSeeder.php`, `tests/Feature/ContentImportTest.php`.
 
 - [ ] Test constraints PK/FK/collation, JSON round-trip, rollback import invalid, ID duplicate, dan idempotent re-import.
 - [ ] Pertahankan content/challenge/sampleInput/icon/planned IDs dan private answers. Enam tipe step tetap didukung.
-- [ ] Import drafts/releases/projection published dari dump Task 1; C++ tidak muncul di player published.
-- [ ] Re-import menolak overwrite document yang sudah diedit CMS bila checksum/revisi berbeda; jangan `updateOrCreate` buta.
+- [ ] Import projection published dari dump Task 1; C++ tidak muncul di player published.
 - [ ] Cocokkan counts/order/hash DB dengan manifest. Dilarang `migrate:fresh` atau reset pada DB development/live.
+- [ ] Tabel CMS (drafts/releases/reserved IDs/audit) ditambahkan di Task 6 saat pertama dipakai; guard overwrite admin menyusul di sana.
 
 **Gate:** `php artisan test --filter=ContentImportTest` lulus; seed tidak menghapus user/progress.
 
