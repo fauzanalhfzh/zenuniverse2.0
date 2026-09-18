@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\LearnController;
 use App\Http\Controllers\LessonController;
@@ -24,4 +25,15 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/learning/lessons/{lesson}/complete', [ProgressController::class, 'complete'])
         ->middleware('throttle:60,1')
         ->name('learning.lessons.complete');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (): void {
+    Route::get('/courses', [AdminCourseController::class, 'index'])->name('admin.courses.index');
+    Route::get('/courses/{course}', [AdminCourseController::class, 'show'])->name('admin.courses.show');
+    Route::put('/courses/{course}', [AdminCourseController::class, 'updateDraft'])->name('admin.courses.draft');
+    Route::post('/courses/{course}/publish', [AdminCourseController::class, 'publish'])->name('admin.courses.publish');
+    Route::get('/courses/{course}/preview', [AdminCourseController::class, 'preview'])->name('admin.courses.preview');
+    Route::post('/courses/{course}/archive', [AdminCourseController::class, 'archive'])->name('admin.courses.archive');
+    Route::post('/courses/{course}/restore', [AdminCourseController::class, 'restore'])->name('admin.courses.restore');
+    Route::delete('/courses/{course}', [AdminCourseController::class, 'destroy'])->name('admin.courses.destroy');
 });
