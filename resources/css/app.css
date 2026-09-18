@@ -1,11 +1,456 @@
+@import '@fontsource/fredoka/400.css';
+@import '@fontsource/fredoka/500.css';
+@import '@fontsource/fredoka/600.css';
+@import '@fontsource/fredoka/700.css';
+@import '@fontsource/figtree/400.css';
+@import '@fontsource/figtree/500.css';
+@import '@fontsource/figtree/600.css';
+@import '@fontsource/figtree/700.css';
 @import 'tailwindcss';
 
 @source '../views';
+@source '../js';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-@theme {
+:root {
+    color-scheme: light;
+    --radius: 1rem;
+    --background: #ffffff;
+    --foreground: #1e293b;
+    --card: #ffffff;
+    --card-foreground: #1e293b;
+    --popover: #ffffff;
+    --popover-foreground: #1e293b;
+    --primary: #ff8a3d;
+    --primary-foreground: #ffffff;
+    --secondary: #6366f1;
+    --secondary-foreground: #ffffff;
+    --muted: #f8fafc;
+    --muted-foreground: #64748b;
+    --accent: #fff7ed;
+    --accent-foreground: #ea6a12;
+    --destructive: #e11d48;
+    --green-accent: #49de80;
+    --green-accent-dark: #3a995d;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #ff8a3d;
+    --lesson-background: var(--muted);
+    --lesson-surface: var(--card);
+    --lesson-border: var(--border);
+    --lesson-control-border: var(--muted-foreground);
+    --lesson-text: var(--foreground);
+    --lesson-text-muted: var(--muted-foreground);
+    --lesson-accent: var(--primary);
+    --lesson-accent-hover: var(--accent-foreground);
+    --lesson-accent-soft: var(--accent);
+    --lesson-info: var(--foreground);
+    --lesson-info-soft: var(--muted);
+    --lesson-success: var(--foreground);
+    --lesson-success-soft: var(--muted);
+    --lesson-warning: var(--foreground);
+    --lesson-warning-soft: var(--accent);
+    --lesson-danger: var(--foreground);
+    --lesson-danger-soft: var(--muted);
+    --game-bg: #f7f7f7;
+    --game-card: #ffffff;
+    --game-border: #e5e5e5;
+    --game-track: #e5e5e5;
+    --game-ink: #273248;
+    --game-ink-muted: #475569;
+    --game-green: #58cc02;
+    --game-blue: #1cb0f6;
+    --game-link: #0a7bbf;
+    --game-yellow: #ffc800;
+    --game-orange: #ff9600;
+    --game-red: #ff4b4b;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-green-accent: var(--green-accent);
+    --color-green-accent-dark: var(--green-accent-dark);
+    --color-lesson-background: var(--lesson-background);
+    --color-lesson-surface: var(--lesson-surface);
+    --color-lesson-border: var(--lesson-border);
+    --color-lesson-control-border: var(--lesson-control-border);
+    --color-lesson-text: var(--lesson-text);
+    --color-lesson-text-muted: var(--lesson-text-muted);
+    --color-lesson-accent: var(--lesson-accent);
+    --color-lesson-accent-hover: var(--lesson-accent-hover);
+    --color-lesson-accent-soft: var(--lesson-accent-soft);
+    --color-lesson-info: var(--lesson-info);
+    --color-lesson-info-soft: var(--lesson-info-soft);
+    --color-lesson-success: var(--lesson-success);
+    --color-lesson-success-soft: var(--lesson-success-soft);
+    --color-lesson-warning: var(--lesson-warning);
+    --color-lesson-warning-soft: var(--lesson-warning-soft);
+    --color-lesson-danger: var(--lesson-danger);
+    --color-lesson-danger-soft: var(--lesson-danger-soft);
+    --color-game-bg: var(--game-bg);
+    --color-game-card: var(--game-card);
+    --color-game-border: var(--game-border);
+    --color-game-track: var(--game-track);
+    --color-game-ink: var(--game-ink);
+    --color-game-ink-muted: var(--game-ink-muted);
+    --color-game-green: var(--game-green);
+    --color-game-blue: var(--game-blue);
+    --color-game-link: var(--game-link);
+    --color-game-yellow: var(--game-yellow);
+    --color-game-orange: var(--game-orange);
+    --color-game-red: var(--game-red);
+
+    --color-primary-dark: #ea6a12;
+    --color-sky-base: #e0f2fe;
+    --color-cadet: #38bdf8;
+    --color-explorer: #4ade80;
+    --color-expert: #c084fc;
+    --color-gold: #fbbf24;
+
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Figtree', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Fredoka', sans-serif;
+    --font-body: 'Figtree', sans-serif;
+
+    --radius-sm: calc(var(--radius) - 0.5rem);
+    --radius-md: calc(var(--radius) - 0.25rem);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 0.25rem);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+body {
+    font-family: var(--font-body);
+}
+
+.pixel-card {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    border: 1px solid var(--pixel-card-border, #cbd5e1);
+    border-radius: 1.5rem;
+    background: var(--pixel-card-background, #ffffff);
+    transition: border-color 200ms ease;
+}
+
+.pixel-card:hover,
+.pixel-card:focus-within {
+    border-color: var(--pixel-card-active-color, #9c4913);
+}
+
+.pixel-card__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pixel-card {
+        transition: none;
+    }
+
+    .pixel-card__canvas {
+        display: none;
+    }
+}
+
+.lesson-completion-card {
+    container-type: size;
+}
+
+.lesson-completion-content {
+    display: grid;
+    flex: 1;
+    min-height: 0;
+    align-content: center;
+    gap: clamp(8px, 2cqh, 20px);
+    padding: clamp(10px, 2.5cqh, 24px) clamp(14px, 4cqw, 32px);
+    text-align: center;
+}
+
+.lesson-completion-intro,
+.lesson-completion-details {
+    min-width: 0;
+}
+
+.lesson-completion-eyebrow {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.lesson-completion-headline {
+    max-width: 36rem;
+    margin: 6px auto 0;
+    font-size: clamp(22px, 5.5cqh, 42px);
+    line-height: 1.12;
+    text-wrap: balance;
+}
+
+.lesson-completion-description {
+    max-width: 34rem;
+    margin: 8px auto 0;
+    font-size: clamp(12px, 2cqh, 16px);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.lesson-completion-reward-panel {
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
+}
+
+.lesson-completion-xp-summary {
+    padding: clamp(6px, 1.8cqh, 16px) 12px;
+}
+
+.lesson-completion-xp-label {
+    font-size: clamp(12px, 2cqh, 14px);
+    line-height: 1.4;
+}
+
+.lesson-completion-xp-total {
+    margin-block: 2px;
+    font-size: clamp(32px, 7.5cqh, 56px);
+    line-height: 1;
+}
+
+.lesson-completion-bonus-rows {
+    padding: 4px 12px;
+}
+
+.lesson-completion-reward-row {
+    padding-block: clamp(3px, 0.7cqh, 6px);
+    font-size: clamp(12px, 1.8cqh, 14px);
+    line-height: 1.3;
+}
+
+.lesson-completion-unlock {
+    max-width: 36rem;
+    margin: 8px auto 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.lesson-completion-footer {
+    padding: 10px 14px 20px;
+}
+
+.lesson-completion-actions {
+    display: flex;
+    gap: 12px;
+    max-width: 36rem;
+    margin-inline: auto;
+}
+
+.lesson-completion-action {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+}
+
+.lesson-completion-trophy-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(80px, 25cqh, 192px);
+    height: clamp(64px, 21cqh, 152px);
+    margin-inline: auto;
+}
+
+.lesson-completion-rays {
+    position: absolute;
+    width: 125%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+        from 8deg,
+        #ffc80033 0deg 12deg,
+        transparent 12deg 30deg
+    );
+    mask-image: radial-gradient(circle, #000 20%, transparent 70%);
+}
+
+.lesson-completion-medal {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(52px, 17cqh, 128px);
+    aspect-ratio: 1;
+    border: 4px solid #fff7cc;
+    border-radius: 50%;
+    background: var(--game-yellow);
+    color: #713f12;
+    box-shadow:
+        0 7px 0 #d9990b,
+        0 12px 0 #fef3c7;
+}
+
+.lesson-completion-trophy-icon {
+    width: 62%;
+    height: 62%;
+}
+
+.lesson-completion-check {
+    position: absolute;
+    right: -0.4rem;
+    bottom: -0.1rem;
+    display: grid;
+    place-items: center;
+    width: clamp(24px, 5cqh, 36px);
+    height: clamp(24px, 5cqh, 36px);
+    border: 3px solid var(--lesson-surface);
+    border-radius: 50%;
+    background: var(--foreground);
+    color: white;
+}
+
+.lesson-completion-check svg {
+    width: 75%;
+    height: 75%;
+}
+
+.lesson-completion-confetti {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.lesson-completion-piece {
+    position: absolute;
+    top: 28%;
+    left: var(--start);
+    width: 0.5rem;
+    height: 0.9rem;
+    border-radius: 2px;
+    background: var(--confetti-color);
+    opacity: 0;
+}
+
+.lesson-completion-piece:nth-child(3n) {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .lesson-completion-piece {
+        animation: lesson-completion-celebrate 2.4s var(--delay)
+            cubic-bezier(0.18, 0.65, 0.35, 1) both;
+    }
+
+    .lesson-completion-rays {
+        animation: lesson-completion-unfurl 0.85s ease-out both;
+    }
+}
+
+@container (max-height: 520px) and (max-width: 499px) {
+    .lesson-completion-trophy-stage {
+        width: 80px;
+        height: 64px;
+    }
+
+    .lesson-completion-medal {
+        width: 52px;
+    }
+
+    .lesson-completion-headline {
+        font-size: 22px;
+    }
+
+    .lesson-completion-content {
+        gap: 8px;
+        padding-block: 10px;
+    }
+}
+
+@container (max-height: 380px) and (min-width: 500px) {
+    .lesson-completion-content {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 24px;
+    }
+
+    .lesson-completion-intro:only-child {
+        grid-column: 1 / -1;
+    }
+
+    .lesson-completion-headline {
+        font-size: 24px;
+    }
+
+    .lesson-completion-description {
+        margin-top: 6px;
+    }
+}
+
+@keyframes lesson-completion-celebrate {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(0);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate3d(calc(var(--travel) * 0.8), -150px, 0)
+            rotate(calc(var(--turn) * 0.45));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(var(--travel), 420px, 0) rotate(var(--turn));
+    }
+}
+
+@keyframes lesson-completion-unfurl {
+    from {
+        opacity: 0;
+        transform: scale(0.6) rotate(-25deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
 }

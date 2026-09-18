@@ -8,11 +8,21 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class GoogleAuthController extends Controller
 {
+    public function showLogin(Request $request): InertiaResponse
+    {
+        return Inertia::render('auth/login', [
+            'next' => $request->query('next'),
+            'signedOut' => $request->query('signedOut') === '1',
+        ]);
+    }
+
     public function redirect(): SymfonyRedirectResponse
     {
         return Socialite::driver('google')->redirect();

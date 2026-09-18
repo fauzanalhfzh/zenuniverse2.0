@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+<html lang="id">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="icon" href="/images/favicon/favicon-16x16.png" sizes="16x16">
         <link rel="icon" href="/images/favicon/favicon-32x32.png" sizes="32x32">
@@ -12,12 +13,10 @@
         <link rel="icon" href="/images/favicon/favicon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="/images/favicon/apple-touch-icon.png">
 
-        @fonts
-
         @viteReactRefresh
-        @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+        @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         <x-inertia::head>
-            <title>{{ config('app.name', 'Laravel') }}</title>
+            <title>ZenUniverse Academy</title>
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">
