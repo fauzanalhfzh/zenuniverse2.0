@@ -82,6 +82,17 @@ class CoursePublisher
             $this->assertStructureUnchanged($course, $document);
             $this->assertNewIdsUnused($course, $document);
 
+            $hash = hash('sha256', json_encode($document, JSON_THROW_ON_ERROR));
+
+            $existing = CourseRelease::query()
+                ->where('course_id', $course->id)
+                ->where('hash', $hash)
+                ->first();
+
+            if ($existing !== null) {
+                return $existing;
+            }
+
             $revision = (int) $course->content_revision + 1;
 
             $this->applyProjection($course, $document, $revision);
@@ -91,7 +102,7 @@ class CoursePublisher
                 'course_id' => $course->id,
                 'revision' => $revision,
                 'document' => $document,
-                'hash' => hash('sha256', json_encode($document, JSON_THROW_ON_ERROR)),
+                'hash' => $hash,
                 'published_at' => now(),
                 'actor_id' => $actor->id,
             ]);
