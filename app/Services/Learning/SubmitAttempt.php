@@ -12,6 +12,7 @@ use App\Models\LessonStep;
 use App\Models\StepCompletion;
 use App\Models\User;
 use App\Models\UserGamification;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use JsonException;
 
@@ -74,19 +75,7 @@ class SubmitAttempt
                 ->first();
 
             if ($existing !== null) {
-                if ($existing->payload_hash !== $payloadHash) {
-                    throw LearningException::attemptConflict();
-                }
-
-                $replay = $this->verifier->verify($step, $answer);
-
-                return [
-                    'correct' => (bool) $existing->correct,
-                    'consumeHeart' => (bool) $existing->consume_heart,
-                    'feedback' => $replay->feedback,
-                    'xpAwarded' => (int) $existing->xp_awarded,
-                    'completed' => $this->lessonCompleted($user, $lesson->id),
-                ];
+                return $this->replay($existing, $step, $answer, $user, $lesson->id, $payloadHash);
             }
 
             if ($this->costsHeart($step) && $this->gamification->effectiveHearts($state)['hearts'] <= 0) {
@@ -113,17 +102,31 @@ class SubmitAttempt
                 $consumeHeart = $this->gamification->consumeHeart($user, "mistake:{$attemptId}");
             }
 
-            LessonAttempt::create([
-                'user_id' => $user->id,
-                'attempt_id' => $attemptId,
-                'lesson_id' => $lesson->id,
-                'step_id' => $step->id,
-                'content_revision' => $contentRevision,
-                'payload_hash' => $payloadHash,
-                'correct' => $verification->correct,
-                'consume_heart' => $consumeHeart,
-                'xp_awarded' => $xpAwarded,
-            ]);
+            try {
+                LessonAttempt::create([
+                    'user_id' => $user->id,
+                    'attempt_id' => $attemptId,
+                    'lesson_id' => $lesson->id,
+                    'step_id' => $step->id,
+                    'content_revision' => $contentRevision,
+                    'payload_hash' => $payloadHash,
+                    'correct' => $verification->correct,
+                    'consume_heart' => $consumeHeart,
+                    'xp_awarded' => $xpAwarded,
+                ]);
+            } catch (QueryException $exception) {
+                $raced = LessonAttempt::query()
+                    ->where('user_id', $user->id)
+                    ->where('attempt_id', $attemptId)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($raced !== null) {
+                    return $this->replay($raced, $step, $answer, $user, $lesson->id, $payloadHash);
+                }
+
+                throw $exception;
+            }
 
             return [
                 'correct' => $verification->correct,
@@ -132,7 +135,7 @@ class SubmitAttempt
                 'xpAwarded' => $xpAwarded,
                 'completed' => $this->lessonCompleted($user, $lesson->id),
             ];
-        });
+        }, 3);
     }
 
     /**
@@ -166,7 +169,28 @@ class SubmitAttempt
                 'xpAwarded' => $xpAwarded,
                 'completed' => $this->lessonCompleted($user, $lesson->id),
             ];
-        });
+        }, 3);
+    }
+
+    /**
+     * @param  array<string, mixed>  $answer
+     * @return array{correct: bool, consumeHeart: bool, feedback: string, xpAwarded: int, completed: bool}
+     */
+    private function replay(LessonAttempt $attempt, LessonStep $step, array $answer, User $user, string $lessonId, string $payloadHash): array
+    {
+        if ($attempt->payload_hash !== $payloadHash) {
+            throw LearningException::attemptConflict();
+        }
+
+        $replay = $this->verifier->verify($step, $answer);
+
+        return [
+            'correct' => (bool) $attempt->correct,
+            'consumeHeart' => (bool) $attempt->consume_heart,
+            'feedback' => $replay->feedback,
+            'xpAwarded' => (int) $attempt->xp_awarded,
+            'completed' => $this->lessonCompleted($user, $lessonId),
+        ];
     }
 
     private function awardLessonAndCourse(User $user, Lesson $lesson, Course $course, int $contentRevision, string $date): int
@@ -239,9 +263,16 @@ class SubmitAttempt
             return $state;
         }
 
-        $created = $this->gamification->current($user);
+        try {
+            $this->gamification->current($user);
+        } catch (QueryException) {
+            // Another request created the row first; fall through to a locked read.
+        }
 
-        return UserGamification::query()->whereKey($created->id)->lockForUpdate()->firstOrFail();
+        return UserGamification::query()
+            ->where('user_id', $user->id)
+            ->lockForUpdate()
+            ->firstOrFail();
     }
 
     private function costsHeart(LessonStep $step): bool

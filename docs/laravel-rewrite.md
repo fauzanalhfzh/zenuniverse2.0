@@ -355,9 +355,16 @@ npm run types:check
 npm run build
 ```
 
-- Script `npm run test` belum ada pada baseline audit. Saat test TS pertama dibuat, tambahkan script runner yang kompatibel dengan Vite Plus; jangan scaffold app baru atau install major Vitest lain tanpa kebutuhan.
+- `npm test` menjalankan test Node (`node --import ./scripts/register-ts.mjs --test "scripts/**/*.test.ts"`). Test exporter otomatis skip bila source legacy tidak terjangkau, sehingga Windows dan WSL sama-sama hijau.
 - Tambahkan script/config E2E saat port UI memerlukannya. Tests legacy tidak dijalankan terhadap database/live service lama.
 - Sebelum PHP integration test memakai MySQL, terapkan guard database test terpisah. SQLite in-memory tidak menggantikan test transaksi/JSON/FK/concurrency MySQL.
+- Integration/concurrency MySQL dijalankan pada database terpisah `zenuniverse_test` melalui CLI Windows Laragon, karena interop WSL tidak meneruskan environment variable:
+
+```bash
+cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB_HOST=127.0.0.1&& set DB_PORT=3306&& set DB_DATABASE=zenuniverse_test&& set DB_USERNAME=root&& set DB_PASSWORD=&& C:\laragon\bin\php\php-8.5.10-nts-Win32-vs17-x64\php.exe artisan test --filter=ProgressConcurrencyTest'
+```
+
+- `ProgressConcurrencyTest` hanya berjalan pada MySQL `*_test` dan otomatis skip selain itu; verifikasi terakhir 3/3 stabil pada MySQL 8.0.30. Jangan memakai `root` pada CI/produksi; ini hanya kredensial development lokal.
 - Koneksi read-only `SELECT VERSION(), DATABASE()` dapat memastikan aplikasi menunjuk server 8.0.30 dan DB yang benar. Ini pemeriksaan koneksi yang sudah ada, bukan task setup/start MySQL.
 - CI memerlukan MySQL 8.0.30 terisolasi untuk integration tests; penyediaan service runner CI tidak mengubah Laragon development. Tidak perlu membuat Docker Compose lokal.
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
