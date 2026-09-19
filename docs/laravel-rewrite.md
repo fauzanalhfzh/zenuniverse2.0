@@ -4,7 +4,7 @@
 
 **Arsitektur:** Laravel 13 + Inertia 3 + React 19, routing Laravel/Wayfinder, autentikasi Google dengan session Laravel. **Semua kode React target berada di `resources/js/`.** Database memakai **MySQL 8.0.30 yang sudah berjalan melalui Laragon**.
 
-**Status:** Dokumen rencana + progres nyata. Task scaffold/setup awal dihapus karena boilerplate sudah tersedia. MySQL berjalan berdasarkan konfirmasi pengguna; koneksi aplikasi dan isolasi database test diperiksa saat mengerjakan migration. Per **19 Sep 2026** Task 1–6 dan 10 selesai; Task 7 sebagian (provider sesi ikut di Task 9), Task 8 sebagian (smoke browser belum), Task 9 sebagian (Blockly/Monaco belum); Task 11–12 belum. Centang di bawah hanya untuk yang benar-benar ada; item yang belum dikerjakan tetap `[ ]` beserta catatan.
+**Status:** Dokumen rencana + progres nyata. Task scaffold/setup awal dihapus karena boilerplate sudah tersedia. MySQL berjalan via Laragon (MySQL 8.0.30); DB dev `zenuniverse_db` dan test `zenuniverse_test` terpisah. Per **19 Sep 2026**: Task 1–6, 8 (port UI), 10, dan 11 (CMS Filament) selesai; Task 7 sebagian (realtime/polling belum); Task 9 sebagian (E2E player belum); Task 12 bagian otomatis selesai dengan blocker cutover yang dicatat. Centang hanya untuk yang benar-benar ada; item yang belum tetap `[ ]` beserta catatan.
 
 ## 1. Keputusan yang sudah disepakati
 
@@ -338,13 +338,15 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** tests/CI yang relevan dan status/evidence dalam dokumen ini. Tidak membuat README/AGENTS baru tanpa permintaan.
 
-- [ ] Jalankan seluruh verifikasi bagian 6, termasuk concurrency MySQL 8.0.30, export hashes, dan E2E.
-- [ ] Google login nyata memakai akun test baru; cek progress nol, assignment admin baru, dan avatar baru.
-- [ ] Audit response, HTML props, bundle/source map publik, dan log agar jawaban privat/OAuth secrets tidak bocor.
-- [ ] Pastikan tidak ada runtime import Next/Supabase/Elysia atau dump privat, semua assets tersedia, dan aksesibilitas tetap berfungsi.
-- [ ] Verifikasi offline replay dan sinkronisasi lintas tab/perangkat dengan latensi yang disepakati.
-- [ ] Catat konten hanya dari repository, akun/progress baru, dan tidak ada migrasi CMS live. Source/layanan lama tidak dihapus.
-- [ ] Cutover memerlukan keputusan operator. Rollback layanan tidak otomatis memindahkan progress baru ke sistem lama; jelaskan batas ini sebelum pengguna dialihkan.
+- [x] Verifikasi bagian 6 dijalankan pada MySQL 8.0.30: `ProgressConcurrencyTest` + `CmsConcurrencyTest` 4/4 hijau; ekspor dua kali menghasilkan checksum identik (6/30/62/413, revisi `d0c3c40`). E2E belum (lihat catatan blocker).
+- [ ] Google login nyata dengan akun baru belum dijalankan: butuh kredensial OAuth Google + browser. Kode & test mock sudah ada.
+- [x] Audit kebocoran: `ContentLeakTest` (HTML lesson + `/me/progress` tidak memuat `correctOptionId`/`correctOrder`/`acceptedAnswers`/`expectedCode`/`validation` maupun email), bundle `public/build/assets` bersih dari marker privat, `HandleInertiaRequests` hanya membagikan `id`+`name`.
+- [x] Tidak ada import runtime Next/Supabase/Elysia/server-only di `resources/js`; dependency terlarang kosong; dump privat tidak direferensikan `app/`/`routes`/`resources`; aset publik tersedia. Audit aksesibilitas mendalam belum dilakukan (reduced motion & keyboard dari source dipertahankan).
+- [ ] Offline replay dan sinkronisasi lintas tab/perangkat dengan latensi disepakati belum diuji; pengganti Realtime belum dibuat (Task 7).
+- [x] Konten hanya dari repository (dump terverifikasi), akun/progress baru, tanpa migrasi CMS live; source/layanan lama tidak dihapus.
+- [ ] Cutover menunggu keputusan operator. Rollback layanan tidak otomatis memindahkan progress baru ke sistem lama; jelaskan batas ini sebelum pengguna dialihkan.
+
+**Blocker cutover (jujur):** (1) E2E browser belum ada — login Google-only menyulitkan sesi otomatis; perlu seam test login. (2) Pengganti Realtime/polling belum, jadi sinkronisasi lintas perangkat belum setara push. (3) Login Google nyata + audit aksesibilitas manual belum. (4) Filament CMS: optimistic lock multi-tab belum.
 
 **Gate:** semua blocker dicatat; build hijau saja tidak berarti migrasi selesai.
 
@@ -376,7 +378,7 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 111 passed + 4 skipped (475 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 114 passed + 4 skipped (491 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 
 **Setup admin lokal:** isi `ADMIN_EMAIL` + `ADMIN_PASSWORD` di `.env`, jalankan `php artisan db:seed --class=AdminSeeder`, lalu buka `/admin/login`. DB dev `zenuniverse_db` dibuat + `migrate --seed` via PHP Windows Laragon (WSL tidak dapat menjangkau MySQL 127.0.0.1).
 
