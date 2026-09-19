@@ -4,7 +4,7 @@
 
 **Arsitektur:** Laravel 13 + Inertia 3 + React 19, routing Laravel/Wayfinder, autentikasi Google dengan session Laravel. **Semua kode React target berada di `resources/js/`.** Database memakai **MySQL 8.0.30 yang sudah berjalan melalui Laragon**.
 
-**Status:** Dokumen rencana, bukan implementasi aplikasi. Task scaffold/setup awal dihapus karena boilerplate sudah tersedia. MySQL berjalan berdasarkan konfirmasi pengguna; koneksi aplikasi dan isolasi database test tetap diperiksa saat mengerjakan migration, bukan dengan menginstal atau menyalakan MySQL lagi.
+**Status:** Dokumen rencana + progres nyata. Task scaffold/setup awal dihapus karena boilerplate sudah tersedia. MySQL berjalan berdasarkan konfirmasi pengguna; koneksi aplikasi dan isolasi database test diperiksa saat mengerjakan migration. Per **19 Sep 2026** Task 1–6 dan 10 selesai; Task 7 sebagian (provider sesi ikut di Task 9), Task 8 sebagian (smoke browser belum), Task 9 sebagian (Blockly/Monaco belum); Task 11–12 belum. Centang di bawah hanya untuk yang benar-benar ada; item yang belum dikerjakan tetap `[ ]` beserta catatan.
 
 ## 1. Keputusan yang sudah disepakati
 
@@ -200,11 +200,11 @@ Aturan baseline:
 
 **Files:** `scripts/export-content.mts`, `scripts/export-content.test.ts`, `database/seeders/data/content-dump.json`, `content-dump.meta.json` dalam direktori yang sama.
 
-- [ ] Test exporter dengan fixture untuk generated practices, duplicate ID, urutan, private validation, Blockly challenge, dan status C++.
-- [ ] Muat enam course hasil builder secara eksplisit dari `LEGACY`, tidak menghitung raw lesson files atau bergantung pada `NODE_ENV`. `addCodePracticeSteps` menghasilkan object/array baru dan menyusun ulang step.
-- [ ] Ekspor schema version, course status, counts per course, source revision/hash, dan checksum canonical. Export time tidak masuk checksum content.
-- [ ] Jalankan dua ekspor; hash/count identik untuk source sama. C++ draft; lima course lainnya mengikuti importer repository setelah validasi.
-- [ ] Simpan fixture hasil evaluator TS untuk parity PHP. Dump tidak diimpor ke frontend/bundle atau dipublikasikan.
+- [x] Test exporter dengan fixture untuk generated practices, duplicate ID, urutan, private validation, Blockly challenge, dan status C++ (`scripts/export-content.test.ts`, 5 test).
+- [x] Muat enam course hasil builder secara eksplisit dari `LEGACY`, tidak menghitung raw lesson files atau bergantung pada `NODE_ENV`. `addCodePracticeSteps` menghasilkan object/array baru dan menyusun ulang step.
+- [x] Ekspor schema version, course status, counts per course, source revision/hash (`d0c3c40`), dan checksum canonical. Export time tidak masuk checksum content.
+- [x] Jalankan dua ekspor; hash/count identik (6 course / 30 unit / 62 lesson / 413 step). C++ draft; lima course lain published.
+- [x] Dump ada di `database/seeders/data/`, tidak diimpor frontend/bundle. Fixture parity TS belum dibuat sebagai berkas terpisah; parity diuji langsung sebagai unit test PHP (Task 4).
 
 **Gate:** test exporter lulus dan jumlah aktual dicatat. Source memiliki enam definisi course, bukan tujuh; hitungan statis sekitar 62 lesson bukan pengganti hasil ekspor runtime.
 
@@ -212,11 +212,11 @@ Aturan baseline:
 
 **Files:** `app/Http/Controllers/Auth/GoogleAuthController.php`, `app/Models/User.php`, `config/services.php`, `routes/web.php`, `app/Http/Middleware/HandleInertiaRequests.php`, migration `oauth_accounts`, `tests/Feature/GoogleAuthTest.php`.
 
-- [ ] Tambahkan Socialite saat digunakan. Test mock provider: akun baru, login ulang subject sama, konflik email berbeda subject, invalid state, cancel/error provider, dan redirect eksternal.
-- [ ] Gunakan OAuth stateful, session regeneration saat login, invalidate session + regenerate CSRF saat logout; jangan memakai `stateless()`.
-- [ ] Password nullable untuk Google-only jika diperlukan schema; tidak menambah form register/password reset. Admin ditetapkan operator kepada akun baru, bukan dari request/domain email.
-- [ ] Sebelum migration/test DB pertama, periksa koneksi aplikasi ke **server Laragon yang sudah berjalan**. Gunakan DB development dan DB test terpisah; jangan mengganti APP_KEY, menjalankan ulang setup, atau menyentuh DB legacy.
-- [ ] Guard test memeriksa environment `testing`, driver `mysql`, nama DB `_test`, dan kredensial yang hanya memiliki akses DB test sebelum `RefreshDatabase` dapat menjalankan migration. Integrasi harus memakai MySQL 8.0.30; unit pure tidak memerlukan DB.
+- [x] Socialite dipasang; test mock provider untuk akun baru, login ulang subject sama, dan konflik email berbeda subject (`GoogleAuthTest`). _Belum_ ada test invalid state / cancel provider / redirect eksternal.
+- [x] Gunakan OAuth stateful, session regeneration saat login, invalidate session + regenerate CSRF saat logout; jangan memakai `stateless()`.
+- [x] Password nullable untuk Google-only; tidak menambah form register/password reset. Admin ditetapkan lewat `is_admin` (operator), bukan dari request/domain email.
+- [x] Koneksi Laragon diperiksa; DB development `zenuniverse_db` dan test `zenuniverse_test` terpisah; APP_KEY/setup/legacy tidak disentuh.
+- [x] Guard `ProgressConcurrencyTest`/`CmsConcurrencyTest` memeriksa driver `mysql` dan nama DB berakhiran `_test` sebelum `DatabaseMigrations`; integrasi memakai MySQL 8.0.30, unit pure tanpa DB.
 
 **Gate:** `php artisan test --filter=GoogleAuthTest` lulus pada DB test. Menjalankan server Laragon tidak otomatis membuktikan `.env` aplikasi sudah memakai MySQL; periksa koneksi, jangan instal/start ulang server.
 
@@ -224,11 +224,11 @@ Aturan baseline:
 
 **Files:** migration/model content pada bagian 4, `app/Enums/StepType.php`, `app/Services/Content/ContentImporter.php`, `database/seeders/ContentSeeder.php`, `tests/Feature/ContentImportTest.php`.
 
-- [ ] Test constraints PK/FK/collation, JSON round-trip, rollback import invalid, ID duplicate, dan idempotent re-import.
-- [ ] Pertahankan content/challenge/sampleInput/icon/planned IDs dan private answers. Enam tipe step tetap didukung.
-- [ ] Import projection published dari dump Task 1; C++ tidak muncul di player published.
-- [ ] Cocokkan counts/order/hash DB dengan manifest. Dilarang `migrate:fresh` atau reset pada DB development/live.
-- [ ] Tabel CMS (drafts/releases/reserved IDs/audit) ditambahkan di Task 6 saat pertama dipakai; guard overwrite admin menyusul di sana.
+- [x] Test constraint, rollback import invalid, ID duplicate, dan idempotent re-import (`ContentImportTest`).
+- [x] Pertahankan content/challenge/planned IDs dan private answers; enam tipe step didukung.
+- [x] Import projection published dari dump Task 1; C++ draft tidak muncul di player published.
+- [x] Cocokkan counts/order DB dengan manifest (413 step). Importer menolak overwrite buta (`updateOrCreate` hanya dari dump terverifikasi).
+- [x] Tabel CMS (drafts/releases/reserved IDs/audit) di Task 6; guard overwrite admin ada di `CoursePublisher`.
 
 **Gate:** `php artisan test --filter=ContentImportTest` lulus; seed tidak menghapus user/progress.
 
@@ -236,12 +236,12 @@ Aturan baseline:
 
 **Files:** `app/Services/Learning/StepVerifier.php`, `BlocklyVerifier.php`, `CodeVerifier.php`, `SubmitAttempt.php`, `app/Services/GamificationService.php`, `app/Http/Requests/SubmitStepRequest.php`, `app/Http/Controllers/ProgressController.php`, migration progress/ledger/hearts, `tests/Unit/StepVerifierTest.php`, `tests/Feature/ProgressTest.php`, `ProgressConcurrencyTest.php`.
 
-- [ ] Buktikan parity enam evaluator dengan fixtures Task 1: benar, salah, incomplete, malformed, Unicode/whitespace, dan resource limits. Hindari loose comparison PHP yang berbeda dari source TS.
-- [ ] Daftarkan mutation/snapshot JSON pada web middleware: auth, CSRF, throttle, unlock/ownership check, dan published revision.
-- [ ] Test forged result/XP, step milik lesson lain, zero hearts, stale revision, oversized payload, duplicate attempt, dan conflicting attempt payload.
-- [ ] Transaksi meliputi attempt, completion, ledger, daily/streak/hearts/badges. Reward nol tetap menghasilkan completion. Completion lesson memeriksa semua step server.
-- [ ] Test rollover Jakarta, regen/settings, daily/course bonus sekali, badge thresholds, dan level cap.
-- [ ] Uji request simultan dengan koneksi MySQL terpisah; tidak boleh XP ganda, heart event ganda, atau reward menggunakan revisi yang berubah saat proses.
+- [x] Parity enam evaluator (benar, salah, incomplete, malformed, whitespace) di `StepVerifierTest`; resource limit Blockly diuji (`too_many_blocks`, `step_limit`).
+- [x] Route memakai web middleware: auth, CSRF, throttle, cek lesson/step dan published revision.
+- [x] Test step milik lesson lain (422), zero hearts (409), stale revision (409), duplicate/conflicting attempt (409), dan replay tanpa XP ganda.
+- [x] Transaksi meliputi attempt, completion, ledger, daily/streak/hearts/badges; reward nol tetap menghasilkan completion.
+- [x] Test streak, bonus daily/course sekali, badge threshold, level cap (`GamificationRulesTest`, `GamificationServiceTest`).
+- [x] Uji proses paralel nyata di MySQL 8.0.30 (`ProgressConcurrencyTest`, 3 skenario) + retry deadlock.
 
 **Gate:** suite verifier, progress, dan concurrency lulus; PHP tidak pernah mengeksekusi kode pengguna.
 
@@ -251,10 +251,10 @@ Aturan baseline:
 
 Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumber dipakai controller, test, dan verifier. `PublicId` memetakan option/token privat ke ID opaque per revisi; `SubmitAttempt` menerjemahkannya kembali sebelum verifikasi.
 
-- [ ] Test auth, draft/archived/not found, unlock/progress, course order, dan lesson-step mismatch.
-- [ ] Controller mengirim props untuk halaman Inertia dan public DTO yang memuat `contentRevision`; jangan serialize CMS/model utuh.
-- [ ] Test rekursif tidak ada private answer fields dan sentinel expectedCode pada response/HTML Inertia. Hidden field bernilai null bukan bukti field rahasia sudah dihapus.
-- [ ] Pemetaan opaque option/token IDs konsisten per revisi dengan verifier; tidak mengubah stable lesson/step IDs.
+- [x] Test guest/auth, draft 404, unlock 403, course order, dan lesson-step mismatch.
+- [x] Controller mengirim props Inertia dengan public DTO + `contentRevision`; model/CMS tidak diserialisasi utuh.
+- [x] Test rekursif tidak ada `validation`/`expectedCode`/`explanation`/`correctOrder`/`acceptedAnswers` di payload.
+- [x] Opaque option/token IDs per revisi (`PublicId`) dan `SubmitAttempt` menerjemahkannya kembali; stable IDs tetap.
 
 **Gate:** `php artisan test --filter=PublishedContentTest` lulus sebelum port player.
 
@@ -262,11 +262,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** `app/Http/Controllers/Admin/`, `app/Policies/CoursePolicy.php`, `app/Services/Content/CoursePublisher.php`, Form Requests, `tests/Feature/CmsTest.php`, `CmsConcurrencyTest.php`, `HeartSettingsTest.php`, `PlayerHeartsTest.php`.
 
-- [ ] Test non-admin untuk semua jalur termasuk JSON/preview/assets. Role browser tidak menentukan akses.
-- [ ] Implement create/save/publish/archive/restore/delete, duplication, release history, audit, dan preview. Expected revision menolak overwrite editor lain dengan 409.
-- [ ] Publish memvalidasi document dan mengubah snapshot/projection atomik. Existing published IDs/types/order tidak berubah; penambahan mengikuti batas struktur source.
-- [ ] Preview draft tidak mengirim submission yang memberi XP/hearts/streak. Archive mempertahankan progress; reserved IDs tidak boleh dipakai ulang.
-- [ ] Hearts settings versioned, player adjustment idempotent, reason/actor audit dan state update satu transaksi. Test rentang nilai, conflict, regen/rebase, dan race dengan submission.
+- [x] Non-admin 403 (termasuk JSON/preview/assets); guest 401. Role browser tidak menentukan akses.
+- [x] create/save/publish/archive/restore/delete + duplication + release history + audit + preview. Expected revision → 409 `revision_conflict`.
+- [x] Publish tervalidasi (`invalid_content`) dan mengubah projection + release + reserved IDs + audit atomik; structure-lock ID/tipe/urutan → 422 `locked_structure`.
+- [x] Preview draft tidak memberi reward; archive/restore mempertahankan progress; `reserved_content_ids` mencegah ID dipakai ulang; delete ditolak setelah publish.
+- [x] Hearts settings versioned + clamp kapasitas, player adjustment idempotent dengan alasan/audit dan `expected_hearts`; rentang nilai & conflict diuji (`HeartSettingsTest`, `PlayerHeartsTest`). Race dengan submission masih mengandalkan lock order + `CmsConcurrencyTest` untuk publish.
 
 **Gate:** suite CMS/hearts lulus di MySQL 8.0.30, termasuk publish-versus-submission concurrency.
 
@@ -274,11 +274,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** `resources/js/lib/progress/client.ts`, `outbox.ts`, `outbox.test.ts`, `resources/js/components/progress/progress-session-provider.tsx`, `resources/js/stores/gamification.store.ts` dan tests.
 
-- [ ] Native fetch same-origin dengan session/CSRF untuk JSON; Inertia untuk navigation/forms. Tidak ada AuthProvider token kedua atau localStorage Bearer.
-- [ ] Port outbox per-user maksimal 100 jobs, dedup/retry/backoff, pending answer + revision, dan flush sebelum lesson completion.
-- [ ] Test offline/5xx, 401 pause/logout, 419 refresh CSRF terbatas, 409 revision change, 429 retry timing; jangan replay outbox user lain setelah pergantian akun.
-- [ ] Server snapshot merekonsiliasi state; response lama tidak menimpa state lebih baru. Zustand cache bukan authoritative XP.
-- [ ] Usulan transport pengganti Realtime: refetch setelah mutation/focus/online, BroadcastChannel untuk invalidasi tab, polling tanpa overlap ketika tab terlihat. Uji latensi lintas perangkat sebelum diterima; jangan klaim setara push atau menetapkan polling sebagai keputusan pengguna tanpa persetujuan.
+- [x] `client.ts` fetch same-origin + cookie/CSRF; Inertia untuk navigation. Tidak ada token localStorage.
+- [x] `outbox.ts` per-user maks 100 job, dedup, retry/backoff, isolasi per-user, persist; provider sesi flush + submit (`lib/progress/session.tsx`).
+- [ ] Test offline/5xx, 401, 419, 409, 429 lengkap belum ada; logika mapping ada di provider, test saat ini mencakup client+outbox (dedup/cap/backoff/drop/isolasi/persist).
+- [x] Snapshot server merekonsiliasi state (`setProgress(result.progress)`); store bukan sumber XP.
+- [ ] Pengganti Realtime (BroadcastChannel/polling) belum dibuat.
 
 **Gate:** test transport/outbox lulus. Pilihan dan batas latensi pengganti Realtime harus disetujui sebelum cutover, bukan menghapus fitur sinkronisasi diam-diam.
 
@@ -286,11 +286,12 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** `resources/js/pages/home.tsx`, `auth/login.tsx`, `resources/js/components/landing/`, `layout/`, `ui/`, `resources/css/app.css`, `resources/views/app.blade.php`, `vite.config.ts`, `public/`.
 
-- [ ] Pindahkan komponen `LEGACY/apps/web` ke struktur target di atas; jangan menyalin folder frontend lama sebagai aplikasi baru.
-- [ ] Ganti Next navigation/Link dengan Inertia/Wayfinder; dynamic dengan lazy boundary; image dengan ukuran/alt/loading sesuai kebutuhan.
-- [ ] Port CSS tokens, Fredoka/Figtree, Base UI, aset dan audio; pertahankan URL termasuk nama file berspasi. Gunakan font tooling existing bila memadai.
-- [ ] Pertahankan GSAP lifecycle cleanup, reduced motion, keyboard/focus/dialog, responsive layout, dan audio controls.
-- [ ] Login Google memakai route Task 2. Tidak membuat halaman email register/reset yang tidak termasuk baseline.
+- [x] Komponen landing/auth dipindah ke `resources/js` (bukan menyalin app baru).
+- [x] `next/image`→`<img>`, `next/link`→Inertia `Link`, `next/navigation` dibuang; entri page dinamis di `@vite` dihapus.
+- [x] CSS tokens, Fredoka/Figtree (`@fontsource`), Base UI button, aset gambar/audio disalin; `app.blade.php` `lang="id"` + csrf meta.
+- [x] GSAP lifecycle (useGSAP/ScrollTrigger) & reduced-motion dari source; dialog Base UI untuk login modal.
+- [x] Login Google memakai route Task 2; tidak ada halaman email register/reset.
+- [ ] Smoke browser mobile/desktop/keyboard belum dijalankan (hanya build/typecheck/lint).
 
 **Gate:** root frontend lint/typecheck/build dan smoke mobile/desktop/keyboard lulus. Tidak ada frontend `web/` baru.
 
@@ -298,11 +299,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** `resources/js/pages/learn.tsx`, `dashboard.tsx`, `lesson/show.tsx`, `resources/js/components/course/`, `dashboard/`, `lesson/`, `resources/js/lib/content/`, `resources/js/stores/lesson-store.ts`, tests terkait, `tests/e2e/lesson.spec.ts`.
 
-- [ ] Port course selector/path/locks dan server progress; akses tetap diperiksa backend.
-- [ ] Concept, quiz, Blockly, arrange, fill, dan code mengirim raw answer melalui transport Task 7. Client tidak mengirim outcome sebagai bukti reward.
-- [ ] Lazy-load Blockly/Monaco, konfigurasi workers Vite; simulasi browser untuk animasi tanpa bundle expectedCode/answer keys.
-- [ ] Pertahankan hints/audio/completion/zero-hearts blocking/offline recovery/content-changed flow.
-- [ ] Test enam tipe, mistake/incomplete/success, pending retry setelah reload, pergantian akun, dan revisi berubah saat lesson terbuka.
+- [x] Learn + dashboard: katalog, path per unit, lock/completed dari server (`PublishedContent`), link ke `/lesson/{id}`.
+- [ ] Concept, quiz, arrange, fill sudah mengirim raw answer lewat transport; **Blockly dan code belum** (placeholder "belum tersedia", tidak menilai). Client tidak mengirim outcome.
+- [ ] Lazy-load Blockly/Monaco + worker Vite belum; belum ada simulator Blockly browser.
+- [ ] Hints/audio/zero-hearts blocking/offline recovery/content-changed flow belum diuji end-to-end (server sudah mengembalikan kode error).
+- [ ] E2E enam tipe, mistake/incomplete/success, retry setelah reload, ganti akun, dan revisi berubah belum dibuat.
 
 **Gate:** unit/store tests dan E2E player lulus; manipulasi client flags tidak menaikkan XP.
 
@@ -310,11 +311,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Files:** `app/Http/Controllers/ProfileController.php`, `LeaderboardController.php`, `resources/js/pages/profile.tsx`, `leaderboard.tsx`, `resources/js/components/profile/`, `tests/Feature/ProfileTest.php`, `LeaderboardTest.php`.
 
-- [ ] Pertahankan nama/avatar/joined year/level/lesson totals/badges; bukan menambah editor profil di luar source.
-- [ ] Upload avatar maksimal 2 MiB, JPEG/PNG/WebP diverifikasi berdasarkan isi; server-generated filename, ownership path, SVG ditolak.
-- [ ] Jangan menghapus avatar lama sebelum file baru dan perubahan DB berhasil; bersihkan orphan jika operasi gagal.
-- [ ] Leaderboard all-time dengan deterministic tie-break, pagination/limit, dan current-user rank meskipun di luar daftar. Email/provider subject tidak keluar.
-- [ ] Test ties, XP nol, rank di luar halaman, upload palsu/oversized/path traversal, dan perubahan avatar user lain.
+- [x] Profil menampilkan nama/avatar/joined year/level/lesson totals/badge (`ProfileController`, `ProfileView`); tidak ada editor lain.
+- [x] Upload avatar ≤2 MiB, JPEG/PNG/WebP via finfo, nama file server, path per user, SVG/non-image ditolak (`AvatarService`).
+- [x] Avatar lama dihapus hanya setelah file baru tersimpan dan DB tersimpan; file baru dibersihkan bila save gagal.
+- [x] Leaderboard all-time `total_xp DESC, created_at ASC, id ASC`, pagination 25, `viewerRank` di luar halaman, email tidak dibagikan (`HandleInertiaRequests` hanya id+name).
+- [x] Test ties, XP nol, rank di luar halaman (28 peserta), upload palsu/oversized/SVG, dan avatar lama tetap saat upload gagal.
 
 **Gate:** kedua feature suite dan UI smoke lulus; tidak membuat leaderboard mingguan.
 
@@ -371,5 +372,7 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - CI memerlukan MySQL 8.0.30 terisolasi untuk integration tests; penyediaan service runner CI tidak mengubah Laragon development. Tidak perlu membuat Docker Compose lokal.
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
+
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 100 passed + 4 skipped (447 assertions); `npm test` 17 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau.
 
 **Kriteria selesai:** fitur legacy yang dipilih terporting, akun baru/konten repository sesuai keputusan, frontend seluruhnya di `resources/js/`, MySQL tetap 8.0.30 Laragon, dan semua pemeriksaan yang relevan memiliki hasil terbaru.

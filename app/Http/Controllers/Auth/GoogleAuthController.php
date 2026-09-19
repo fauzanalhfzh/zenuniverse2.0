@@ -45,6 +45,7 @@ class GoogleAuthController extends Controller
             ->first();
 
         if ($account !== null) {
+            $this->syncProviderAvatar($account->user, $googleUser->getAvatar());
             $this->login($request, $account->user);
 
             return redirect('/');
@@ -59,7 +60,10 @@ class GoogleAuthController extends Controller
             'email' => $email,
             'password' => null,
         ]);
-        $user->forceFill(['email_verified_at' => now()])->save();
+        $user->forceFill([
+            'email_verified_at' => now(),
+            'provider_avatar_url' => $googleUser->getAvatar(),
+        ])->save();
 
         $user->oauthAccounts()->create([
             'provider' => 'google',
@@ -86,5 +90,14 @@ class GoogleAuthController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
+    }
+
+    private function syncProviderAvatar(User $user, ?string $avatarUrl): void
+    {
+        if ($user->avatar_path !== null || $avatarUrl === null || $user->provider_avatar_url === $avatarUrl) {
+            return;
+        }
+
+        $user->forceFill(['provider_avatar_url' => $avatarUrl])->save();
     }
 }
