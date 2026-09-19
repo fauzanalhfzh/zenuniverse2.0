@@ -326,10 +326,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 - [x] Editor course/unit/lesson/step via Filament Resources + relation managers; publish/archive/restore lewat `CoursePublisher::publishProjection` (release + revisi + reserved IDs + audit).
 - [x] Panel login email/password; guest → `/admin/login`, non-admin 403; `AdminSeeder` dari `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 - [x] Hearts settings resource + aksi penyesuaian hearts pemain (idempotent, reason, audit) lewat `HeartSettingsService`.
-- [x] Step content/validation/challenge diedit sebagai JSON tervalidasi (`->rules(['json'])`).
-- [ ] Duplicate course, preview draft, riwayat release/audit, dan editor field-per-tipe (opsi quiz, challenge Blockly) belum ada di Filament.
-- [ ] Validasi upload aset via Filament (path/akses/sanitasi rich content) belum; resource `CmsAsset` masih CRUD dasar.
-- [ ] Conflict editing multi-tab (optimistic lock) dan test Livewire resource belum ada; E2E admin belum.
+- [x] Editor step bertipe (`StepForm`): concept, quiz (opsi + jawaban benar + penjelasan), blockly (papan/start/goal/hint/blok), code-arrange (token + urutan), code-fill (parts JSON + blanks + accepted answers), code (expected/mock output). `parts` tetap JSON agar tidak lossy.
+- [x] Duplicate course (aksi Filament lewat `CoursePublisher::duplicate`), preview publik tanpa reward (modal `course-preview.blade.php` memakai `PublishedContent`), riwayat release (relation manager read-only).
+- [x] Upload aset via Filament `FileUpload` (disk `public`, `cms/`, image, JPEG/PNG/WebP, ≤2 MB, visibility public); `CmsAsset` mengisi mime/size dari isi file saat simpan.
+- [x] Test Livewire resource: edit course, publish action, duplicate, archive (`FilamentCourseResourceTest`).
+- [ ] Conflict editing multi-tab (optimistic lock) belum; E2E admin belum. Sanitasi rich content belum relevan karena belum ada field HTML bebas.
 
 **Gate:** CMS helper tests, feature suites, E2E admin, dan build lulus.
 
@@ -375,7 +376,7 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 107 passed + 4 skipped (459 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 111 passed + 4 skipped (475 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 
 **Setup admin lokal:** isi `ADMIN_EMAIL` + `ADMIN_PASSWORD` di `.env`, jalankan `php artisan db:seed --class=AdminSeeder`, lalu buka `/admin/login`. DB dev `zenuniverse_db` dibuat + `migrate --seed` via PHP Windows Laragon (WSL tidak dapat menjangkau MySQL 127.0.0.1).
 

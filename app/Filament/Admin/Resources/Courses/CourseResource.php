@@ -6,10 +6,12 @@ use App\Exceptions\LearningException;
 use App\Filament\Admin\Resources\Courses\Pages\CreateCourse;
 use App\Filament\Admin\Resources\Courses\Pages\EditCourse;
 use App\Filament\Admin\Resources\Courses\Pages\ListCourses;
+use App\Filament\Admin\Resources\Courses\RelationManagers\ReleasesRelationManager;
 use App\Filament\Admin\Resources\Courses\RelationManagers\UnitsRelationManager;
 use App\Models\Course;
 use App\Models\User;
 use App\Services\Content\CoursePublisher;
+use App\Services\Content\PublishedContent;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -125,6 +127,29 @@ class CourseResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('preview')
+                    ->label('Pratinjau')
+                    ->icon(Heroicon::OutlinedEye)
+                    ->modalHeading(fn (Course $record): string => "Pratinjau: {$record->title}")
+                    ->modalContent(fn (Course $record) => view('filament.course-preview', [
+                        'lesson' => self::previewLesson($record),
+                    ]))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Tutup'),
+                Action::make('duplicate')
+                    ->label('Duplikat')
+                    ->icon(Heroicon::OutlinedDocumentDuplicate)
+                    ->schema([
+                        TextInput::make('new_id')
+                            ->label('ID kursus baru')
+                            ->required()
+                            ->regex('/^[a-z0-9][a-z0-9-]*$/')
+                            ->maxLength(120),
+                        TextInput::make('title')
+                            ->label('Judul (opsional)')
+                            ->maxLength(255),
+                    ])
+                    ->action(fn (Course $record, array $data) => self::duplicate($record, $data)),
                 Action::make('publish')
                     ->label('Terbitkan')
                     ->icon(Heroicon::OutlinedRocketLaunch)
@@ -154,6 +179,39 @@ class CourseResource extends Resource
     private static function actor(): User
     {
         return User::query()->findOrFail(auth()->id());
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private static function previewLesson(Course $course): ?array
+    {
+        $lesson = $course->units()->with('lessons')->get()->flatMap->lessons->first();
+
+        if ($lesson === null) {
+            return null;
+        }
+
+        return app(PublishedContent::class)->lessonPayload($lesson, [], []);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private static function duplicate(Course $course, array $data): void
+    {
+        try {
+            $copy = app(CoursePublisher::class)->duplicate(
+                $course,
+                (string) $data['new_id'],
+                self::actor(),
+                isset($data['title']) ? (string) $data['title'] : null,
+            );
+
+            Notification::make()->success()->title("Duplikat dibuat: {$copy->id}")->send();
+        } catch (LearningException $exception) {
+            Notification::make()->danger()->title($exception->getMessage())->send();
+        }
     }
 
     private static function publish(Course $course): void
@@ -188,6 +246,7 @@ class CourseResource extends Resource
     {
         return [
             UnitsRelationManager::class,
+            ReleasesRelationManager::class,
         ];
     }
 

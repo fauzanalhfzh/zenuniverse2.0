@@ -10,10 +10,12 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -21,25 +23,33 @@ class CmsAssetResource extends Resource
 {
     protected static ?string $model = CmsAsset::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
     protected static ?string $recordTitleAttribute = 'original_name';
+
+    protected static ?string $navigationLabel = 'Aset';
+
+    protected static ?string $pluralModelLabel = 'Aset';
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('path')
-                    ->required(),
-                TextInput::make('original_name')
-                    ->required(),
-                TextInput::make('mime')
-                    ->required(),
-                TextInput::make('size')
+                FileUpload::make('path')
+                    ->label('Gambar')
+                    ->disk('public')
+                    ->directory('cms')
+                    ->visibility('public')
+                    ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048)
+                    ->storeFileNamesIn('original_name')
                     ->required()
-                    ->numeric(),
-                TextInput::make('uploaded_by')
-                    ->numeric(),
+                    ->columnSpanFull(),
+                TextInput::make('original_name')
+                    ->label('Nama asli')
+                    ->disabled()
+                    ->dehydrated(),
             ]);
     }
 
@@ -48,29 +58,24 @@ class CmsAssetResource extends Resource
         return $table
             ->recordTitleAttribute('original_name')
             ->columns([
-                TextColumn::make('path')
-                    ->searchable(),
+                ImageColumn::make('path')
+                    ->label('Pratinjau')
+                    ->disk('public')
+                    ->height(40),
                 TextColumn::make('original_name')
+                    ->label('Nama')
                     ->searchable(),
                 TextColumn::make('mime')
-                    ->searchable(),
+                    ->label('MIME')
+                    ->badge(),
                 TextColumn::make('size')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('uploaded_by')
+                    ->label('Ukuran (byte)')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Diunggah')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
+                    ->sortable(),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -80,13 +85,6 @@ class CmsAssetResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
