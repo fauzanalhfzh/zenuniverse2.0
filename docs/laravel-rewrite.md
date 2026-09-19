@@ -300,10 +300,10 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 **Files:** `resources/js/pages/learn.tsx`, `dashboard.tsx`, `lesson/show.tsx`, `resources/js/components/course/`, `dashboard/`, `lesson/`, `resources/js/lib/content/`, `resources/js/stores/lesson-store.ts`, tests terkait, `tests/e2e/lesson.spec.ts`.
 
 - [x] Learn + dashboard: katalog, path per unit, lock/completed dari server (`PublishedContent`), link ke `/lesson/{id}`.
-- [ ] Concept, quiz, arrange, fill sudah mengirim raw answer lewat transport; **Blockly dan code belum** (placeholder "belum tersedia", tidak menilai). Client tidak mengirim outcome.
-- [ ] Lazy-load Blockly/Monaco + worker Vite belum; belum ada simulator Blockly browser.
-- [ ] Hints/audio/zero-hearts blocking/offline recovery/content-changed flow belum diuji end-to-end (server sudah mengembalikan kode error).
-- [ ] E2E enam tipe, mistake/incomplete/success, retry setelah reload, ganti akun, dan revisi berubah belum dibuat.
+- [x] Enam tipe mengirim raw answer lewat transport Task 7; client tidak mengirim outcome. Blockly (`blockly-step.tsx` + `blockly-adapter.ts`) dan code (`code-editor-step.tsx` + Monaco) sudah ada; server tetap memverifikasi.
+- [x] Blockly/Monaco di-`React.lazy` + `Suspense`; `lib/content/monaco.ts` memakai bundel lokal + editor worker (tanpa CDN). Build memecah chunk `show` 20 kB, `blockly-step` 748 kB, `code-editor-step` 1,1 MB yang dimuat saat diperlukan.
+- [ ] Hints/audio belum diport; zero-hearts/offline/content-changed baru di server (belum diuji end-to-end browser). Animasi trace papan disederhanakan (server authoritative); `framer-motion` tidak dipakai.
+- [ ] E2E enam tipe belum dibuat. Blocker: login Google-only menyulitkan sesi otomatis Playwright; butuh seam test login (keputusan terpisah).
 
 **Gate:** unit/store tests dan E2E player lulus; manipulasi client flags tidak menaikkan XP.
 
@@ -373,6 +373,6 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 100 passed + 4 skipped (447 assertions); `npm test` 17 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau.
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 100 passed + 4 skipped (447 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan).
 
 **Kriteria selesai:** fitur legacy yang dipilih terporting, akun baru/konten repository sesuai keputusan, frontend seluruhnya di `resources/js/`, MySQL tetap 8.0.30 Laragon, dan semua pemeriksaan yang relevan memiliki hasil terbaru.

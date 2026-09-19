@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import { useStore } from 'zustand';
 import { CodeArrangeStepView } from '@/components/lesson/code-arrange-step';
 import { CodeFillStepView } from '@/components/lesson/code-fill-step';
@@ -7,12 +7,22 @@ import { ConceptStepView } from '@/components/lesson/concept-step';
 import { LessonCompletion } from '@/components/lesson/lesson-completion';
 import { LessonProgress } from '@/components/lesson/lesson-progress';
 import { QuizStepView } from '@/components/lesson/quiz-step';
-import { UnsupportedStepView } from '@/components/lesson/unsupported-step';
 import { Button } from '@/components/ui/button';
 import { ApiError } from '@/lib/progress/client';
 import { useProgressSession } from '@/lib/progress/session';
 import { createLessonStore } from '@/stores/lesson-store';
 import type { LessonPayload, LessonStep, StepAnswer } from '@/types/lesson';
+
+const BlocklyStepView = lazy(() =>
+    import('@/components/lesson/blockly-step').then((module) => ({
+        default: module.BlocklyStepView,
+    })),
+);
+const CodeEditorStepView = lazy(() =>
+    import('@/components/lesson/code-editor-step').then((module) => ({
+        default: module.CodeEditorStepView,
+    })),
+);
 
 export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
     const store = useMemo(() => createLessonStore(), []);
@@ -171,9 +181,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                         </div>
                     ) : null}
 
-                    {outcome?.correct &&
-                    step.type !== 'code' &&
-                    step.type !== 'blockly' ? (
+                    {outcome?.correct ? (
                         <div className="mt-5">
                             <Button
                                 onClick={() => void handleContinue()}
@@ -254,7 +262,35 @@ function StepView({
                     }
                 />
             );
-        default:
-            return <UnsupportedStepView type={step.type} />;
+        case 'blockly':
+            return (
+                <Suspense fallback={<StepLoading />}>
+                    <BlocklyStepView
+                        step={step}
+                        pending={pending}
+                        onSubmit={(commands) =>
+                            onAnswer({ type: 'blockly', commands })
+                        }
+                    />
+                </Suspense>
+            );
+        case 'code':
+            return (
+                <Suspense fallback={<StepLoading />}>
+                    <CodeEditorStepView
+                        step={step}
+                        pending={pending}
+                        onSubmit={(code) => onAnswer({ type: 'code', code })}
+                    />
+                </Suspense>
+            );
     }
+}
+
+function StepLoading() {
+    return (
+        <p className="py-10 text-center text-sm font-bold text-slate-500">
+            Memuat langkah…
+        </p>
+    );
 }

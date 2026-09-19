@@ -49,6 +49,30 @@ export interface QuizStep {
     };
 }
 
+export type BlocklyCommand =
+    | { type: 'move_forward' }
+    | { type: 'turn_right' }
+    | { type: 'repeat'; count: number; children: BlocklyCommand[] };
+
+export interface GridPosition {
+    x: number;
+    y: number;
+}
+
+export type RobotDirection = 'north' | 'east' | 'south' | 'west';
+
+export interface BlocklyChallengeConfig {
+    board: { width: number; height: number };
+    start: GridPosition & { direction: RobotDirection };
+    goal: GridPosition;
+    obstacles?: GridPosition[];
+    maxExecutionSteps: number;
+    maxBlocks?: number;
+    starterProgram?: BlocklyCommand[];
+    hint: string;
+    hints?: string[];
+}
+
 export interface BlocklyStep {
     id: string;
     type: 'blockly';
@@ -58,7 +82,7 @@ export interface BlocklyStep {
         objective?: string;
         availableBlocks?: Array<'move_forward' | 'turn_right' | 'repeat'>;
     };
-    challenge?: Record<string, unknown>;
+    challenge?: BlocklyChallengeConfig;
 }
 
 export interface CodeArrangeStep {
@@ -159,7 +183,7 @@ export interface CourseDetail {
 export type StepAnswer =
     | { type: 'concept'; acknowledged: true }
     | { type: 'quiz'; optionId: string }
-    | { type: 'blockly'; commands: unknown[] }
+    | { type: 'blockly'; commands: BlocklyCommand[] }
     | { type: 'code-arrange'; tokenIds: string[] }
     | { type: 'code-fill'; answers: Record<string, string> }
     | { type: 'code'; code: string };
