@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
@@ -25,12 +26,12 @@ class GoogleAuthController extends Controller
 
     public function redirect(): SymfonyRedirectResponse
     {
-        return Socialite::driver('google')->redirect();
+        return $this->provider()->redirect();
     }
 
     public function callback(Request $request): RedirectResponse
     {
-        $googleUser = Socialite::driver('google')->user();
+        $googleUser = $this->provider()->user();
 
         $subject = $googleUser->getId();
         $email = $googleUser->getEmail();
@@ -83,6 +84,18 @@ class GoogleAuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    /**
+     * Redirect URI selalu mengikuti host request (localhost vs 127.0.0.1),
+     * supaya cookie sesi state tidak hilang karena beda host. Kedua URI tetap
+     * harus terdaftar di Google Cloud Console.
+     */
+    private function provider(): Provider
+    {
+        config(['services.google.redirect' => url('/auth/google/callback')]);
+
+        return Socialite::driver('google');
     }
 
     private function login(Request $request, User $user): void

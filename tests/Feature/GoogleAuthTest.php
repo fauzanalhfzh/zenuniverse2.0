@@ -56,6 +56,16 @@ class GoogleAuthTest extends TestCase
         $this->assertStringContainsString('accounts.google.com', $response->headers->get('Location'));
     }
 
+    public function test_redirect_uri_follows_the_request_host(): void
+    {
+        config()->set('services.google.redirect', 'http://wrong-host.test/auth/google/callback');
+        $this->fakeProvider($this->fakeGoogleUser('google-123', 'budi@zen.id', 'Budi'));
+
+        $this->get('/auth/google/redirect')->assertRedirect();
+
+        $this->assertSame(url('/auth/google/callback'), config('services.google.redirect'));
+    }
+
     public function test_callback_creates_account_for_new_google_identity(): void
     {
         $this->fakeProvider($this->fakeGoogleUser('google-123', 'budi@zen.id', 'Budi'));
