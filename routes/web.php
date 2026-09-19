@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\HeartSettingsController as AdminHeartSettingsController;
 use App\Http\Controllers\Admin\PlayerHeartsController as AdminPlayerHeartsController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\E2eLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\LearnController;
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [GoogleAuthController::class, 'showLogin'])->name('login');
+
+// Test seam: controller mengembalikan 404 kecuali E2E_LOGIN_ENABLED + local/testing.
+Route::get('/e2e/login', [E2eLoginController::class, 'login'])->name('e2e.login');
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
 Route::post('/logout', [GoogleAuthController::class, 'logout'])->middleware('auth')->name('logout');
