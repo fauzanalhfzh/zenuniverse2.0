@@ -133,8 +133,11 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 >
                     ← {lesson.courseTitle}
                 </Link>
-                <span className="text-sm font-bold text-slate-500">
-                    ❤️ {progress?.hearts ?? '—'}
+                <span className="flex items-center gap-3 text-sm font-bold text-slate-500">
+                    <span>❤️ {progress?.hearts ?? '—'}</span>
+                    <span data-testid="player-xp">
+                        XP {progress?.totalXp ?? '—'}
+                    </span>
                 </span>
             </div>
 

@@ -11,6 +11,13 @@ import {
 } from 'react';
 import { ApiClient, ApiError } from './client';
 import { ProgressOutbox, type OutboxJob, type SendResult } from './outbox';
+import {
+    isFreshSnapshot,
+    notifyProgress,
+    PROGRESS_CHANNEL,
+    shouldPoll,
+    withJitter,
+} from './sync';
 import type {
     AttemptResult,
     ProgressSnapshot,
@@ -19,6 +26,7 @@ import type {
 
 interface AuthPageProps {
     auth?: { user?: { id: number } | null };
+    progressPollMs?: number;
     [key: string]: unknown;
 }
 
@@ -36,6 +44,8 @@ interface ProgressSessionValue {
 
 const ProgressSessionContext = createContext<ProgressSessionValue | null>(null);
 
+const DEFAULT_POLL_MS = 15_000;
+
 export function ProgressSessionProvider({
     children,
     initialProgress = null,
@@ -45,7 +55,10 @@ export function ProgressSessionProvider({
 }) {
     const page = usePage<AuthPageProps>();
     const userId = page.props.auth?.user?.id ?? null;
+    const pollMs = page.props.progressPollMs ?? DEFAULT_POLL_MS;
     const api = useRef(new ApiClient());
+    const inFlight = useRef(false);
+    const channel = useRef<BroadcastChannel | null>(null);
     const [progress, setProgress] = useState<ProgressSnapshot | null>(
         initialProgress,
     );
@@ -56,15 +69,29 @@ export function ProgressSessionProvider({
         [userId],
     );
 
-    const refresh = useCallback(async () => {
-        try {
-            const snapshot =
-                await api.current.get<ProgressSnapshot>('/me/progress');
-            setProgress(snapshot);
-        } catch {
-            // Keep the last known snapshot; the outbox will retry on the next flush.
-        }
+    const applySnapshot = useCallback((snapshot: ProgressSnapshot) => {
+        setProgress((current) =>
+            isFreshSnapshot(snapshot, current) ? snapshot : current,
+        );
     }, []);
+
+    const refresh = useCallback(async () => {
+        if (inFlight.current) {
+            return;
+        }
+
+        inFlight.current = true;
+
+        try {
+            applySnapshot(
+                await api.current.get<ProgressSnapshot>('/me/progress'),
+            );
+        } catch {
+            // Snapshot terakhir tetap dipakai; polling berikutnya mencoba lagi.
+        } finally {
+            inFlight.current = false;
+        }
+    }, [applySnapshot]);
 
     const flush = useCallback(async () => {
         if (!outbox) {
@@ -76,6 +103,7 @@ export function ProgressSessionProvider({
         await outbox.flush(async (job: OutboxJob): Promise<SendResult> => {
             try {
                 await api.current.post(job.url, job.body);
+
                 return 'ok';
             } catch (error) {
                 if (error instanceof ApiError) {
@@ -104,7 +132,8 @@ export function ProgressSessionProvider({
                     '/learning/attempts',
                     input,
                 );
-                setProgress(result.progress);
+                applySnapshot(result.progress);
+                notifyProgress(channel.current, result.progress.updatedAt ?? 0);
 
                 return result;
             } catch (error) {
@@ -126,7 +155,7 @@ export function ProgressSessionProvider({
                 throw error;
             }
         },
-        [outbox],
+        [outbox, applySnapshot],
     );
 
     const completeLesson = useCallback(
@@ -136,10 +165,31 @@ export function ProgressSessionProvider({
             }>(`/learning/lessons/${lessonId}/complete`, {
                 content_revision: contentRevision,
             });
-            setProgress(result.progress);
+            applySnapshot(result.progress);
+            notifyProgress(channel.current, result.progress.updatedAt ?? 0);
         },
-        [],
+        [applySnapshot],
     );
+
+    // Initial load + cross-tab invalidation via BroadcastChannel.
+    useEffect(() => {
+        if (
+            userId === null ||
+            typeof window === 'undefined' ||
+            typeof BroadcastChannel === 'undefined'
+        ) {
+            return;
+        }
+
+        const bus = new BroadcastChannel(PROGRESS_CHANNEL);
+        bus.onmessage = () => void refresh();
+        channel.current = bus;
+
+        return () => {
+            bus.close();
+            channel.current = null;
+        };
+    }, [userId, refresh]);
 
     useEffect(() => {
         if (userId === null) {
@@ -149,6 +199,44 @@ export function ProgressSessionProvider({
         void refresh();
         void flush();
     }, [userId, refresh, flush]);
+
+    // Polling + refetch saat tab kembali terlihat/fokus/online.
+    useEffect(() => {
+        if (userId === null || typeof window === 'undefined') {
+            return;
+        }
+
+        const tick = (): void => {
+            if (
+                shouldPoll({
+                    visible: document.visibilityState === 'visible',
+                    online: navigator.onLine,
+                    focused: document.hasFocus(),
+                })
+            ) {
+                void refresh();
+            }
+        };
+
+        const timer = window.setInterval(tick, withJitter(pollMs));
+        const onVisible = (): void => tick();
+        const onFocus = (): void => tick();
+        const onOnline = (): void => {
+            void flush();
+            tick();
+        };
+
+        document.addEventListener('visibilitychange', onVisible);
+        window.addEventListener('focus', onFocus);
+        window.addEventListener('online', onOnline);
+
+        return () => {
+            window.clearInterval(timer);
+            document.removeEventListener('visibilitychange', onVisible);
+            window.removeEventListener('focus', onFocus);
+            window.removeEventListener('online', onOnline);
+        };
+    }, [userId, pollMs, refresh, flush]);
 
     const value = useMemo(
         () => ({

@@ -12,6 +12,7 @@ export default defineConfig({
     use: {
         baseURL: baseUrl,
         trace: 'retain-on-failure',
+        screenshot: 'only-on-failure',
     },
     projects: [
         {

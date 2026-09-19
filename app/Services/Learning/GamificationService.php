@@ -288,6 +288,7 @@ class GamificationService
 
         return [
             'totalXp' => (int) $state->total_xp,
+            'updatedAt' => $state->updated_at?->getTimestampMs() ?? 0,
             'dailyXp' => $dailyXp,
             'dailyXpDate' => $activity !== null ? $date : null,
             'dailyGoalClaimedDate' => $activity?->bonus_claimed === true ? $date : null,

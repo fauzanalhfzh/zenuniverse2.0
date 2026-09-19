@@ -12,6 +12,7 @@ export function appEnv(): Record<string, string> {
     env.APP_ENV = 'local';
     env.APP_URL = baseUrl;
     env.E2E_LOGIN_ENABLED = 'true';
+    env.PROGRESS_POLL_MS = process.env.PROGRESS_POLL_MS ?? '1000';
 
     if (process.env.E2E_DB_CONNECTION) {
         env.DB_CONNECTION = process.env.E2E_DB_CONNECTION;

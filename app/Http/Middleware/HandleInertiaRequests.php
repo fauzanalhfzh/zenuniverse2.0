@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'progressPollMs' => (int) config('zenuniverse.progress.poll_ms'),
             'auth' => [
                 'user' => $user === null ? null : [
                     'id' => $user->id,

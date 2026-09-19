@@ -206,6 +206,7 @@ export interface ProgressLevel {
 
 export interface ProgressSnapshot {
     totalXp: number;
+    updatedAt?: number;
     dailyXp: number;
     currentStreak: number;
     longestStreak: number;

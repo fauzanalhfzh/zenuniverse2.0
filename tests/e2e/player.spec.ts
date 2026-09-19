@@ -42,6 +42,41 @@ test.describe('learner flow', () => {
         }
     });
 
+    test('progress syncs to a second tab through polling', async ({
+        context,
+        page,
+    }) => {
+        await page.goto('/e2e/login?email=e2e-sync@zenuniverse.test');
+        await page.goto('/lesson/blockly-basics-lesson-01');
+
+        await expect(page.getByTestId('player-xp')).toBeVisible();
+
+        const second = await context.newPage();
+        await second.goto(page.url());
+        await expect(second.getByTestId('player-xp')).toBeVisible();
+
+        const before = await second.getByTestId('player-xp').textContent();
+
+        const understand = page.getByRole('button', {
+            name: 'Saya paham, lanjut',
+            exact: true,
+        });
+
+        if ((await understand.count()) > 0) {
+            await understand.click();
+            await expect(
+                page.getByText('Materi sudah dipahami.'),
+            ).toBeVisible();
+        }
+
+        await expect(second.getByTestId('player-xp')).not.toHaveText(
+            before ?? '',
+            { timeout: 15_000 },
+        );
+
+        await second.close();
+    });
+
     test('progress API stays private', async ({ page }) => {
         await page.goto('/e2e/login?email=e2e-progress@zenuniverse.test');
 

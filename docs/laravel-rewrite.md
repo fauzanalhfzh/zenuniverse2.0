@@ -278,7 +278,7 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 - [x] `outbox.ts` per-user maks 100 job, dedup, retry/backoff, isolasi per-user, persist; provider sesi flush + submit (`lib/progress/session.tsx`).
 - [ ] Test offline/5xx, 401, 419, 409, 429 lengkap belum ada; logika mapping ada di provider, test saat ini mencakup client+outbox (dedup/cap/backoff/drop/isolasi/persist).
 - [x] Snapshot server merekonsiliasi state (`setProgress(result.progress)`); store bukan sumber XP.
-- [ ] Pengganti Realtime (BroadcastChannel/polling) belum dibuat.
+- [x] Pengganti Realtime dibuat: polling snapshot saat tab terlihat+online+fokus (single-flight, jitter ±25%), refetch pada `visibilitychange`/`focus`/`online`, `BroadcastChannel` invalidasi antar tab, guard `updatedAt` agar snapshot lama tak menimpa state baru (`lib/progress/sync.ts`, `session.tsx`). Latensi = `PROGRESS_POLL_MS` (default 15s) + RTT, bukan setara push; cross-tab terverifikasi E2E (poll 1s).
 
 **Gate:** test transport/outbox lulus. Pilihan dan batas latensi pengganti Realtime harus disetujui sebelum cutover, bukan menghapus fitur sinkronisasi diam-diam.
 
@@ -343,11 +343,11 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 - [ ] Google login nyata dengan akun baru belum dijalankan: butuh kredensial OAuth Google + browser. Kode & test mock sudah ada.
 - [x] Audit kebocoran: `ContentLeakTest` (HTML lesson + `/me/progress` tidak memuat `correctOptionId`/`correctOrder`/`acceptedAnswers`/`expectedCode`/`validation` maupun email), bundle `public/build/assets` bersih dari marker privat, `HandleInertiaRequests` hanya membagikan `id`+`name`.
 - [x] Tidak ada import runtime Next/Supabase/Elysia/server-only di `resources/js`; dependency terlarang kosong; dump privat tidak direferensikan `app/`/`routes`/`resources`; aset publik tersedia. Audit aksesibilitas mendalam belum dilakukan (reduced motion & keyboard dari source dipertahankan).
-- [ ] Offline replay dan sinkronisasi lintas tab/perangkat dengan latensi disepakati belum diuji; pengganti Realtime belum dibuat (Task 7).
+- [x] Sinkronisasi lintas tab diuji E2E (`progress syncs to a second tab through polling`, poll 1s). Offline replay: outbox menahan job gagal dan flush saat `online` (logika ada; E2E khusus offline belum dibuat). Latensi mengikuti `PROGRESS_POLL_MS`, bukan setara push.
 - [x] Konten hanya dari repository (dump terverifikasi), akun/progress baru, tanpa migrasi CMS live; source/layanan lama tidak dihapus.
 - [ ] Cutover menunggu keputusan operator. Rollback layanan tidak otomatis memindahkan progress baru ke sistem lama; jelaskan batas ini sebelum pengguna dialihkan.
 
-**Blocker cutover (jujur):** (1) Pengganti Realtime/polling belum, jadi sinkronisasi lintas perangkat belum setara push. (2) Login Google nyata + audit aksesibilitas manual belum. (3) Filament CMS: optimistic lock multi-tab belum. (4) E2E admin (login Filament) belum; E2E player sudah ada.
+**Blocker cutover (jujur):** (1) Login Google nyata + audit aksesibilitas manual belum. (2) Filament CMS: optimistic lock multi-tab belum. (3) E2E admin (login Filament) belum; E2E player sudah ada (3/3). (4) Sinkronisasi lintas perangkat memakai polling (latensi `PROGRESS_POLL_MS`), belum setara push seketika.
 
 **Gate:** semua blocker dicatat; build hijau saja tidak berarti migrasi selesai.
 
@@ -386,7 +386,7 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 117 passed + 4 skipped (505 assertions); E2E Playwright 2/2 hijau (Windows + MySQL `zenuniverse_e2e`); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 118 passed + 4 skipped (507 assertions); E2E Playwright 3/3 hijau (Windows + MySQL `zenuniverse_e2e`, termasuk sinkronisasi dua tab via polling); `npm test` 24 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 
 **Setup admin lokal:** isi `ADMIN_EMAIL` + `ADMIN_PASSWORD` di `.env`, jalankan `php artisan db:seed --class=AdminSeeder`, lalu buka `/admin/login`. DB dev `zenuniverse_db` dibuat + `migrate --seed` via PHP Windows Laragon (WSL tidak dapat menjangkau MySQL 127.0.0.1).
 

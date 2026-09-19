@@ -17,4 +17,12 @@ return [
     'e2e' => [
         'enabled' => env('E2E_LOGIN_ENABLED', false),
     ],
+
+    /*
+    | Interval polling snapshot progress (ms) yang dibagikan ke klien. Ini
+    | pengganti Realtime push; latensi antar perangkat dibatasi polling ini.
+    */
+    'progress' => [
+        'poll_ms' => env('PROGRESS_POLL_MS', 15_000),
+    ],
 ];
