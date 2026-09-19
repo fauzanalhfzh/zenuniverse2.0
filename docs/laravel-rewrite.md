@@ -330,7 +330,8 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 - [x] Duplicate course (aksi Filament lewat `CoursePublisher::duplicate`), preview publik tanpa reward (modal `course-preview.blade.php` memakai `PublishedContent`), riwayat release (relation manager read-only).
 - [x] Upload aset via Filament `FileUpload` (disk `public`, `cms/`, image, JPEG/PNG/WebP, ≤2 MB, visibility public); `CmsAsset` mengisi mime/size dari isi file saat simpan.
 - [x] Test Livewire resource: edit course, publish action, duplicate, archive (`FilamentCourseResourceTest`).
-- [ ] Conflict editing multi-tab (optimistic lock) belum; E2E admin belum. Sanitasi rich content belum relevan karena belum ada field HTML bebas.
+- [ ] Conflict editing multi-tab (optimistic lock) belum. Sanitasi rich content belum relevan karena belum ada field HTML bebas.
+- [x] E2E admin (`tests/e2e/admin.spec.ts`): login email/password sukses, password salah ditolak, siswa 403. Kredensial E2E di-set khusus oleh `tests/e2e/env.ts` (bukan kredensial produksi).
 
 **Gate:** CMS helper tests, feature suites, E2E admin, dan build lulus.
 
@@ -339,15 +340,16 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 **Files:** tests/CI yang relevan dan status/evidence dalam dokumen ini. Tidak membuat README/AGENTS baru tanpa permintaan.
 
 - [x] Verifikasi bagian 6 dijalankan pada MySQL 8.0.30: `ProgressConcurrencyTest` + `CmsConcurrencyTest` 4/4 hijau; ekspor dua kali menghasilkan checksum identik (6/30/62/413, revisi `d0c3c40`).
-- [x] E2E Playwright ada (`playwright.config.ts`, `tests/e2e/player.spec.ts`) memakai seam login test-only (`/e2e/login`, hanya aktif jika `E2E_LOGIN_ENABLED` + local/testing; 404 di produksi). Terakhir 2/2 hijau via PHP Windows + MySQL `zenuniverse_e2e`. DB E2E terpisah, tidak menyentuh DB dev.
-- [ ] Google login nyata dengan akun baru belum dijalankan: butuh kredensial OAuth Google + browser. Kode & test mock sudah ada.
+- [x] E2E Playwright ada (`playwright.config.ts`, `tests/e2e/{player,admin,offline}.spec.ts`) memakai seam login test-only (`/e2e/login`, hanya aktif jika `E2E_LOGIN_ENABLED` + local/testing; 404 di produksi). Terakhir **7/7 hijau** via PHP Windows + MySQL `zenuniverse_e2e`. DB E2E terpisah, dijaga `appEnv()` agar menolak reset DB selain `zenuniverse_e2e`/SQLite `/tmp/opencode/...`.
+- [x] Offline replay E2E (`tests/e2e/offline.spec.ts`): jawaban saat offline masuk outbox, terkirim saat online, tercatat tepat satu kali (`completedStepIds` tetap 1 setelah reload).
+- [x] Login Google nyata berhasil, dikonfirmasi pengguna setelah perbaikan host redirect/callback. Pengujian akun baru dengan progress nol belum dikonfirmasi terpisah.
 - [x] Audit kebocoran: `ContentLeakTest` (HTML lesson + `/me/progress` tidak memuat `correctOptionId`/`correctOrder`/`acceptedAnswers`/`expectedCode`/`validation` maupun email), bundle `public/build/assets` bersih dari marker privat, `HandleInertiaRequests` hanya membagikan `id`+`name`.
 - [x] Tidak ada import runtime Next/Supabase/Elysia/server-only di `resources/js`; dependency terlarang kosong; dump privat tidak direferensikan `app/`/`routes`/`resources`; aset publik tersedia. Audit aksesibilitas mendalam belum dilakukan (reduced motion & keyboard dari source dipertahankan).
 - [x] Sinkronisasi lintas tab diuji E2E (`progress syncs to a second tab through polling`, poll 1s). Offline replay: outbox menahan job gagal dan flush saat `online` (logika ada; E2E khusus offline belum dibuat). Latensi mengikuti `PROGRESS_POLL_MS`, bukan setara push.
 - [x] Konten hanya dari repository (dump terverifikasi), akun/progress baru, tanpa migrasi CMS live; source/layanan lama tidak dihapus.
 - [ ] Cutover menunggu keputusan operator. Rollback layanan tidak otomatis memindahkan progress baru ke sistem lama; jelaskan batas ini sebelum pengguna dialihkan.
 
-**Blocker cutover (jujur):** (1) Login Google nyata + audit aksesibilitas manual belum. (2) Filament CMS: optimistic lock multi-tab belum. (3) E2E admin (login Filament) belum; E2E player sudah ada (3/3). (4) Sinkronisasi lintas perangkat memakai polling (latensi `PROGRESS_POLL_MS`), belum setara push seketika.
+**Blocker cutover:** (1) Audit aksesibilitas manual belum. (2) Filament CMS: optimistic lock multi-tab belum. E2E player/admin/offline dan login Google nyata sudah hijau. Sinkronisasi memakai polling (`PROGRESS_POLL_MS`), bukan push seketika; ini batas desain yang dipilih.
 
 **Gate:** semua blocker dicatat; build hijau saja tidak berarti migrasi selesai.
 
@@ -386,7 +388,7 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 118 passed + 4 skipped (507 assertions); E2E Playwright 3/3 hijau (Windows + MySQL `zenuniverse_e2e`, termasuk sinkronisasi dua tab via polling); `npm test` 24 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 118 passed + 4 skipped (507 assertions); E2E Playwright 7/7 hijau (Windows + MySQL `zenuniverse_e2e`: player, dua tab, admin login, offline replay, privasi API); `npm test` 24 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 
 **Setup admin lokal:** isi `ADMIN_EMAIL` + `ADMIN_PASSWORD` di `.env`, jalankan `php artisan db:seed --class=AdminSeeder`, lalu buka `/admin/login`. DB dev `zenuniverse_db` dibuat + `migrate --seed` via PHP Windows Laragon (WSL tidak dapat menjangkau MySQL 127.0.0.1).
 
