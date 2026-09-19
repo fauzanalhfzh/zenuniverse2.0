@@ -25,8 +25,8 @@ class HeartSettingsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->getJson('/admin/settings/hearts')->assertStatus(403);
-        $this->actingAs($user)->putJson('/admin/settings/hearts', [
+        $this->actingAs($user)->getJson('/api/admin/settings/hearts')->assertStatus(403);
+        $this->actingAs($user)->putJson('/api/admin/settings/hearts', [
             'capacity' => 5,
             'regen_minutes' => 5,
             'version' => 1,
@@ -35,7 +35,7 @@ class HeartSettingsTest extends TestCase
 
     public function test_show_returns_defaults(): void
     {
-        $response = $this->actingAs($this->admin())->getJson('/admin/settings/hearts');
+        $response = $this->actingAs($this->admin())->getJson('/api/admin/settings/hearts');
 
         $response->assertOk()
             ->assertJsonPath('capacity', 5)
@@ -47,13 +47,13 @@ class HeartSettingsTest extends TestCase
     {
         $admin = $this->admin();
 
-        $this->actingAs($admin)->putJson('/admin/settings/hearts', [
+        $this->actingAs($admin)->putJson('/api/admin/settings/hearts', [
             'capacity' => 7,
             'regen_minutes' => 10,
             'version' => 99,
         ])->assertStatus(409)->assertJsonPath('error.code', 'revision_conflict');
 
-        $ok = $this->actingAs($admin)->putJson('/admin/settings/hearts', [
+        $ok = $this->actingAs($admin)->putJson('/api/admin/settings/hearts', [
             'capacity' => 7,
             'regen_minutes' => 10,
             'version' => 1,
@@ -65,7 +65,7 @@ class HeartSettingsTest extends TestCase
 
     public function test_update_validates_ranges(): void
     {
-        $this->actingAs($this->admin())->putJson('/admin/settings/hearts', [
+        $this->actingAs($this->admin())->putJson('/api/admin/settings/hearts', [
             'capacity' => 101,
             'regen_minutes' => 1441,
             'version' => 1,
@@ -80,7 +80,7 @@ class HeartSettingsTest extends TestCase
         app(GamificationService::class)->snapshot($player);
         $this->assertSame(5, (int) UserGamification::where('user_id', $player->id)->value('hearts'));
 
-        $this->actingAs($admin)->putJson('/admin/settings/hearts', [
+        $this->actingAs($admin)->putJson('/api/admin/settings/hearts', [
             'capacity' => 3,
             'regen_minutes' => 5,
             'version' => 1,

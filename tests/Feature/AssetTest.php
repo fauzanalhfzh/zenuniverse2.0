@@ -31,7 +31,7 @@ class AssetTest extends TestCase
 
     private function upload(UploadedFile $file): TestResponse
     {
-        return $this->actingAs($this->admin())->post('/admin/assets', ['file' => $file], [
+        return $this->actingAs($this->admin())->post('/api/admin/assets', ['file' => $file], [
             'Accept' => 'application/json',
         ]);
     }
@@ -40,7 +40,7 @@ class AssetTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->post('/admin/assets', [
+        $this->actingAs($user)->post('/api/admin/assets', [
             'file' => UploadedFile::fake()->image('logo.png'),
         ], ['Accept' => 'application/json'])->assertStatus(403);
     }
@@ -85,7 +85,7 @@ class AssetTest extends TestCase
         $asset = CmsAsset::findOrFail($upload->json('id'));
         $path = $asset->path;
 
-        $this->actingAs($this->admin())->deleteJson("/admin/assets/{$asset->id}")->assertOk();
+        $this->actingAs($this->admin())->deleteJson("/api/admin/assets/{$asset->id}")->assertOk();
 
         Storage::disk('public')->assertMissing($path);
         $this->assertDatabaseMissing('cms_assets', ['id' => $asset->id]);

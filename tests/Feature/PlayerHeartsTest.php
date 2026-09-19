@@ -32,7 +32,7 @@ class PlayerHeartsTest extends TestCase
     {
         $player = $this->player();
 
-        $this->actingAs(User::factory()->create())->postJson("/admin/players/{$player->id}/hearts", [
+        $this->actingAs(User::factory()->create())->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => -1,
             'reason' => 'test',
             'adjustment_id' => '11111111-1111-4111-8111-111111111111',
@@ -44,7 +44,7 @@ class PlayerHeartsTest extends TestCase
         $admin = $this->admin();
         $player = $this->player();
 
-        $response = $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", [
+        $response = $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => -2,
             'reason' => 'duplicate reward rollback',
             'adjustment_id' => '22222222-2222-4222-8222-222222222222',
@@ -66,8 +66,8 @@ class PlayerHeartsTest extends TestCase
             'adjustment_id' => '33333333-3333-4333-8333-333333333333',
         ];
 
-        $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", $payload)->assertOk()->assertJsonPath('hearts', 4);
-        $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", $payload)->assertOk()->assertJsonPath('delta', 0);
+        $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", $payload)->assertOk()->assertJsonPath('hearts', 4);
+        $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", $payload)->assertOk()->assertJsonPath('delta', 0);
 
         $this->assertSame(4, (int) UserGamification::where('user_id', $player->id)->value('hearts'));
         $this->assertDatabaseCount('heart_events', 1);
@@ -78,13 +78,13 @@ class PlayerHeartsTest extends TestCase
         $admin = $this->admin();
         $player = $this->player();
 
-        $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", [
+        $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => 100,
             'reason' => 'gift',
             'adjustment_id' => '44444444-4444-4444-8444-444444444444',
         ])->assertOk()->assertJsonPath('hearts', 5);
 
-        $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", [
+        $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => -100,
             'reason' => 'reset',
             'adjustment_id' => '55555555-5555-4555-8555-555555555555',
@@ -96,7 +96,7 @@ class PlayerHeartsTest extends TestCase
         $admin = $this->admin();
         $player = $this->player();
 
-        $this->actingAs($admin)->postJson("/admin/players/{$player->id}/hearts", [
+        $this->actingAs($admin)->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => -1,
             'reason' => 'stale',
             'adjustment_id' => '66666666-6666-4666-8666-666666666666',
@@ -108,7 +108,7 @@ class PlayerHeartsTest extends TestCase
     {
         $player = $this->player();
 
-        $this->actingAs($this->admin())->postJson("/admin/players/{$player->id}/hearts", [
+        $this->actingAs($this->admin())->postJson("/api/admin/players/{$player->id}/hearts", [
             'delta' => 500,
             'reason' => 'too much',
             'adjustment_id' => '77777777-7777-4777-8777-777777777777',

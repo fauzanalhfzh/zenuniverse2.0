@@ -113,6 +113,51 @@ class CoursePublisher
         }, 3);
     }
 
+    /**
+     * Snapshots the current published projection into a new release. Used by the
+     * Filament CMS, which edits the projection tables directly.
+     */
+    public function publishProjection(Course $course, User $actor): CourseRelease
+    {
+        return DB::transaction(function () use ($course, $actor): CourseRelease {
+            $document = $this->projectionDocument($course);
+            $issues = $this->validator->validate($document);
+
+            if ($issues !== []) {
+                throw LearningException::invalidContent($issues);
+            }
+
+            $hash = hash('sha256', json_encode($document, JSON_THROW_ON_ERROR));
+
+            $existing = CourseRelease::query()
+                ->where('course_id', $course->id)
+                ->where('hash', $hash)
+                ->first();
+
+            if ($existing !== null) {
+                return $existing;
+            }
+
+            $revision = (int) $course->content_revision + 1;
+
+            $course->forceFill(['content_revision' => $revision, 'status' => 'published'])->save();
+            $this->reserveIds($course, $document);
+
+            $release = CourseRelease::create([
+                'course_id' => $course->id,
+                'revision' => $revision,
+                'document' => $document,
+                'hash' => $hash,
+                'published_at' => now(),
+                'actor_id' => $actor->id,
+            ]);
+
+            $this->audit($actor, 'course.published', $course->id, ['revision' => $revision - 1], ['revision' => $revision]);
+
+            return $release;
+        }, 3);
+    }
+
     public function archive(Course $course, User $actor): Course
     {
         return $this->setStatus($course, $actor, 'archived', 'course.archived');

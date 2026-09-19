@@ -319,15 +319,17 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 
 **Gate:** kedua feature suite dan UI smoke lulus; tidak membuat leaderboard mingguan.
 
-### Task 11: Port UI CMS dan admin lengkap
+### Task 11: CMS admin (Filament)
 
-**Files:** `resources/js/pages/admin/`, `resources/js/components/admin/`, `resources/js/lib/content/cms-schema.ts`, editor helpers/tests, `tests/e2e/cms.spec.ts`, `hearts.spec.ts`.
+**Keputusan:** CMS memakai **Filament v5** (login email/password, akses via `is_admin`), bukan port UI React. Backend JSON admin lama dipindah ke `/api/admin` sebagai transisi. Files: `app/Providers/Filament/AdminPanelProvider.php`, `app/Filament/Admin/Resources/**`, `app/Models/User.php` (`FilamentUser`), `database/seeders/AdminSeeder.php`, `config/zenuniverse.php`.
 
-- [ ] Port editor course/unit/lesson/step, duplicate, assets, draft save/publish, archive/restore/delete, preview, history/audit.
-- [ ] Conflict 409 menampilkan reload/reconcile, tidak auto-overwrite. Preview draft tidak memakai outbox siswa.
-- [ ] Admin assets memvalidasi file/path/akses; sanitasi rich content dan URL schemes, jangan render HTML mentah tanpa sanitasi.
-- [ ] Port hearts settings/player controls dengan version, reason, dan audit.
-- [ ] Test tab editor ganda, invalid publish, non-admin, reserved IDs, rollback, serta preview tanpa perubahan progress.
+- [x] Editor course/unit/lesson/step via Filament Resources + relation managers; publish/archive/restore lewat `CoursePublisher::publishProjection` (release + revisi + reserved IDs + audit).
+- [x] Panel login email/password; guest → `/admin/login`, non-admin 403; `AdminSeeder` dari `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+- [x] Hearts settings resource + aksi penyesuaian hearts pemain (idempotent, reason, audit) lewat `HeartSettingsService`.
+- [x] Step content/validation/challenge diedit sebagai JSON tervalidasi (`->rules(['json'])`).
+- [ ] Duplicate course, preview draft, riwayat release/audit, dan editor field-per-tipe (opsi quiz, challenge Blockly) belum ada di Filament.
+- [ ] Validasi upload aset via Filament (path/akses/sanitasi rich content) belum; resource `CmsAsset` masih CRUD dasar.
+- [ ] Conflict editing multi-tab (optimistic lock) dan test Livewire resource belum ada; E2E admin belum.
 
 **Gate:** CMS helper tests, feature suites, E2E admin, dan build lulus.
 
@@ -373,6 +375,8 @@ cmd.exe /c 'cd /d C:\laragon\www\zenuniverse && set DB_CONNECTION=mysql&& set DB
 - Jangan menjalankan ulang `composer setup`: script existing menghasilkan key dan menjalankan migration. Jangan menjalankan `migrate:fresh` pada DB development/live.
 - Pada audit sebelumnya, PHPStan mencapai batas 128 MB; `composer types:check -- --memory-limit=512M` lulus dengan warning turbo extension. Gunakan evidence run baru untuk hasil terkini, bukan menganggap warning atau hasil lama sudah terselesaikan.
 
-**Bukti terakhir (19 Sep 2026):** `php artisan test` 100 passed + 4 skipped (447 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan).
+**Bukti terakhir (19 Sep 2026):** `php artisan test` 107 passed + 4 skipped (459 assertions); `npm test` 20 passed + 4 skipped (exporter skip di Windows); `npm run build` sukses; `npm run check` + `npm run types:check` hijau; Pint + PHPStan (512 MB) hijau; concurrency MySQL 8.0.30 4/4 hijau. `monaco-editor` dipin ke 0.53.0 (0.56.0 menarik DOMPurify rentan). Filament v5: panel `/admin`, login `/admin/login`, admin CMS di-seed lewat `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
+
+**Setup admin lokal:** isi `ADMIN_EMAIL` + `ADMIN_PASSWORD` di `.env`, jalankan `php artisan db:seed --class=AdminSeeder`, lalu buka `/admin/login`. DB dev `zenuniverse_db` dibuat + `migrate --seed` via PHP Windows Laragon (WSL tidak dapat menjangkau MySQL 127.0.0.1).
 
 **Kriteria selesai:** fitur legacy yang dipilih terporting, akun baru/konten repository sesuai keputusan, frontend seluruhnya di `resources/js/`, MySQL tetap 8.0.30 Laragon, dan semua pemeriksaan yang relevan memiliki hasil terbaru.

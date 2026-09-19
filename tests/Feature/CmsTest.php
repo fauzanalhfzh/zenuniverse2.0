@@ -77,13 +77,13 @@ class CmsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->getJson('/admin/courses')->assertStatus(403);
-        $this->actingAs($user)->getJson('/admin/courses/'.$this->publishedCourse()->id)->assertStatus(403);
+        $this->actingAs($user)->getJson('/api/admin/courses')->assertStatus(403);
+        $this->actingAs($user)->getJson('/api/admin/courses/'.$this->publishedCourse()->id)->assertStatus(403);
     }
 
     public function test_guest_is_unauthorized(): void
     {
-        $this->getJson('/admin/courses')->assertStatus(401);
+        $this->getJson('/api/admin/courses')->assertStatus(401);
     }
 
     public function test_draft_save_uses_optimistic_revision(): void
@@ -92,17 +92,17 @@ class CmsTest extends TestCase
         $course = $this->publishedCourse();
         $document = $this->document($course);
 
-        $first = $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", [
+        $first = $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", [
             'document' => $document,
         ]);
         $first->assertOk()->assertJsonPath('revision', 1);
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", [
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", [
             'document' => $document,
             'expected_revision' => 99,
         ])->assertStatus(409)->assertJsonPath('error.code', 'revision_conflict');
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", [
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", [
             'document' => $document,
             'expected_revision' => 1,
         ])->assertOk()->assertJsonPath('revision', 2);
@@ -113,7 +113,7 @@ class CmsTest extends TestCase
         $admin = $this->admin();
         $course = $this->publishedCourse();
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", [
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", [
             'document' => [
                 'id' => $course->id,
                 'title' => 'Judul',
@@ -123,7 +123,7 @@ class CmsTest extends TestCase
             ],
         ])->assertOk();
 
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/publish", [
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/publish", [
             'expected_revision' => 1,
         ])->assertStatus(422)->assertJsonPath('error.code', 'invalid_content');
     }
@@ -134,9 +134,9 @@ class CmsTest extends TestCase
         $course = $this->publishedCourse();
         $document = $this->document($course);
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", ['document' => $document])->assertOk();
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", ['document' => $document])->assertOk();
 
-        $response = $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/publish", [
+        $response = $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/publish", [
             'expected_revision' => 1,
         ]);
 
@@ -156,9 +156,9 @@ class CmsTest extends TestCase
 
         $document['units'][0]['lessons'][0]['steps'][0]['type'] = 'quiz';
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", ['document' => $document])->assertOk();
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", ['document' => $document])->assertOk();
 
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/publish", [
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/publish", [
             'expected_revision' => 1,
         ])->assertStatus(422)->assertJsonPath('error.code', 'locked_structure');
     }
@@ -169,9 +169,9 @@ class CmsTest extends TestCase
         $course = $this->publishedCourse();
         $document = $this->document($course);
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", ['document' => $document])->assertOk();
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", ['document' => $document])->assertOk();
 
-        $response = $this->actingAs($admin)->getJson("/admin/courses/{$course->id}/preview");
+        $response = $this->actingAs($admin)->getJson("/api/admin/courses/{$course->id}/preview");
 
         $response->assertOk()->assertJsonPath('document.id', $course->id);
         $this->assertSame(0, StepCompletion::query()->count());
@@ -190,10 +190,10 @@ class CmsTest extends TestCase
             'reward_xp' => 5,
         ]);
 
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/archive")->assertOk();
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/archive")->assertOk();
         $this->assertSame('archived', $course->refresh()->status);
 
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/restore")->assertOk();
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/restore")->assertOk();
         $this->assertSame('published', $course->refresh()->status);
 
         $this->assertDatabaseHas('step_completions', ['step_id' => 'reserved-progress-step']);
@@ -205,10 +205,10 @@ class CmsTest extends TestCase
         $course = $this->publishedCourse();
         $document = $this->document($course);
 
-        $this->actingAs($admin)->putJson("/admin/courses/{$course->id}", ['document' => $document])->assertOk();
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/publish", ['expected_revision' => 1])->assertOk();
+        $this->actingAs($admin)->putJson("/api/admin/courses/{$course->id}", ['document' => $document])->assertOk();
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/publish", ['expected_revision' => 1])->assertOk();
 
-        $this->actingAs($admin)->deleteJson("/admin/courses/{$course->id}")
+        $this->actingAs($admin)->deleteJson("/api/admin/courses/{$course->id}")
             ->assertStatus(409)
             ->assertJsonPath('error.code', 'locked_structure');
 
@@ -220,7 +220,7 @@ class CmsTest extends TestCase
         $admin = $this->admin();
         $course = Course::where('status', 'draft')->firstOrFail();
 
-        $this->actingAs($admin)->deleteJson("/admin/courses/{$course->id}")->assertOk();
+        $this->actingAs($admin)->deleteJson("/api/admin/courses/{$course->id}")->assertOk();
 
         $this->assertDatabaseMissing('courses', ['id' => $course->id]);
         $this->assertDatabaseMissing('course_drafts', ['course_id' => $course->id]);
@@ -231,7 +231,7 @@ class CmsTest extends TestCase
         $admin = $this->admin();
         $course = $this->publishedCourse();
 
-        $response = $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/duplicate", [
+        $response = $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/duplicate", [
             'new_id' => 'copy-course',
             'title' => 'Salinan Course',
         ]);
@@ -253,7 +253,7 @@ class CmsTest extends TestCase
         $admin = $this->admin();
         $course = $this->publishedCourse();
 
-        $this->actingAs($admin)->postJson("/admin/courses/{$course->id}/duplicate", [
+        $this->actingAs($admin)->postJson("/api/admin/courses/{$course->id}/duplicate", [
             'new_id' => 'blockly-basics',
         ])->assertStatus(422)->assertJsonPath('error.code', 'duplicate_id');
     }

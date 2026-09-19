@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('learning.lessons.complete');
 });
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (): void {
+Route::middleware(['auth', 'admin'])->prefix('api/admin')->group(function (): void {
     Route::get('/courses', [AdminCourseController::class, 'index'])->name('admin.courses.index');
     Route::get('/courses/{course}', [AdminCourseController::class, 'show'])->name('admin.courses.show');
     Route::put('/courses/{course}', [AdminCourseController::class, 'updateDraft'])->name('admin.courses.draft');
