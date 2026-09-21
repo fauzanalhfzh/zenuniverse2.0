@@ -1,68 +1,44 @@
 import { Link } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLoginModal } from '@/components/auth/login-provider';
-
-const FALLBACK_SCROLL_PX = 320;
+import { home } from '@/routes';
 
 export function Header() {
-    const [overHero, setOverHero] = useState(true);
-    const { openLogin } = useLoginModal();
-
-    useEffect(() => {
-        const hero = document.getElementById('hero');
-
-        if (hero) {
-            const observer = new IntersectionObserver(
-                ([entry]) => setOverHero(entry.isIntersecting),
-                { threshold: 0 },
-            );
-            observer.observe(hero);
-            return () => observer.disconnect();
-        }
-
-        function onScroll() {
-            setOverHero(window.scrollY <= FALLBACK_SCROLL_PX);
-        }
-
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
     return (
-        <header
-            className={`fixed inset-x-0 top-0 z-50 border-b-4 px-16 py-5 transition-[background-color,border-color,box-shadow] duration-300 max-md:px-4 max-md:py-3 ${
-                overHero
-                    ? 'border-transparent bg-transparent shadow-none'
-                    : 'border-blue-50 bg-white shadow-[0_4px_0_rgba(0,0,0,0.1)]'
-            }`}
-        >
-            <div className="mx-auto flex max-w-360 items-center justify-between gap-6">
+        <header className="border-b border-[#e2e8f0] bg-white">
+            <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4 sm:px-10 lg:px-[120px]">
                 <Link
-                    href="/"
-                    className="focus-visible:ring-primary/70 flex items-center gap-2.5 rounded-xl focus-visible:ring-4 focus-visible:outline-none"
+                    href={home.url()}
+                    className="flex items-center gap-2.5 rounded-[12px] focus-visible:ring-[3px] focus-visible:ring-[#4338ca] focus-visible:outline-none"
                 >
-                    <span className="block size-11 overflow-hidden rounded-xl">
+                    <span className="block size-11 overflow-hidden rounded-[12px]">
                         <img
                             src="/logo.jpeg"
-                            alt="ZenUniverse"
+                            alt=""
                             width={44}
                             height={44}
                             className="size-full object-cover"
                         />
                     </span>
-                    <span className="font-display text-primary text-[26px] font-bold max-sm:hidden">
+                    <span className="font-display text-[22px] font-bold text-[#ea6a12] sm:text-[30px]">
                         ZenUniverse
                     </span>
                 </Link>
-                <Button
-                    onClick={() => openLogin('/dashboard')}
-                    variant="primary"
-                    className="px-12"
+                <nav
+                    aria-label="Navigasi utama"
+                    className="flex items-center gap-4 sm:gap-7"
                 >
-                    Masuk
-                </Button>
+                    <Link
+                        href={home.url()}
+                        className="text-[15px] font-bold text-[#1e293b] hover:text-[#ea6a12] focus-visible:rounded focus-visible:ring-[3px] focus-visible:ring-[#4338ca] focus-visible:outline-none"
+                    >
+                        Beranda
+                    </Link>
+                    <span className="flex items-center gap-2 text-[15px] font-bold text-[#475569]">
+                        Blog
+                        <span className="rounded-full bg-[#fff7ed] px-2 py-0.5 text-[11px] font-semibold text-[#ea6a12]">
+                            Segera hadir
+                        </span>
+                    </span>
+                </nav>
             </div>
         </header>
     );

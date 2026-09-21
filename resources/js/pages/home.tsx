@@ -1,30 +1,27 @@
 import { Head } from '@inertiajs/react';
-import { CTA } from '@/components/landing/cta';
-import {
-    CourseStrip,
-    type CourseCatalogItem,
-} from '@/components/landing/course-strip';
+import { About } from '@/components/landing/about';
 import { Footer } from '@/components/landing/footer';
 import { Header } from '@/components/landing/header';
 import { Hero } from '@/components/landing/hero';
-import { MetodeBelajar } from '@/components/landing/metode-belajar';
+import { LanguageStrip } from '@/components/landing/language-strip';
 
-interface HomeProps {
-    courses: CourseCatalogItem[];
-}
-
-export default function Home({ courses }: HomeProps) {
+export default function Home() {
     return (
         <>
             <Head title="ZenUniverse Academy" />
-            <main className="flex flex-1 flex-col bg-white">
-                <Header />
+            <a
+                href="#konten"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-[14px] focus:bg-[#ff8a3d] focus:px-4 focus:py-3 focus:text-[15px] focus:font-bold focus:text-[#0f172a]"
+            >
+                Lewati ke konten utama
+            </a>
+            <Header />
+            <main id="konten" className="bg-white">
                 <Hero />
-                <CourseStrip courses={courses} />
-                <MetodeBelajar />
-                <CTA />
-                <Footer />
+                <LanguageStrip />
+                <About />
             </main>
+            <Footer />
         </>
     );
 }

@@ -1,58 +1,18 @@
-import { useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLoginModal } from '@/components/auth/login-provider';
-import {
-    ensureGsapRegistered,
-    gsap,
-    prefersReducedMotion,
-    useGSAP,
-} from '@/lib/gsap';
+import { PrimaryCtaLink } from './primary-cta';
 
 export function CTA() {
-    const { openLogin } = useLoginModal();
-    const scope = useRef<HTMLDivElement>(null);
-
-    useGSAP(
-        () => {
-            if (prefersReducedMotion()) return;
-            ensureGsapRegistered();
-            gsap.from('[data-cta-card]', {
-                scrollTrigger: { trigger: scope.current, start: 'top 80%' },
-                scale: 0.9,
-                opacity: 0,
-                duration: 0.6,
-                ease: 'power2.out',
-            });
-        },
-        { scope },
-    );
-
     return (
-        <section
-            ref={scope}
-            className="bg-white px-16 py-20 max-md:px-6 max-md:py-12"
-        >
-            <div className="mx-auto flex max-w-360 flex-col items-center gap-6">
-                <div
-                    data-cta-card
-                    className="flex w-full max-w-250 flex-col items-center gap-6 rounded-[56px] border-8 border-blue-50 bg-white px-20 py-16 max-md:px-6 max-md:py-12"
+        <section aria-labelledby="ajakan-judul" className="bg-white">
+            <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-8 px-5 pt-16 pb-12 text-center sm:px-10">
+                <h2
+                    id="ajakan-judul"
+                    className="font-display text-[34px] leading-[1.1] font-medium text-[#ea6a12] sm:text-[44px] lg:text-[50px] lg:leading-[55px]"
                 >
-                    <h2 className="font-display text-center text-5xl font-bold whitespace-pre-line text-slate-800 max-sm:text-4xl">
-                        {'Siap Jadi\nHero Digital?'}
-                    </h2>
-                    <p className="max-w160 text-center text-xl font-bold text-slate-500">
-                        Gabung sekarang. Gratis, tanpa kartu kredit, dan
-                        langsung bisa main.
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-4">
-                        <Button
-                            variant="primary"
-                            onClick={() => openLogin('/dashboard')}
-                        >
-                            Masuk dengan Google
-                        </Button>
-                    </div>
-                </div>
+                    Belajar coding,
+                    <br />
+                    bersama ZenUniverse
+                </h2>
+                <PrimaryCtaLink className="w-full max-w-[440px]" />
             </div>
         </section>
     );
