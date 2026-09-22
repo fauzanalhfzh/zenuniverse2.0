@@ -8,6 +8,8 @@
 @import '@fontsource/figtree/700.css';
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../views';
 @source '../js';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -370,7 +372,21 @@ body {
     border-radius: 50%;
 }
 
+@keyframes language-strip-scroll {
+    to {
+        transform: translateX(-100%);
+    }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+    .language-strip-group {
+        animation: language-strip-scroll 25s linear infinite;
+    }
+
+    .language-strip:has(input:checked) .language-strip-group {
+        animation-play-state: paused;
+    }
+
     .lesson-completion-piece {
         animation: lesson-completion-celebrate 2.4s var(--delay)
             cubic-bezier(0.18, 0.65, 0.35, 1) both;

@@ -11,12 +11,12 @@ export default function Home() {
             <Head title="ZenUniverse Academy" />
             <a
                 href="#konten"
-                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-[14px] focus:bg-[#ff8a3d] focus:px-4 focus:py-3 focus:text-[15px] focus:font-bold focus:text-[#0f172a]"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:rounded-[14px] focus:bg-[#ff8a3d] focus:px-4 focus:py-3 focus:text-[15px] focus:font-bold focus:text-[#0f172a]"
             >
                 Lewati ke konten utama
             </a>
             <Header />
-            <main id="konten" className="bg-white">
+            <main id="konten" className="bg-white dark:bg-[#0b1429]">
                 <Hero />
                 <LanguageStrip />
                 <About />
