@@ -72,13 +72,23 @@ class GoogleAuthTest extends TestCase
 
         $response = $this->get('/auth/google/callback');
 
-        $response->assertRedirect('/');
+        $response->assertRedirect('/dashboard');
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', ['email' => 'budi@zen.id']);
         $this->assertDatabaseHas('oauth_accounts', [
             'provider' => 'google',
             'provider_subject' => 'google-123',
         ]);
+    }
+
+    public function test_callback_uses_dashboard_or_safe_requested_dashboard_path(): void
+    {
+        $this->fakeProvider($this->fakeGoogleUser('google-123', 'budi@zen.id', 'Budi'));
+        $this->get('/auth/google/redirect?next=/dashboard?course=course-1');
+
+        $response = $this->get('/auth/google/callback');
+
+        $response->assertRedirect('/dashboard?course=course-1');
     }
 
     public function test_callback_reuses_account_for_existing_google_identity(): void

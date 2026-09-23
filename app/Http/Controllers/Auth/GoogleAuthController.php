@@ -24,8 +24,17 @@ class GoogleAuthController extends Controller
         ]);
     }
 
-    public function redirect(): SymfonyRedirectResponse
+    public function redirect(Request $request): SymfonyRedirectResponse
     {
+        $next = $request->query('next');
+
+        $request->session()->put(
+            'auth.google.next',
+            is_string($next) && ($next === '/dashboard' || str_starts_with($next, '/dashboard?'))
+                ? $next
+                : '/dashboard',
+        );
+
         return $this->provider()->redirect();
     }
 
@@ -49,7 +58,7 @@ class GoogleAuthController extends Controller
             $this->syncProviderAvatar($account->user, $googleUser->getAvatar());
             $this->login($request, $account->user);
 
-            return redirect('/');
+            return redirect($this->nextPath($request));
         }
 
         if (User::query()->where('email', $email)->exists()) {
@@ -73,7 +82,7 @@ class GoogleAuthController extends Controller
 
         $this->login($request, $user);
 
-        return redirect('/');
+        return redirect($this->nextPath($request));
     }
 
     public function logout(Request $request): RedirectResponse
@@ -103,6 +112,11 @@ class GoogleAuthController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
+    }
+
+    private function nextPath(Request $request): string
+    {
+        return $request->session()->pull('auth.google.next', '/dashboard');
     }
 
     private function syncProviderAvatar(User $user, ?string $avatarUrl): void

@@ -1,0 +1,626 @@
+.dashboard-shell {
+    height: 100vh;
+    height: 100dvh;
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    overflow: hidden;
+    color: #f5f4ff;
+    background: #101426;
+}
+
+.dashboard-shell :is(a, button, [tabindex]):focus-visible {
+    outline: 3px solid #ffb366;
+    outline-offset: 3px;
+}
+
+.dashboard-sidebar {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 20px;
+    border-right: 1px solid #303b59;
+    background: #151b32;
+}
+
+.dashboard-brand,
+.dashboard-nav a,
+.dashboard-logout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    flex-shrink: 0;
+}
+
+.dashboard-nav {
+    display: grid;
+    gap: 8px;
+}
+.dashboard-nav a,
+.dashboard-logout {
+    border-radius: 9px;
+    padding: 10px;
+    font-size: 14px;
+    color: #c0c9df;
+}
+.dashboard-nav svg,
+.dashboard-logout svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+.dashboard-nav a[aria-current],
+.dashboard-nav a:hover,
+.dashboard-logout:hover {
+    background: #293450;
+    color: #fff;
+}
+.dashboard-level {
+    margin-top: auto;
+    padding: 16px;
+    background: #202943;
+    border: 1px solid #35415f;
+    border-radius: 14px;
+}
+.dashboard-level p:last-child {
+    font-size: 12px;
+    color: #c0c9df;
+}
+.dashboard-workspace {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+.dashboard-topbar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+    height: 72px;
+    padding: 12px 24px;
+}
+.dashboard-topbar h1 {
+    white-space: nowrap;
+}
+.dashboard-courses {
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 4px;
+}
+.dashboard-courses a {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 8px 12px;
+    min-height: 44px;
+    font-size: 13px;
+    color: #c0c9df;
+    border-radius: 8px;
+}
+.dashboard-courses a[aria-current] {
+    color: #ffd0a2;
+    background: #293047;
+}
+.dashboard-content {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    min-height: 0;
+    padding: 0 24px 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.dashboard-stats {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 280px;
+    gap: 16px;
+    min-height: 0;
+}
+.dashboard-stat-card {
+    padding: 18px;
+    border: 1px solid #35415f;
+    border-radius: 16px;
+    background: #202842;
+}
+.dashboard-stat-totals {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+.dashboard-stat-totals > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.dashboard-stat-totals img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+.dashboard-stat-totals strong {
+    font-size: 20px;
+}
+.dashboard-stat-totals span {
+    font-size: 11px;
+    color: #c0c9df;
+}
+.dashboard-ranking-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 16px;
+    border: 1px solid #8290b0;
+    border-radius: 10px;
+    font-size: 14px;
+}
+.dashboard-ranking-link:hover {
+    background: #303c59;
+}
+.dashboard-shell progress {
+    display: block;
+    width: 100%;
+    height: 6px;
+    margin: 12px 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 9px;
+    background: #3a4563;
+    color: #83d5b5;
+}
+.dashboard-shell progress::-webkit-progress-bar {
+    background: #3a4563;
+    border-radius: 9px;
+}
+.dashboard-shell progress::-webkit-progress-value {
+    background: #83d5b5;
+    border-radius: 9px;
+}
+.dashboard-shell progress::-moz-progress-bar {
+    background: #83d5b5;
+    border-radius: 9px;
+}
+
+.mission-map {
+    flex: 1 0 560px;
+    min-width: 0;
+    min-height: 0;
+}
+.mission-track {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: #ffb366 #2b3450;
+    scrollbar-width: thin;
+}
+.mission-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 100%;
+    min-width: 560px;
+    min-height: 0;
+    overflow: hidden;
+    scroll-snap-align: start;
+    border: 1px solid #35415f;
+    border-radius: 22px;
+    background: #171d36;
+}
+.mission-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-shrink: 0;
+    min-height: 120px;
+    padding: 24px 28px;
+    background: #202845;
+}
+.mission-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #c0c9df;
+}
+.mission-header h2 {
+    margin-top: 6px;
+    font-size: 26px;
+    line-height: 1.15;
+}
+.mission-planet {
+    width: 88px;
+    height: 78px;
+    flex-shrink: 0;
+    color: #bbb7ff;
+}
+.mission-completion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    color: #d0d7e8;
+    font-size: 12px;
+}
+.mission-completion progress {
+    width: 150px;
+    margin: 0;
+}
+.mission-space {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    container-type: size;
+    background-image:
+        radial-gradient(circle at 19px 24px, #7586aa 1px, transparent 1.5px),
+        radial-gradient(circle at 65px 72px, #586787 1px, transparent 1.5px);
+    background-size:
+        173px 151px,
+        239px 197px;
+}
+.mission-paths {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.mission-nodes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.mission-stop {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+}
+.mission-node {
+    display: grid;
+    place-items: center;
+    width: clamp(44px, 9cqh, 56px);
+    height: clamp(44px, 9cqh, 56px);
+    border-radius: 50%;
+    border: 1px solid #9aa8c8;
+    color: #d1d9ed;
+    background: #303d5a;
+    box-shadow: 0 4px 0 #0d1328;
+}
+.mission-node svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 3;
+}
+.is-done .mission-node {
+    background: #83d5b5;
+    border-color: #83d5b5;
+    color: #184d40;
+    box-shadow: 0 5px 0 #4f9d87;
+}
+.is-done .mission-node svg {
+    width: 28px;
+    height: 28px;
+}
+.is-active .mission-node {
+    width: clamp(50px, 13cqh, 82px);
+    height: clamp(50px, 13cqh, 82px);
+    background: #f5a052;
+    color: white;
+    border-color: #f5a052;
+    box-shadow: 0 6px 0 #b86f36;
+    outline: 2px solid #ffb366;
+    outline-offset: 13px;
+}
+.is-active .mission-node svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+    stroke: #f5a052;
+    stroke-width: 1.5;
+}
+.is-available .mission-node {
+    border-color: #ffb366;
+    color: #ffb366;
+}
+.mission-node-label {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 11px;
+    color: #d0d7e8;
+}
+.is-active .mission-node-label {
+    top: calc(100% + 24px);
+    color: #ffe2c4;
+}
+.mission-you {
+    position: absolute;
+    bottom: calc(100% + 35px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #ffdab5;
+}
+.mission-briefing {
+    position: absolute;
+    z-index: 3;
+    left: 5.6%;
+    top: 32%;
+    width: 57%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: clamp(12px, 3cqh, 20px);
+    border: 1px solid #ffb366;
+    border-radius: 16px;
+    background: #2b354f;
+}
+.mission-briefing > div {
+    min-width: 0;
+    flex: 1;
+}
+.mission-briefing .mission-eyebrow {
+    color: #ffd0a2;
+    font-size: 10px;
+}
+.mission-briefing h3 {
+    margin-top: 8px;
+    font-size: clamp(18px, 4cqh, 26px);
+    line-height: 1.1;
+}
+.mission-description {
+    margin-top: 8px;
+    color: #d0d7e8;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.mission-start {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 10px 15px;
+    border-radius: 9px;
+    background: #fa913c;
+    color: #171b2a;
+    font-size: 13px;
+    font-weight: 700;
+}
+.mission-start:hover {
+    background: #ffb366;
+}
+.mission-briefing-line {
+    position: absolute;
+    left: 62.6%;
+    right: 20.8%;
+    top: 40.6%;
+    height: 1px;
+    background: #ffb366;
+}
+.mission-finish {
+    position: absolute;
+    left: 72%;
+    top: 85%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #f5d47b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.mission-finish-icon {
+    display: grid;
+    place-items: center;
+    width: clamp(32px, 8cqh, 50px);
+    height: clamp(32px, 8cqh, 50px);
+    margin-bottom: 5px;
+    background: #f0cd74;
+    color: #59421a;
+    border-radius: 13px;
+    box-shadow: 0 4px 0 #9b7f43;
+}
+.mission-finish small {
+    color: #c0c9df;
+    font-size: 10px;
+}
+.mission-paging {
+    position: absolute;
+    inset: 47% 14px auto;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 4;
+}
+.mission-paging button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ffb366;
+    border-radius: 50%;
+    color: #ffb366;
+    background: #141c32;
+    pointer-events: auto;
+}
+.mission-paging button:disabled {
+    border-color: #435170;
+    color: #7586aa;
+    cursor: default;
+}
+.mission-legend {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-height: 50px;
+    padding: 10px 22px;
+    flex-shrink: 0;
+    border-top: 1px solid #303b59;
+    color: #d0d7e8;
+    font-size: 11px;
+}
+.mission-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+.mission-legend svg {
+    width: 14px;
+    height: 14px;
+}
+.mission-legend span:first-child svg {
+    color: #83d5b5;
+}
+.mission-legend span:nth-child(2) svg {
+    color: #ffb366;
+}
+.mission-unit-count {
+    margin-left: auto;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-shell {
+        grid-template-columns: 76px minmax(0, 1fr);
+    }
+    .dashboard-sidebar {
+        padding: 16px 12px;
+        gap: 20px;
+    }
+    .dashboard-brand span,
+    .dashboard-nav span,
+    .dashboard-logout span,
+    .dashboard-level {
+        display: none;
+    }
+    .dashboard-brand,
+    .dashboard-nav a,
+    .dashboard-logout {
+        justify-content: center;
+    }
+    .dashboard-logout {
+        margin-top: auto;
+    }
+    .dashboard-content {
+        padding-inline: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-shell {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 60px minmax(0, 1fr);
+    }
+    .dashboard-sidebar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        gap: 4px;
+        border-right: 0;
+        border-bottom: 1px solid #303b59;
+    }
+    .dashboard-nav {
+        display: flex;
+        gap: 2px;
+    }
+    .dashboard-nav a,
+    .dashboard-logout {
+        width: 44px;
+        padding: 8px;
+    }
+    .dashboard-logout {
+        margin: 0;
+    }
+    .dashboard-topbar {
+        height: 60px;
+        padding: 6px 12px;
+        gap: 12px;
+    }
+    .dashboard-topbar h1 {
+        font-size: 20px;
+    }
+    .dashboard-content {
+        padding: 0 12px 12px;
+        gap: 12px;
+    }
+    .mission-map {
+        flex-basis: 560px;
+    }
+    .mission-header {
+        min-height: 100px;
+        padding: 16px 22px;
+    }
+    .mission-header h2 {
+        font-size: 22px;
+    }
+    .mission-planet {
+        height: 58px;
+        width: 64px;
+    }
+}
+
+@media (max-height: 650px) {
+    .dashboard-topbar {
+        height: 56px;
+    }
+    .dashboard-sidebar {
+        gap: 8px;
+    }
+    .dashboard-level {
+        padding: 10px;
+    }
+    .mission-header {
+        min-height: 80px;
+        padding-block: 12px;
+    }
+    .mission-planet {
+        height: 50px;
+    }
+    .mission-header h2 {
+        font-size: 21px;
+    }
+    .mission-legend {
+        min-height: 36px;
+        padding-block: 6px;
+    }
+    .mission-description {
+        display: none;
+    }
+    .mission-briefing h3 {
+        margin-top: 4px;
+        font-size: 18px;
+    }
+    .mission-you {
+        bottom: calc(100% + 20px);
+    }
+    .dashboard-stats {
+        flex-direction: row;
+        flex-basis: auto;
+        align-items: flex-start;
+    }
+    .dashboard-stat-card {
+        width: 250px;
+        flex-shrink: 0;
+    }
+}

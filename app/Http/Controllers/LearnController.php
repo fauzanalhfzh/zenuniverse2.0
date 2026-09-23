@@ -26,17 +26,18 @@ class LearnController extends Controller
             ->pluck('lesson_id')
             ->all();
 
-        $active = null;
         $courseId = $request->query('course');
+        $course = Course::query()
+            ->where('status', 'published')
+            ->with('units.lessons')
+            ->when(
+                is_string($courseId) && $courseId !== '',
+                fn ($query) => $query->whereKey($courseId),
+                fn ($query) => $query->orderBy('id'),
+            )
+            ->firstOrFail();
 
-        if (is_string($courseId) && $courseId !== '') {
-            $course = Course::query()
-                ->where('status', 'published')
-                ->with('units.lessons')
-                ->findOrFail($courseId);
-
-            $active = $content->course($course, $completedLessonIds);
-        }
+        $active = $content->course($course, $completedLessonIds);
 
         return Inertia::render('dashboard', [
             'courses' => $content->catalog(),
