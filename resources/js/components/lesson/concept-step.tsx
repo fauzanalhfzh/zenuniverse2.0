@@ -4,39 +4,41 @@ export function ConceptStepView({ step }: { step: ConceptStep }) {
     const { content } = step;
 
     return (
-        <div className="flex flex-col gap-6">
-            {content.illustration ? (
-                <img
-                    src={content.illustration.src}
-                    alt={content.illustration.alt}
-                    loading="lazy"
-                    className="mx-auto max-h-72 w-full rounded-2xl object-contain"
-                />
-            ) : null}
-
+        <article className="lesson-player__concept">
             {content.eyebrow ? (
-                <p className="text-primary text-sm font-bold tracking-[2px] uppercase">
+                <p className="lesson-player__concept-eyebrow">
                     {content.eyebrow}
                 </p>
             ) : null}
 
             {content.title ? (
-                <h2 className="font-display text-3xl font-bold text-slate-900 max-sm:text-2xl">
+                <h2 className="lesson-player__concept-title">
                     {content.title}
                 </h2>
             ) : null}
 
             {content.body ? (
-                <p className="text-lg leading-relaxed whitespace-pre-line text-slate-600">
-                    {content.body}
-                </p>
+                <p className="lesson-player__concept-body">{content.body}</p>
+            ) : null}
+
+            {content.illustration ? (
+                <figure className="lesson-player__concept-figure">
+                    <img
+                        src={content.illustration.src}
+                        alt={content.illustration.alt}
+                        loading="lazy"
+                    />
+                    {content.illustration.caption ? (
+                        <figcaption>{content.illustration.caption}</figcaption>
+                    ) : null}
+                </figure>
             ) : null}
 
             {content.code ? (
-                <pre className="overflow-x-auto rounded-2xl bg-slate-900 p-4 text-sm leading-relaxed text-slate-100">
+                <pre className="lesson-player__concept-code">
                     <code>{content.code}</code>
                 </pre>
             ) : null}
-        </div>
+        </article>
     );
 }
