@@ -1,7 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ArrowLeft, BookOpen } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { index as learnIndex } from '@/routes/learn';
 import { show as lessonShow } from '@/routes/lesson';
 import type { CourseDetail } from '@/types/lesson';
 import './mission-map.css';
@@ -49,12 +47,6 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
             <header className="mission-header">
                 <div className="mission-header-copy">
                     <div className="mission-eyebrow">
-                        <Link
-                            href={learnIndex.url()}
-                            aria-label="Kembali ke pilihan kursus"
-                        >
-                            <ArrowLeft aria-hidden="true" />
-                        </Link>
                         <span>
                             Bagian {activeUnitIndex + 1}, Unit{' '}
                             {activeUnitIndex + 1}
@@ -64,15 +56,6 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                         {activeUnit?.title ?? course.title}
                     </h1>
                 </div>
-                {currentLesson ? (
-                    <Link
-                        href={lessonShow.url(currentLesson.id)}
-                        className="mission-guide"
-                    >
-                        <BookOpen aria-hidden="true" />
-                        <span>Buka misi</span>
-                    </Link>
-                ) : null}
             </header>
 
             <div className="mission-section-divider" aria-hidden="true">
