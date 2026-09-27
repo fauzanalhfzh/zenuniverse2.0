@@ -9,18 +9,18 @@ type NavigationKey = 'courses' | 'missions' | 'leaderboard' | 'profile';
 
 const navigation = [
     {
+        key: 'missions',
+        label: 'Peta',
+        mobileLabel: 'Peta',
+        href: dashboard.url(),
+        icon: BookOpen,
+    },
+    {
         key: 'courses',
-        label: 'Ganti modul',
+        label: 'Modul',
         mobileLabel: 'Modul',
         href: learnIndex.url(),
         icon: BookCopy,
-    },
-    {
-        key: 'missions',
-        label: 'Peta misi',
-        mobileLabel: 'Peta misi',
-        href: dashboard.url(),
-        icon: BookOpen,
     },
     {
         key: 'leaderboard',
@@ -31,7 +31,7 @@ const navigation = [
     },
     {
         key: 'profile',
-        label: 'Profil penjelajah',
+        label: 'Profil',
         mobileLabel: 'Profil',
         href: profileShow.url(),
         icon: UserRound,
@@ -60,7 +60,7 @@ export default function LearnerNavigation({
                         aria-label="ZenUniverse, beranda"
                     >
                         <img src="/logo.jpeg" alt="" />
-                        <span>ZenUniverse</span>
+                        <span>Zenuniverse</span>
                     </Link>
                     <nav aria-label="Navigasi utama" className="dashboard-nav">
                         {items.map((item) => {
