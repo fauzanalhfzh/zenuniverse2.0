@@ -35,7 +35,7 @@ export function GoogleSignInButton({ nextPath }: GoogleSignInButtonProps) {
                 aria-describedby={
                     errorMessage ? 'google-login-error' : undefined
                 }
-                className="bg-primary hover:bg-primary-dark min-h-14 w-full text-[#0b1429] shadow-[3px_8px_0_#7c2d12] focus-visible:ring-[#9a3412] dark:border-2 dark:border-[#334563] dark:bg-[#0e1931] dark:text-[#f4f6ff] dark:shadow-[3px_8px_0_#070d1c] dark:hover:bg-[#213250]"
+                className="bg-primary hover:bg-primary-dark min-h-14 w-full rounded-lg text-white shadow-[3px_8px_0_#7c2d12] focus-visible:ring-[#9a3412] dark:border-2 dark:border-[#334563] dark:bg-[#0e1931] dark:text-[#f4f6ff] dark:shadow-[3px_8px_0_#070d1c] dark:hover:bg-[#213250]"
             >
                 {pending ? (
                     <>
@@ -54,7 +54,7 @@ export function GoogleSignInButton({ nextPath }: GoogleSignInButtonProps) {
                 <div
                     id="google-login-error"
                     role="alert"
-                    className="flex items-start gap-3 rounded-xl border-2 border-red-200 bg-red-50 p-4 text-left text-sm leading-relaxed font-semibold text-red-900"
+                    className="flex items-start gap-3 rounded-lg border-2 border-red-200 bg-red-50 p-4 text-left text-sm leading-relaxed font-semibold text-red-900"
                 >
                     <AlertCircle
                         className="mt-0.5 size-5 shrink-0"
