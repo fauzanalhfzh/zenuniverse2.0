@@ -2,18 +2,12 @@ export type LessonStepType =
     | 'concept'
     | 'quiz'
     | 'blockly'
-    | 'code-arrange'
     | 'code-fill'
     | 'code';
 
 export interface QuizOption {
     id: string;
     label: string;
-}
-
-export interface ArrangeToken {
-    id: string;
-    text: string;
 }
 
 export interface FillBlank {
@@ -85,19 +79,6 @@ export interface BlocklyStep {
     challenge?: BlocklyChallengeConfig;
 }
 
-export interface CodeArrangeStep {
-    id: string;
-    type: 'code-arrange';
-    reward: StepReward;
-    content: {
-        title?: string;
-        instructions?: string;
-        language?: string;
-        hint?: string;
-        tokens: ArrangeToken[];
-    };
-}
-
 export interface CodeFillStep {
     id: string;
     type: 'code-fill';
@@ -131,7 +112,6 @@ export type LessonStep =
     | ConceptStep
     | QuizStep
     | BlocklyStep
-    | CodeArrangeStep
     | CodeFillStep
     | CodeStep;
 
@@ -184,7 +164,6 @@ export type StepAnswer =
     | { type: 'concept'; acknowledged: true }
     | { type: 'quiz'; optionId: string }
     | { type: 'blockly'; commands: BlocklyCommand[] }
-    | { type: 'code-arrange'; tokenIds: string[] }
     | { type: 'code-fill'; answers: Record<string, string> }
     | { type: 'code'; code: string };
 

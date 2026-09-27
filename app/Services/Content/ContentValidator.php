@@ -10,7 +10,7 @@ use App\Enums\StepType;
  */
 class ContentValidator
 {
-    private const STEP_TYPES = ['concept', 'quiz', 'blockly', 'code-arrange', 'code-fill', 'code'];
+    private const STEP_TYPES = ['concept', 'quiz', 'blockly', 'code-fill', 'code'];
 
     /**
      * @param  array<string, mixed>  $document

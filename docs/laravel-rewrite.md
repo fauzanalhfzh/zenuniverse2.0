@@ -146,16 +146,15 @@ Gunakan `routes/web.php`, middleware session/CSRF, Inertia page responses, dan e
 
 Request mengirim `attemptId` UUID, `contentRevision` wajib, `lessonId`, `stepId`, dan `answer` sesuai tipe:
 
-| Tipe         | Jawaban browser      | Verifikasi server                                          |
-| ------------ | -------------------- | ---------------------------------------------------------- |
-| concept      | `acknowledged: true` | Jenis step dan acknowledgement                             |
-| quiz         | `optionId`           | Pemetaan ke opsi milik step dan jawaban privat             |
-| blockly      | `commands`           | Simulasi deterministik challenge server                    |
-| code-arrange | `tokenIds`           | Urutan lengkap tanpa duplikasi                             |
-| code-fill    | `answers`            | Blank keys valid; trimmed, case-sensitive accepted answers |
-| code         | `code`               | Normalisasi/perbandingan source, bukan eksekusi kode       |
+| Tipe      | Jawaban browser      | Verifikasi server                                          |
+| --------- | -------------------- | ---------------------------------------------------------- |
+| concept   | `acknowledged: true` | Jenis step dan acknowledgement                             |
+| quiz      | `optionId`           | Pemetaan ke opsi milik step dan jawaban privat             |
+| blockly   | `commands`           | Simulasi deterministik challenge server                    |
+| code-fill | `answers`            | Blank keys valid; trimmed, case-sensitive accepted answers |
+| code      | `code`               | Normalisasi/perbandingan source, bukan eksekusi kode       |
 
-Server menolak field actor/XP/result/correct/completed yang dibuat client. Batasi request 128.000 byte, ID 160 karakter, code 20.000 karakter, fill 500 entries/2.000 karakter per value, token 500. Blockly membatasi repeat/depth/visits sesuai fixture source; schema, ukuran, dan structural limits diperiksa sebelum evaluasi berat.
+Server menolak field actor/XP/result/correct/completed yang dibuat client. Batasi request 128.000 byte, ID 160 karakter, code 20.000 karakter, fill 500 entries/2.000 karakter per value. Blockly membatasi repeat/depth/visits sesuai fixture source; schema, ukuran, dan structural limits diperiksa sebelum evaluasi berat.
 
 Verifikasi published revision dan mutasi reward harus atomik. Unique `(user_id, attempt_id)` serta payload hash membedakan retry sah dengan reuse ID untuk jawaban lain. Replay tidak menggandakan XP atau pengurangan hearts. Return outcome tersimpan dan snapshot server; jangan percaya clock atau counter client.
 
@@ -326,7 +325,7 @@ Allowlist dibangun di `PublishedContent` (bukan `LessonResource`) agar satu sumb
 - [x] Editor course/unit/lesson/step via Filament Resources + relation managers; publish/archive/restore lewat `CoursePublisher::publishProjection` (release + revisi + reserved IDs + audit).
 - [x] Panel login email/password; guest → `/admin/login`, non-admin 403; `AdminSeeder` dari `ADMIN_EMAIL`/`ADMIN_PASSWORD`.
 - [x] Hearts settings resource + aksi penyesuaian hearts pemain (idempotent, reason, audit) lewat `HeartSettingsService`.
-- [x] Editor step bertipe (`StepForm`): concept, quiz (opsi + jawaban benar + penjelasan), blockly (papan/start/goal/hint/blok), code-arrange (token + urutan), code-fill (parts JSON + blanks + accepted answers), code (expected/mock output). `parts` tetap JSON agar tidak lossy.
+- [x] Editor step bertipe (`StepForm`): concept, quiz (opsi + jawaban benar + penjelasan), blockly (papan/start/goal/hint/blok), code-fill (parts JSON + blanks + accepted answers), code (expected/mock output). `parts` tetap JSON agar tidak lossy.
 - [x] Duplicate course (aksi Filament lewat `CoursePublisher::duplicate`), preview publik tanpa reward (modal `course-preview.blade.php` memakai `PublishedContent`), riwayat release (relation manager read-only).
 - [x] Upload aset via Filament `FileUpload` (disk `public`, `cms/`, image, JPEG/PNG/WebP, ≤2 MB, visibility public); `CmsAsset` mengisi mime/size dari isi file saat simpan.
 - [x] Test Livewire resource: edit course, publish action, duplicate, archive (`FilamentCourseResourceTest`).

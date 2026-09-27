@@ -196,16 +196,6 @@ class SubmitAttempt
             $answer['optionId'] = $map[$answer['optionId']] ?? $answer['optionId'];
         }
 
-        if ($step->type === StepType::CodeArrange && is_array($answer['tokenIds'] ?? null)) {
-            $map = [];
-
-            foreach ($this->objectList($content['tokens'] ?? null) as $token) {
-                $map[PublicId::token($revision, $step->id, (string) $token['id'])] = $token['id'];
-            }
-
-            $answer['tokenIds'] = array_map(fn ($id) => $map[$id] ?? $id, $answer['tokenIds']);
-        }
-
         return $answer;
     }
 

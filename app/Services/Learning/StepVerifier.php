@@ -25,7 +25,6 @@ class StepVerifier
             StepType::Concept => $this->verifyConcept($step),
             StepType::Quiz => $this->verifyQuiz($step, $answer),
             StepType::Blockly => $this->verifyBlockly($step, $answer),
-            StepType::CodeArrange => $this->verifyArrange($step, $answer),
             StepType::CodeFill => $this->verifyFill($step, $answer),
             StepType::Code => $this->verifyCode($step, $answer),
         };
@@ -67,50 +66,6 @@ class StepVerifier
         return $result['success']
             ? StepVerificationResult::correct($result['xp'], 'Program Blockly mencapai tujuan.')
             : StepVerificationResult::incorrect(true, $result['hint']);
-    }
-
-    /**
-     * @param  array<string, mixed>  $answer
-     */
-    private function verifyArrange(LessonStep $step, array $answer): StepVerificationResult
-    {
-        $tokens = is_array($step->content['tokens'] ?? null) ? $step->content['tokens'] : [];
-        $correctOrder = is_array($step->validation['correctOrder'] ?? null) ? $step->validation['correctOrder'] : [];
-        $tokenIds = is_array($answer['tokenIds'] ?? null) ? array_values($answer['tokenIds']) : [];
-
-        if (count($tokenIds) < count($tokens)) {
-            $remaining = count($tokens) - count($tokenIds);
-
-            return StepVerificationResult::incorrect(
-                false,
-                "Susunanmu belum lengkap. Tambahkan {$remaining} potongan code lagi.",
-            );
-        }
-
-        $matches = count($tokenIds) === count($correctOrder);
-
-        if ($matches) {
-            foreach ($correctOrder as $index => $expected) {
-                if (($tokenIds[$index] ?? null) !== $expected) {
-                    $matches = false;
-                    break;
-                }
-            }
-        }
-
-        if ($matches) {
-            $language = (string) ($step->content['language'] ?? '');
-            $feedback = in_array($language, ['cpp', 'html', 'css'], true)
-                ? 'Susunan kode sesuai dengan latihan.'
-                : 'Susunan code sudah tepat dan siap dijalankan.';
-
-            return StepVerificationResult::correct((int) $step->reward_xp, $feedback);
-        }
-
-        return StepVerificationResult::incorrect(
-            true,
-            'Urutannya belum tepat. Geser atau keluarkan potongan yang perlu diperbaiki.',
-        );
     }
 
     /**

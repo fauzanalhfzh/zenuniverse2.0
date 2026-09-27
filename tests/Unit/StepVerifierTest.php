@@ -101,29 +101,6 @@ class StepVerifierTest extends TestCase
         $this->assertSame('Belum tepat. Karena X.', $wrong->feedback);
     }
 
-    public function test_code_arrange_states(): void
-    {
-        $step = $this->step(
-            StepType::CodeArrange,
-            7,
-            ['title' => 't', 'instructions' => 'i', 'language' => 'javascript', 'tokens' => [['id' => 'a'], ['id' => 'b'], ['id' => 'c']], 'hint' => 'h'],
-            ['correctOrder' => ['a', 'b', 'c']],
-        );
-
-        $incomplete = $this->verifier->verify($step, ['type' => 'code-arrange', 'tokenIds' => ['a']]);
-        $this->assertFalse($incomplete->correct);
-        $this->assertFalse($incomplete->consumeHeart);
-        $this->assertSame('Susunanmu belum lengkap. Tambahkan 2 potongan code lagi.', $incomplete->feedback);
-
-        $wrong = $this->verifier->verify($step, ['type' => 'code-arrange', 'tokenIds' => ['b', 'a', 'c']]);
-        $this->assertFalse($wrong->correct);
-        $this->assertTrue($wrong->consumeHeart);
-
-        $correct = $this->verifier->verify($step, ['type' => 'code-arrange', 'tokenIds' => ['a', 'b', 'c']]);
-        $this->assertTrue($correct->correct);
-        $this->assertSame(7, $correct->rewardXp);
-    }
-
     public function test_code_fill_states_are_trimmed_and_case_sensitive(): void
     {
         $step = $this->step(

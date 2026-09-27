@@ -1,15 +1,6 @@
-import { Button } from '@/components/ui/button';
 import type { ConceptStep } from '@/types/lesson';
 
-export function ConceptStepView({
-    step,
-    pending,
-    onAcknowledge,
-}: {
-    step: ConceptStep;
-    pending: boolean;
-    onAcknowledge: () => void;
-}) {
+export function ConceptStepView({ step }: { step: ConceptStep }) {
     const { content } = step;
 
     return (
@@ -46,12 +37,6 @@ export function ConceptStepView({
                     <code>{content.code}</code>
                 </pre>
             ) : null}
-
-            <div>
-                <Button onClick={onAcknowledge} disabled={pending}>
-                    {pending ? 'Menyimpan...' : 'Saya paham, lanjut'}
-                </Button>
-            </div>
         </div>
     );
 }

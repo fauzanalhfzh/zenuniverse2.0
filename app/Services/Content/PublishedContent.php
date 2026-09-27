@@ -142,20 +142,6 @@ class PublishedContent
                     ['board', 'start', 'goal', 'obstacles', 'maxExecutionSteps', 'maxBlocks', 'starterProgram', 'hint', 'hints'],
                 ),
             ],
-            StepType::CodeArrange => [
-                ...$payload,
-                'content' => [
-                    ...$this->pick($content, ['title', 'instructions', 'language', 'hint']),
-                    'tokens' => $this->shuffle(
-                        array_map(fn (array $token): array => [
-                            'id' => PublicId::token($revision, $step->id, (string) $token['id']),
-                            'text' => $token['text'] ?? '',
-                        ], $this->list($content['tokens'] ?? null)),
-                        fn (array $token): string => $token['id'],
-                        "arrange|{$revision}|{$step->id}",
-                    ),
-                ],
-            ],
             StepType::CodeFill => [
                 ...$payload,
                 'content' => $this->pick($content, ['title', 'instructions', 'language', 'parts', 'blanks', 'hint']),

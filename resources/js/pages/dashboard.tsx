@@ -1,62 +1,13 @@
 import { Head, Link } from '@inertiajs/react';
-import { BookOpen, LogOut, Trophy, UserRound } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import MissionMap from '@/components/dashboard/mission-map';
+import LearnerNavigation from '@/components/learner-navigation';
 import { ApiClient } from '@/lib/progress/client';
-import { dashboard, home, leaderboard, logout } from '@/routes';
+import { leaderboard } from '@/routes';
 import { index as learnIndex } from '@/routes/learn';
-import { show as profileShow } from '@/routes/profile';
-import type {
-    CourseCatalogItem,
-    CourseDetail,
-    ProgressSnapshot,
-} from '@/types/lesson';
+import type { CourseDetail, ProgressSnapshot } from '@/types/lesson';
 
-export default function Dashboard({
-    courses,
-    active,
-}: {
-    courses: CourseCatalogItem[];
-    active: CourseDetail | null;
-}) {
-    const content = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        const element = content.current;
-        if (!element) return;
-        function scrollHorizontally(event: WheelEvent) {
-            if (
-                event.ctrlKey ||
-                Math.abs(event.deltaX) >= Math.abs(event.deltaY)
-            )
-                return;
-            const target =
-                event.target instanceof Element
-                    ? event.target.closest<HTMLElement>('.mission-track')
-                    : null;
-            const delta =
-                event.deltaY *
-                (event.deltaMode === 1
-                    ? 16
-                    : event.deltaMode === 2
-                      ? element!.clientWidth
-                      : 1);
-            const scroller =
-                target &&
-                ((delta > 0 &&
-                    target.scrollLeft <
-                        target.scrollWidth - target.clientWidth - 1) ||
-                    (delta < 0 && target.scrollLeft > 0))
-                    ? target
-                    : element!;
-            if (scroller.scrollWidth <= scroller.clientWidth) return;
-            event.preventDefault();
-            scroller.scrollLeft += delta;
-        }
-        element.addEventListener('wheel', scrollHorizontally, {
-            passive: false,
-        });
-        return () => element.removeEventListener('wheel', scrollHorizontally);
-    }, []);
+export default function Dashboard({ active }: { active: CourseDetail | null }) {
     const [progress, setProgress] = useState<ProgressSnapshot | null>(null);
     const [progressLoading, setProgressLoading] = useState(true);
     const [progressError, setProgressError] = useState(false);
@@ -73,6 +24,7 @@ export default function Dashboard({
             setProgressLoading(false);
         }
     }, []);
+
     useEffect(() => {
         void loadProgress();
     }, [loadProgress]);
@@ -81,123 +33,56 @@ export default function Dashboard({
         <>
             <Head title="Peta misi | ZenUniverse" />
             <main className="dashboard-shell">
-                <aside className="dashboard-sidebar">
-                    <Link
-                        href={home.url()}
-                        className="dashboard-brand"
-                        aria-label="ZenUniverse, beranda"
-                    >
-                        <img
-                            src="/logo.jpeg"
-                            alt=""
-                            className="size-9 rounded-lg object-cover"
-                        />
-                        <span className="font-display text-lg font-semibold">
-                            ZenUniverse
-                        </span>
-                    </Link>
-                    <nav aria-label="Navigasi utama" className="dashboard-nav">
-                        <Link
-                            href={dashboard.url(
-                                active
-                                    ? { query: { course: active.id } }
-                                    : undefined,
-                            )}
-                            aria-current="page"
-                            aria-label="Peta misi"
-                        >
-                            <BookOpen aria-hidden="true" />
-                            <span>Peta misi</span>
-                        </Link>
-                        <Link href={leaderboard.url()} aria-label="Papan skor">
-                            <Trophy aria-hidden="true" />
-                            <span>Papan skor</span>
-                        </Link>
-                        <Link
-                            href={profileShow.url()}
-                            aria-label="Profil penjelajah"
-                        >
-                            <UserRound aria-hidden="true" />
-                            <span>Profil penjelajah</span>
-                        </Link>
-                        <Link href={learnIndex.url()} aria-label="Pilih kursus">
-                            <BookOpen aria-hidden="true" />
-                            <span>Pilih kursus</span>
-                        </Link>
-                    </nav>
-                    <div className="dashboard-level">
-                        <p className="font-display text-lg">Peta belajarmu</p>
-                        {progress && !progressError ? (
+                <LearnerNavigation active="missions" />
+
+                <div className="dashboard-workspace">
+                    <header className="dashboard-mobile-stats">
+                        {progress ? (
                             <>
-                                <progress
-                                    value={progress.level.percent}
-                                    max={100}
-                                    aria-label="Progres level"
-                                />
-                                <p>
-                                    Level {progress.level.current.level} ·{' '}
-                                    {progress.level.current.name}
-                                </p>
+                                <span>
+                                    <img
+                                        src="/images/stats/star-xp.png"
+                                        alt=""
+                                    />
+                                    {progress.totalXp.toLocaleString('id-ID')}{' '}
+                                    XP
+                                </span>
+                                <span>
+                                    <img
+                                        src="/images/stats/streak.png"
+                                        alt=""
+                                    />
+                                    {progress.currentStreak}
+                                </span>
+                                <span>
+                                    <img src="/images/stats/heart.png" alt="" />
+                                    {progress.hearts}
+                                </span>
                             </>
                         ) : (
-                            <p>
+                            <span role="status">
                                 {progressLoading
-                                    ? 'Memuat level...'
-                                    : 'Level belum tersedia.'}
-                            </p>
+                                    ? 'Memuat statistik...'
+                                    : 'Statistik tidak tersedia'}
+                            </span>
                         )}
-                    </div>
-                    <Link
-                        href={logout.url()}
-                        method="post"
-                        as="button"
-                        className="dashboard-logout"
-                        aria-label="Keluar"
-                    >
-                        <LogOut aria-hidden="true" />
-                        <span>Keluar</span>
-                    </Link>
-                </aside>
-                <div className="dashboard-workspace">
-                    <header className="dashboard-topbar">
-                        <h1 className="font-display text-2xl font-medium">
-                            Peta misimu
-                        </h1>
-                        <nav
-                            aria-label="Pilih jalur belajar"
-                            className="dashboard-courses"
-                        >
-                            {courses.map((course) => (
-                                <Link
-                                    key={course.id}
-                                    href={dashboard.url({
-                                        query: { course: course.id },
-                                    })}
-                                    aria-current={
-                                        active?.id === course.id
-                                            ? 'page'
-                                            : undefined
-                                    }
-                                >
-                                    {course.title}
-                                </Link>
-                            ))}
-                        </nav>
                     </header>
-                    <div className="dashboard-content" ref={content}>
+
+                    <div className="dashboard-content">
                         {active ? (
                             <MissionMap key={active.id} course={active} />
                         ) : (
-                            <section className="p-6">
-                                <h2>Belum ada jalur aktif</h2>
+                            <section className="dashboard-empty">
+                                <h1>Belum ada jalur aktif</h1>
                                 <Link
                                     href={learnIndex.url()}
-                                    className="mission-start mt-4"
+                                    className="mission-start"
                                 >
                                     Pilih kursus
                                 </Link>
                             </section>
                         )}
+
                         <aside
                             className="dashboard-stats"
                             aria-label="Statistik belajar"
@@ -214,7 +99,7 @@ export default function Dashboard({
                                     <button
                                         type="button"
                                         onClick={() => void loadProgress()}
-                                        className="mission-start mt-4"
+                                        className="mission-start"
                                     >
                                         Coba lagi
                                     </button>
@@ -225,20 +110,20 @@ export default function Dashboard({
                                         {[
                                             {
                                                 image: 'star-xp',
-                                                label: 'Total XP',
+                                                label: 'XP',
                                                 value: progress.totalXp.toLocaleString(
                                                     'id-ID',
                                                 ),
                                             },
                                             {
                                                 image: 'streak',
-                                                label: 'Hari beruntun',
+                                                label: 'Hari streak',
                                                 value: `${progress.currentStreak}`,
                                             },
                                             {
                                                 image: 'heart',
                                                 label: 'Nyawa',
-                                                value: `${progress.hearts}/${progress.heartsCapacity}`,
+                                                value: `${progress.hearts}`,
                                             },
                                         ].map((stat) => (
                                             <div key={stat.image}>
@@ -251,19 +136,25 @@ export default function Dashboard({
                                             </div>
                                         ))}
                                     </section>
-                                    <section className="dashboard-stat-card">
-                                        <h2 className="font-display text-xl">
-                                            Misi harian
-                                        </h2>
-                                        <div className="mt-5 flex items-center gap-3">
+
+                                    <section className="dashboard-stat-card dashboard-daily">
+                                        <h2>Misi harian</h2>
+                                        <div className="dashboard-quest">
                                             <img
                                                 src="/images/stats/star-xp.png"
                                                 alt=""
-                                                className="size-10 object-contain"
                                             />
                                             <div>
                                                 <p>Kumpulkan XP</p>
-                                                <p className="text-sm text-[#c0c9df]">
+                                                <progress
+                                                    value={
+                                                        progress.dailyGoal
+                                                            .percent
+                                                    }
+                                                    max={100}
+                                                    aria-label="Target XP harian"
+                                                />
+                                                <span>
                                                     {
                                                         progress.dailyGoal
                                                             .progress
@@ -274,44 +165,44 @@ export default function Dashboard({
                                                         progress.dailyGoal
                                                             .remaining}{' '}
                                                     XP
-                                                </p>
+                                                </span>
                                             </div>
                                         </div>
-                                        <progress
-                                            value={progress.dailyGoal.percent}
-                                            max={100}
-                                            aria-label="Target XP harian"
-                                        />
-                                        <p className="mt-3 text-sm text-[#c0c9df]">
+                                        <p className="dashboard-daily-message">
                                             {progress.dailyGoal.claimed
                                                 ? 'Target harianmu sudah tercapai.'
-                                                : progress.dailyGoal.remaining >
-                                                    0
-                                                  ? `${progress.dailyGoal.remaining} XP lagi untuk mencapai target.`
-                                                  : 'Target XP tercapai.'}
+                                                : `${progress.dailyGoal.remaining} XP lagi untuk mencapai target.`}
                                         </p>
                                     </section>
                                 </>
-                            ) : (
-                                <p>Belum ada statistik untuk ditampilkan.</p>
-                            )}
-                            <section className="dashboard-stat-card">
+                            ) : null}
+
+                            <section className="dashboard-stat-card dashboard-ranking">
                                 <p className="mission-eyebrow">Papan skor</p>
-                                <div className="mt-3 flex items-center gap-3">
+                                <div>
                                     <img
                                         src="/images/stats/trophy.png"
                                         alt=""
-                                        className="size-12 object-contain"
                                     />
-                                    <h2 className="font-display text-xl">
-                                        Para penjelajah
-                                    </h2>
+                                    <h2>Lihat peringkatmu</h2>
                                 </div>
+                                <p>Bandingkan XP-mu dengan penjelajah lain.</p>
                                 <Link
                                     href={leaderboard.url()}
                                     className="dashboard-ranking-link"
                                 >
                                     Lihat papan skor
+                                </Link>
+                            </section>
+
+                            <section className="dashboard-stat-card dashboard-unlock">
+                                <h2>Cara membuka misi</h2>
+                                <p>
+                                    Selesaikan misi aktif untuk membuka misi
+                                    berikutnya.
+                                </p>
+                                <Link href={learnIndex.url()}>
+                                    Ganti jalur belajar
                                 </Link>
                             </section>
                         </aside>

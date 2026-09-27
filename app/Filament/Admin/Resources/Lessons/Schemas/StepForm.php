@@ -121,28 +121,6 @@ class StepForm
                     Textarea::make('challenge.hint')->label('Hint')->required()->columnSpanFull(),
                 ]),
 
-            Section::make('Code arrange')
-                ->visible(fn (Get $get): bool => $get('type') === 'code-arrange')
-                ->schema([
-                    TextInput::make('content.title')->label('Judul')->required(),
-                    Select::make('content.language')->label('Bahasa')->options(self::LANGUAGES)->required(),
-                    Textarea::make('content.instructions')->label('Instruksi')->required()->columnSpanFull(),
-                    Repeater::make('content.tokens')
-                        ->label('Token')
-                        ->schema([
-                            TextInput::make('id')->required(),
-                            TextInput::make('text')->required(),
-                        ])
-                        ->columns(2)
-                        ->minItems(2)
-                        ->columnSpanFull(),
-                    TagsInput::make('validation.correctOrder')
-                        ->label('Urutan benar (ID token, berurutan)')
-                        ->required()
-                        ->columnSpanFull(),
-                    Textarea::make('content.hint')->label('Hint')->columnSpanFull(),
-                ]),
-
             Section::make('Code fill')
                 ->visible(fn (Get $get): bool => $get('type') === 'code-fill')
                 ->schema([

@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button';
+import { dashboard } from '@/routes';
+import { index as learnIndex } from '@/routes/learn';
 
 export function LessonCompletion({
     xpEarned,
@@ -20,8 +22,8 @@ export function LessonCompletion({
                 Kerja bagus! Lanjutkan ke pelajaran berikutnya.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-                <Button href="/dashboard">Kembali ke dashboard</Button>
-                <Button href="/learn" variant="outline">
+                <Button href={dashboard.url()}>Kembali ke dashboard</Button>
+                <Button href={learnIndex.url()} variant="outline">
                     Lihat jalur belajar
                 </Button>
             </div>

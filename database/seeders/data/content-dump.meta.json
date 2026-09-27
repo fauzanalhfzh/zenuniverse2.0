@@ -2,7 +2,7 @@
   "version": 1,
   "exportedAt": "2026-09-18T11:33:05.322Z",
   "sourceRevision": "d0c3c40",
-  "contentChecksum": "1b4fda024f5fab87ccc39fa062d2826897b3151f3eb885e23a018daa40a27770",
+  "contentChecksum": "fb5631c18d4032e3c42b5da0f3ea2c666b4c61301cf04b8f0acf155ba31ddd27",
   "totals": {
     "courses": 6,
     "published": 5,
@@ -26,7 +26,7 @@
       "units": 10,
       "lessons": 10,
       "steps": 111,
-      "checksum": "30b3573d3540e68e43797e63e812f7dcd67a4a83f9264fdccadce034c6c32855"
+      "checksum": "c47de9d28aecc02e5dfc1fc3e019445dee132b89d8714be1703741ddcb9cc554"
     },
     {
       "id": "javascript-fundamentals",
@@ -34,7 +34,7 @@
       "units": 2,
       "lessons": 10,
       "steps": 41,
-      "checksum": "d2e9d52ad3533cba67dc5ee31b20332bc2663da1f13673e474ec5968e84675a7"
+      "checksum": "c5d7986df8449d03dcd022532fe5636d060cec03bec7d270a36eab773f110861"
     },
     {
       "id": "html-fundamentals",
@@ -42,7 +42,7 @@
       "units": 2,
       "lessons": 10,
       "steps": 50,
-      "checksum": "abc2d54bc4ec7f5085e5062cdf5f1e764dcfabc2f1177d8761b2a4dea13cf1ad"
+      "checksum": "bc25288de432a4cee87c59d352aa08e578b256f4c2fe9d015b9456f3a371781e"
     },
     {
       "id": "css-fundamentals",
@@ -50,7 +50,7 @@
       "units": 2,
       "lessons": 10,
       "steps": 50,
-      "checksum": "7001b6361a951ac4ad1cba1ec6d45e1aa50dab456df65e11ef1e487858793aef"
+      "checksum": "bf673527d61f400e50aa4cbbd18d85f575cab0edde0aee2cea0b28ff879f239c"
     },
     {
       "id": "cpp-fundamentals",
@@ -58,7 +58,7 @@
       "units": 4,
       "lessons": 12,
       "steps": 61,
-      "checksum": "75bc844a9bc868124f22f3b83d41d817e9494517257513a378f453ef113b9e39"
+      "checksum": "3f2ddd67a7e53138f9a45c396079141a35f5bdd4d3610e20f94773847c0a58e6"
     }
   ]
 }

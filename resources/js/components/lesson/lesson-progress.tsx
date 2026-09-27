@@ -10,9 +10,9 @@ export function LessonProgress({
     const percent = stepProgress(current, total);
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="lesson-player__progress">
             <div
-                className="h-3 flex-1 overflow-hidden rounded-full bg-slate-200"
+                className="lesson-player__progress-track"
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={100}
@@ -20,11 +20,11 @@ export function LessonProgress({
                 aria-label="Kemajuan pelajaran"
             >
                 <div
-                    className="bg-primary h-full rounded-full transition-[width] duration-300"
+                    className="lesson-player__progress-value"
                     style={{ width: `${percent}%` }}
                 />
             </div>
-            <span className="text-sm font-bold text-slate-500">
+            <span className="lesson-player__progress-label">
                 {Math.min(current + 1, total)}/{total}
             </span>
         </div>

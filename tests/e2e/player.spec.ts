@@ -24,22 +24,18 @@ test.describe('learner flow', () => {
         await expect(page).toHaveURL(/\/lesson\//);
 
         await expect(page.getByRole('progressbar')).toBeVisible();
-        await expect(page.getByText(/❤️/)).toBeVisible();
+        await expect(page.getByTestId('player-hearts')).toBeVisible();
 
-        const understand = page.getByRole('button', {
-            name: 'Saya paham, lanjut',
+        const next = page.getByRole('button', {
+            name: 'Lanjut ke langkah berikutnya →',
             exact: true,
         });
 
-        if ((await understand.count()) > 0) {
-            await understand.click();
-            await expect(
-                page.getByText('Materi sudah dipahami.'),
-            ).toBeVisible();
-            await expect(
-                page.getByRole('button', { name: 'Lanjut', exact: true }),
-            ).toBeVisible();
-        }
+        await expect(next).toBeEnabled();
+        await next.click();
+        await expect(
+            page.getByText('Apa arti coding dalam latihan ini?'),
+        ).toBeVisible();
     });
 
     test('progress syncs to a second tab through polling', async ({

@@ -85,9 +85,7 @@ void test('includes generated code-practice steps', { skip: SKIP }, () => {
     const practiceSteps = js.units
         .flatMap((unit) => unit.lessons)
         .flatMap((lesson) => lesson.steps)
-        .filter(
-            (step) => step.type === 'code-fill' || step.type === 'code-arrange',
-        );
+        .filter((step) => step.type === 'code-fill');
 
     assert.ok(practiceSteps.length > 0, 'generated practice steps were added');
 });
@@ -108,7 +106,6 @@ void test(
             'concept',
             'quiz',
             'blockly',
-            'code-arrange',
             'code-fill',
             'code',
         ]) {

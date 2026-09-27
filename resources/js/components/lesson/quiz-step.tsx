@@ -13,14 +13,14 @@ export function QuizStepView({
     onSelect: (optionId: string) => void;
 }) {
     return (
-        <div className="flex flex-col gap-5">
+        <div className="lesson-player__quiz">
             {step.content.question ? (
-                <h2 className="font-display text-2xl font-bold text-slate-900">
+                <h2 className="lesson-player__quiz-question">
                     {step.content.question}
                 </h2>
             ) : null}
 
-            <div className="flex flex-col gap-3" role="list">
+            <div className="lesson-player__quiz-options" role="list">
                 {step.content.options.map((option) => (
                     <button
                         key={option.id}
@@ -29,12 +29,10 @@ export function QuizStepView({
                         disabled={disabled}
                         onClick={() => onSelect(option.id)}
                         className={cn(
-                            'min-h-14 rounded-2xl border-2 px-5 py-3 text-left text-base font-semibold transition-colors',
-                            'focus-visible:ring-ring/50 focus-visible:ring-4 focus-visible:outline-none',
-                            selectedId === option.id
-                                ? 'border-primary bg-accent text-accent-foreground'
-                                : 'border-border hover:border-primary/60 bg-white text-slate-700',
-                            disabled && 'cursor-not-allowed opacity-70',
+                            'lesson-player__quiz-option',
+                            selectedId === option.id &&
+                                'lesson-player__quiz-option--selected',
+                            disabled && 'lesson-player__quiz-option--disabled',
                         )}
                     >
                         {option.label}

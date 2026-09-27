@@ -22,12 +22,12 @@ class SubmitStepRequest extends FormRequest
             'attempt_id' => ['required', 'uuid'],
             'content_revision' => ['required', 'integer', 'min:1'],
             'answer' => ['required', 'array', 'max:32'],
-            'answer.type' => ['required', 'string', 'in:concept,quiz,blockly,code-arrange,code-fill,code'],
+            'answer.type' => ['required', 'string', 'in:concept,quiz,blockly,code-fill,code'],
             'answer.acknowledged' => ['sometimes', 'boolean'],
             'answer.optionId' => ['sometimes', 'string', 'max:160'],
             'answer.commands' => ['sometimes', 'array', 'max:500'],
-            'answer.tokenIds' => ['sometimes', 'array', 'max:500'],
             'answer.answers' => ['sometimes', 'array', 'max:500'],
+            'answer.answers.*' => ['sometimes', 'string', 'max:2000'],
             'answer.code' => ['sometimes', 'string', 'max:20000'],
         ];
     }

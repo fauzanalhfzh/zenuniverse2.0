@@ -37,10 +37,10 @@ class PublishedContentTest extends TestCase
             ->firstOrFail();
     }
 
-    private function publishedArrange(): LessonStep
+    private function publishedFill(): LessonStep
     {
         return LessonStep::query()
-            ->where('type', 'code-arrange')
+            ->where('type', 'code-fill')
             ->whereHas('lesson.unit.course', fn ($query) => $query->where('status', 'published'))
             ->whereNotNull('validation')
             ->firstOrFail();
@@ -95,28 +95,18 @@ class PublishedContentTest extends TestCase
         }
     }
 
-    public function test_public_arrange_hides_order_and_opaque_tokens(): void
+    public function test_public_fill_hides_accepted_answers(): void
     {
-        $arrange = $this->publishedArrange();
-        $step = $this->content()->publicStep($arrange, 1);
+        $fill = $this->publishedFill();
+        $step = $this->content()->publicStep($fill, 1);
 
         $this->assertNoPrivateKeys($step);
-
-        $rawTokenIds = array_column($arrange->content['tokens'], 'id');
-        $publicIds = array_column($step['content']['tokens'], 'id');
-
-        $this->assertSame(count($rawTokenIds), count($publicIds));
-
-        foreach ($rawTokenIds as $rawId) {
-            $this->assertNotContains((string) $rawId, $publicIds);
-        }
-
-        $mappedCorrectOrder = array_map(
-            fn (string $rawId): string => PublicId::token(1, $arrange->id, $rawId),
-            $arrange->validation['correctOrder'],
+        $this->assertArrayHasKey('parts', $step['content']);
+        $this->assertArrayHasKey('blanks', $step['content']);
+        $this->assertStringNotContainsString(
+            json_encode($fill->validation['acceptedAnswers'], JSON_THROW_ON_ERROR),
+            json_encode($step, JSON_THROW_ON_ERROR),
         );
-
-        $this->assertNotSame($mappedCorrectOrder, $publicIds, 'Arranged tokens must not be presented in solution order.');
     }
 
     public function test_public_code_hides_expected_code(): void

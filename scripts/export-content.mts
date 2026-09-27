@@ -5,13 +5,7 @@ import { existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export type StepType =
-    | 'concept'
-    | 'quiz'
-    | 'blockly'
-    | 'code-arrange'
-    | 'code-fill'
-    | 'code';
+export type StepType = 'concept' | 'quiz' | 'blockly' | 'code-fill' | 'code';
 
 export interface ExportedStep {
     id: string;
