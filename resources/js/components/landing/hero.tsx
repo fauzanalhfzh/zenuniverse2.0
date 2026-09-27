@@ -22,7 +22,7 @@ export function Hero() {
                         setiap hari!
                     </h1>
                     <p className="max-w-[440px] text-[18px] leading-[27px] text-[#475569] dark:text-[#afc1dc]">
-                        Main, coba, dan temukan hal baru bersama ZenUniverse.
+                        Main, coba, dan temukan hal baru bersama Zenuniverse.
                     </p>
                     <div className="flex w-full max-w-[440px] flex-col gap-4 px-1 pt-2 sm:px-7">
                         <PrimaryCtaLink className="w-full" />
