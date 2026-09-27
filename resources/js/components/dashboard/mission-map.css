@@ -31,17 +31,20 @@
     font-size: 21px;
     font-weight: 500;
 }
+
 .dashboard-brand img {
     width: 36px;
     height: 36px;
     border-radius: 10px;
     object-fit: cover;
 }
+
 .dashboard-nav {
     display: grid;
     gap: 10px;
     padding: 0 18px;
 }
+
 .dashboard-nav a,
 .dashboard-logout {
     display: flex;
@@ -54,26 +57,31 @@
     font-size: 15px;
     font-weight: 500;
 }
+
 .dashboard-nav a svg,
 .dashboard-logout svg {
     width: 20px;
     height: 20px;
     flex: none;
 }
+
 .dashboard-nav a[aria-current] {
     border-left: 3px solid #ff8a3d;
     background: #fff0e5;
     color: #b64e11;
     font-weight: 700;
 }
+
 .dashboard-nav a:hover,
 .dashboard-logout:hover {
     background: #eef3fa;
 }
+
 .dashboard-sidebar-actions {
     border-top: 1px solid #d4deea;
     padding: 18px;
 }
+
 .dashboard-logout {
     width: 100%;
     min-height: 44px;
@@ -86,10 +94,12 @@
     min-height: 0;
     padding: 24px 32px;
 }
+
 .learner-page-workspace {
     overflow-y: auto;
     padding: 0;
 }
+
 .dashboard-content {
     display: grid;
     grid-template-columns: minmax(520px, 637px) 280px;
@@ -98,6 +108,7 @@
     height: 100%;
     overflow-y: auto;
 }
+
 .dashboard-mobile-stats,
 .dashboard-bottom-nav {
     display: none;
@@ -112,6 +123,7 @@
     border-radius: 20px;
     background: transparent;
 }
+
 .mission-header {
     display: flex;
     min-height: 112px;
@@ -122,11 +134,13 @@
     border-radius: 14px;
     padding: 20px 24px;
     background: var(--primary);
-    color: #0f172a;
+    color: white;
 }
+
 .mission-header-copy {
     min-width: 0;
 }
+
 .mission-eyebrow {
     color: #5f6f85;
     font-size: 11px;
@@ -134,14 +148,16 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
+
 .mission-header .mission-eyebrow {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #0f172a;
+    color: white;
     font-size: 12px;
     letter-spacing: 0;
 }
+
 .mission-header .mission-eyebrow a {
     display: grid;
     width: 44px;
@@ -150,16 +166,19 @@
     place-items: center;
     border-radius: 10px;
 }
+
 .mission-header .mission-eyebrow svg {
     width: 20px;
     height: 20px;
 }
+
 .mission-header h1 {
     margin-top: 5px;
     font-size: 23px;
     font-weight: 600;
     line-height: 1.15;
 }
+
 .mission-guide {
     display: flex;
     min-height: 52px;
@@ -174,13 +193,16 @@
     text-transform: uppercase;
     box-shadow: 0 3px 0 #9c4913;
 }
+
 .mission-guide:hover {
     background: rgb(255 255 255 / 22%);
 }
+
 .mission-guide svg {
     width: 24px;
     height: 24px;
 }
+
 .mission-section-divider {
     display: flex;
     flex: none;
@@ -191,6 +213,7 @@
     font-size: 14px;
     font-weight: 700;
 }
+
 .mission-section-divider::before,
 .mission-section-divider::after {
     height: 2px;
@@ -198,12 +221,14 @@
     background: #d8e0e9;
     content: '';
 }
+
 .mission-section-divider span {
     max-width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .dashboard-shell progress {
     height: 7px;
     overflow: hidden;
@@ -212,18 +237,22 @@
     background: #e5ecf4;
     color: #69d5b3;
 }
+
 .dashboard-shell progress::-webkit-progress-bar {
     border-radius: 99px;
     background: #e5ecf4;
 }
+
 .dashboard-shell progress::-webkit-progress-value {
     border-radius: 99px;
     background: #69d5b3;
 }
+
 .dashboard-shell progress::-moz-progress-bar {
     border-radius: 99px;
     background: #69d5b3;
 }
+
 .mission-viewport {
     min-height: 0;
     flex: 1;
@@ -232,44 +261,53 @@
     overscroll-behavior: contain;
     scrollbar-width: none;
 }
+
 .mission-viewport::-webkit-scrollbar {
     display: none;
 }
+
 .mission-journey {
     position: relative;
     width: min(560px, 100%);
     min-height: 100%;
     margin: 0 auto;
 }
+
 .mission-nodes {
     margin: 0;
     padding: 0;
     list-style: none;
 }
+
 .mission-stop {
     position: absolute;
     z-index: 1;
     width: 80px;
     text-align: center;
 }
+
 .mission-node {
     display: block;
     width: 83px;
     height: 85px;
     border-radius: 50%;
 }
+
 .mission-node img {
     display: block;
     width: 83px;
     height: 85px;
     object-fit: contain;
 }
+
 .is-active .mission-node {
     filter: drop-shadow(0 0 0.12rem #ff8a3d);
 }
+
 .is-locked .mission-node {
     filter: grayscale(0.9) opacity(0.42);
 }
+
 .mission-node-label {
     display: none;
     width: 112px;
@@ -277,15 +315,18 @@
     color: #5f6f85;
     font-size: 11px;
 }
+
 .mission-empty,
 .dashboard-empty {
     padding: 32px;
 }
+
 .dashboard-empty h1 {
     margin-bottom: 20px;
     font-family: var(--font-display);
     font-size: 27px;
 }
+
 .mission-start {
     display: inline-flex;
     min-height: 44px;
@@ -297,6 +338,7 @@
     color: #fff;
     font-weight: 700;
 }
+
 .mission-start:hover {
     background: #e76f22;
 }
@@ -307,17 +349,20 @@
     flex-direction: column;
     gap: 18px;
 }
+
 .dashboard-stat-card {
     border: 1px solid #d4deea;
     border-radius: 14px;
     background: #fff;
     padding: 20px;
 }
+
 .dashboard-stat-card h2 {
     font-family: var(--font-display);
     font-size: 20px;
     font-weight: 500;
 }
+
 .dashboard-stat-totals {
     display: flex;
     min-height: 136px;
@@ -325,6 +370,7 @@
     justify-content: space-around;
     gap: 8px;
 }
+
 .dashboard-stat-totals > div {
     display: flex;
     flex: 1;
@@ -332,67 +378,82 @@
     align-items: center;
     gap: 3px;
 }
+
 .dashboard-stat-totals > div + div {
     border-left: 1px solid #d4deea;
 }
+
 .dashboard-stat-totals img {
     width: 44px;
     height: 44px;
     object-fit: contain;
 }
+
 .dashboard-stat-totals strong {
     font-size: 19px;
 }
+
 .dashboard-stat-totals span {
     color: #5f6f85;
     font-size: 10px;
 }
+
 .dashboard-daily {
     min-height: 190px;
 }
+
 .dashboard-quest {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: 20px;
 }
+
 .dashboard-quest img {
     width: 40px;
     height: 40px;
     object-fit: contain;
 }
+
 .dashboard-quest > div {
     min-width: 0;
     flex: 1;
 }
+
 .dashboard-quest p {
     font-size: 13px;
 }
+
 .dashboard-quest progress {
     display: block;
     width: 100%;
     margin-top: 5px;
 }
+
 .dashboard-quest span,
 .dashboard-daily-message {
     color: #5f6f85;
     font-size: 11px;
 }
+
 .dashboard-daily-message {
     margin-top: 16px;
     line-height: 1.5;
 }
+
 .dashboard-ranking > div {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 10px;
 }
+
 .dashboard-ranking img {
     width: 44px;
     height: 44px;
     object-fit: contain;
 }
+
 .dashboard-ranking > p:not(.mission-eyebrow),
 .dashboard-unlock p {
     margin-top: 12px;
@@ -400,6 +461,7 @@
     font-size: 13px;
     line-height: 1.5;
 }
+
 .dashboard-ranking-link {
     display: flex;
     min-height: 44px;
@@ -412,6 +474,7 @@
     font-size: 13px;
     font-weight: 600;
 }
+
 .dashboard-ranking-link:hover {
     background: #eef3fa;
 }
@@ -420,29 +483,36 @@
     .dashboard-shell {
         grid-template-columns: 76px minmax(0, 1fr);
     }
+
     .dashboard-brand {
         justify-content: center;
         padding-inline: 12px;
     }
+
     .dashboard-brand span,
     .dashboard-nav span,
     .dashboard-logout span {
         display: none;
     }
+
     .dashboard-nav {
         padding-inline: 10px;
     }
+
     .dashboard-nav a {
         justify-content: center;
         padding-inline: 0;
     }
+
     .dashboard-sidebar-actions {
         padding-inline: 10px;
     }
+
     .dashboard-logout {
         justify-content: center;
         padding-inline: 0;
     }
+
     .dashboard-workspace {
         overflow-x: auto;
     }
@@ -454,14 +524,17 @@
         display: block;
         background: #0a1730;
     }
+
     .dashboard-shell.learner-page-shell {
         overflow-y: auto;
         background: #f6f8fc;
     }
+
     .dashboard-sidebar,
     .dashboard-stats {
         display: none;
     }
+
     .dashboard-workspace {
         display: flex;
         height: calc(100dvh - 80px);
@@ -469,12 +542,14 @@
         overflow: hidden;
         padding: 0;
     }
+
     .learner-page-workspace {
         display: block;
         height: auto;
         min-height: calc(100dvh - 80px);
         overflow: visible;
     }
+
     .dashboard-mobile-stats {
         display: flex;
         height: 64px;
@@ -486,21 +561,25 @@
         font-size: 12px;
         font-weight: 600;
     }
+
     .dashboard-mobile-stats span {
         display: inline-flex;
         align-items: center;
         gap: 6px;
     }
+
     .dashboard-mobile-stats img {
         width: 24px;
         height: 24px;
         object-fit: contain;
     }
+
     .dashboard-content {
         display: block;
         height: calc(100% - 64px);
         overflow: hidden;
     }
+
     .mission-map {
         height: 100%;
         min-height: 0;
@@ -508,6 +587,7 @@
         border-radius: 0;
         background: #0a1730;
     }
+
     .mission-header {
         min-height: 104px;
         margin: 16px 20px 0;
@@ -515,20 +595,24 @@
         padding: 14px 16px;
         background: var(--primary);
     }
+
     .mission-header .mission-eyebrow {
         font-size: 10px;
     }
+
     .mission-header h1 {
         max-width: 245px;
         margin-top: 4px;
         font-size: 18px;
     }
+
     .mission-guide {
         width: 48px;
         min-height: 48px;
         justify-content: center;
         padding: 8px;
     }
+
     .mission-guide span {
         position: absolute;
         width: 1px;
@@ -538,27 +622,33 @@
         white-space: nowrap;
         clip-path: inset(50%);
     }
+
     .mission-section-divider {
         gap: 10px;
         padding: 24px 20px 18px;
         color: #c9d4e3;
         font-size: 12px;
     }
+
     .mission-section-divider::before,
     .mission-section-divider::after {
         background: #344866;
     }
+
     .mission-viewport {
         position: relative;
         background: #08162e;
         scroll-behavior: smooth;
     }
+
     .mission-journey {
         width: min(350px, calc(100vw - 20px));
     }
+
     .mission-node-label {
         color: #aab8ca;
     }
+
     .dashboard-bottom-nav {
         position: fixed;
         z-index: 20;
@@ -572,6 +662,7 @@
         background: #0d1e3b;
         padding: 8px 16px 10px;
     }
+
     .dashboard-bottom-nav a {
         display: flex;
         min-width: 0;
@@ -583,14 +674,17 @@
         color: #a9b8cd;
         font-size: 11px;
     }
+
     .dashboard-bottom-nav a[aria-current] {
         background: #263450;
         color: #69d5b3;
     }
+
     .dashboard-bottom-nav svg {
         width: 27px;
         height: 27px;
     }
+
     .dashboard-empty {
         color: #fff;
     }
