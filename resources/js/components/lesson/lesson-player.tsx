@@ -1,7 +1,18 @@
 import { Link } from '@inertiajs/react';
+import {
+    ArrowLeft,
+    ArrowRight,
+    BookOpen,
+    Check,
+    Code2,
+    HelpCircle,
+    LockKeyhole,
+    PanelLeftClose,
+    PanelLeftOpen,
+    Target,
+    X,
+} from 'lucide-react';
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
-import { dashboard } from '@/routes';
 import { useStore } from 'zustand';
 import { CodeFillStepView } from '@/components/lesson/code-fill-step';
 import { ConceptStepView } from '@/components/lesson/concept-step';
@@ -10,6 +21,7 @@ import { QuizStepView } from '@/components/lesson/quiz-step';
 import { Button } from '@/components/ui/button';
 import { ApiError } from '@/lib/progress/client';
 import { useProgressSession } from '@/lib/progress/session';
+import { dashboard } from '@/routes';
 import { createLessonStore } from '@/stores/lesson-store';
 import type { LessonPayload, LessonStep, StepAnswer } from '@/types/lesson';
 
@@ -35,8 +47,8 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
     const total = lesson.steps.length;
     const step = lesson.steps[state.stepIndex];
     const outcome = step ? state.outcomes[step.id] : undefined;
-
     const completedSteps = new Set(lesson.completedStepIds);
+
     for (const [stepId, stepOutcome] of Object.entries(state.outcomes)) {
         if (stepOutcome.correct) {
             completedSteps.add(stepId);
@@ -99,10 +111,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
             !alreadyCompleted
         ) {
             const correct = await answer(
-                {
-                    type: 'concept',
-                    acknowledged: true,
-                },
+                { type: 'concept', acknowledged: true },
                 currentStep,
             );
 
@@ -116,12 +125,10 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 store.getState().outcomes[item.id]?.correct ||
                 lesson.completedStepIds.includes(item.id),
         );
-
         const currentIndex = store.getState().stepIndex;
 
         if (currentIndex < total - 1) {
             store.getState().next(total);
-
             return;
         }
 
@@ -129,7 +136,6 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
             setError(
                 'Selesaikan semua langkah dulu sebelum menutup pelajaran.',
             );
-
             return;
         }
 
@@ -151,8 +157,8 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
     if (state.completed) {
         return (
-            <div className="lesson-player min-h-screen px-4 py-10">
-                <div className="mx-auto w-full max-w-3xl">
+            <div className="lesson-player lesson-player--completed">
+                <div className="lesson-player__completion">
                     <LessonCompletion
                         xpEarned={state.xpEarned}
                         lessonTitle={lesson.title}
@@ -165,9 +171,18 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
     const currentStepNumber =
         total === 0 ? 0 : Math.min(state.stepIndex + 1, total);
     const progressPercent = total === 0 ? 0 : (currentStepNumber / total) * 100;
+    const stepDone = step ? completedSteps.has(step.id) : false;
+    const canContinue =
+        Boolean(step) &&
+        !state.pending &&
+        (step?.type === 'concept' || stepDone);
+    const nextLabel =
+        state.stepIndex < total - 1
+            ? nextStepLabel(lesson.steps[state.stepIndex + 1])
+            : 'Selesaikan pelajaran';
 
     return (
-        <div className="lesson-player min-h-screen">
+        <div className="lesson-player">
             <header className="lesson-player__header">
                 <div className="lesson-player__header-inner">
                     <div className="lesson-player__brand">
@@ -178,7 +193,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                             aria-label={`Kembali ke ${lesson.courseTitle}`}
                             className="lesson-player__close"
                         >
-                            ×
+                            <X aria-hidden="true" size={20} />
                         </Link>
                         <button
                             type="button"
@@ -198,11 +213,19 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                 <PanelLeftOpen aria-hidden="true" size={18} />
                             )}
                         </button>
+                        <div className="lesson-player__identity">
+                            <span>{lesson.courseTitle}</span>
+                            <strong>{lesson.title}</strong>
+                        </div>
                     </div>
 
                     <div
                         className="lesson-player__header-progress"
-                        aria-hidden="true"
+                        role="progressbar"
+                        aria-label="Kemajuan pelajaran"
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={Math.round(progressPercent)}
                     >
                         <div
                             className="lesson-player__header-progress-value"
@@ -212,7 +235,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
                     <div className="lesson-player__stats">
                         <span data-testid="player-xp">
-                            XP {progress?.totalXp ?? 'Belum tersedia'}
+                            XP {progress?.totalXp ?? '—'}
                         </span>
                         <span className="lesson-player__stats-divider" />
                         <span
@@ -233,10 +256,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                 )
                             ) : (
                                 <span className="lesson-player__hearts-empty">
-                                    Belum tersedia
+                                    —
                                 </span>
                             )}
-                            <span className="sr-only">Hati tersisa</span>
                         </span>
                     </div>
                 </div>
@@ -253,20 +275,25 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                     aria-label="Alur pelajaran"
                     aria-hidden={!leftRailOpen}
                 >
-                    <p className="lesson-player__rail-label">Alur pelajaran</p>
-                    <h2 className="lesson-player__rail-heading">
-                        {lesson.courseTitle}
-                    </h2>
-                    <p className="lesson-player__rail-progress">
-                        {currentStepNumber} dari {total} langkah
-                    </p>
+                    <div className="lesson-player__rail-header">
+                        <p className="lesson-player__rail-label">
+                            Alur pelajaran
+                        </p>
+                        <h2 className="lesson-player__rail-heading">
+                            Dari konsep ke praktik
+                        </h2>
+                        <p className="lesson-player__rail-progress">
+                            {currentStepNumber} dari {total} langkah
+                        </p>
+                    </div>
 
                     <nav className="lesson-player__steps">
                         {lesson.steps.map((item, index) => {
                             const isCurrent = index === state.stepIndex;
+                            const isComplete = completedSteps.has(item.id);
                             const isLocked =
-                                index > state.stepIndex &&
-                                !completedSteps.has(item.id);
+                                index > state.stepIndex && !isComplete;
+                            const StepIcon = stepIcon(item);
 
                             return (
                                 <button
@@ -284,16 +311,31 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                     }`}
                                 >
                                     <span className="lesson-player__rail-icon">
-                                        {index + 1}
+                                        {isComplete ? (
+                                            <Check
+                                                aria-hidden="true"
+                                                size={17}
+                                            />
+                                        ) : isLocked ? (
+                                            <LockKeyhole
+                                                aria-hidden="true"
+                                                size={15}
+                                            />
+                                        ) : (
+                                            <StepIcon
+                                                aria-hidden="true"
+                                                size={17}
+                                            />
+                                        )}
                                     </span>
                                     <span className="lesson-player__step-copy">
                                         <strong>{stepLabel(item)}</strong>
                                         <small>
-                                            {completedSteps.has(item.id)
+                                            {isComplete
                                                 ? 'Selesai'
                                                 : isLocked
                                                   ? 'Terkunci'
-                                                  : item.type}
+                                                  : stepTypeLabel(item)}
                                         </small>
                                     </span>
                                 </button>
@@ -304,13 +346,21 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
                 <main className="lesson-player__main">
                     <div className="lesson-player__context">
-                        <span className="lesson-player__status">
-                            Belum selesai
+                        <span>
+                            <BookOpen aria-hidden="true" size={16} />
+                            Materi pelajaran
+                        </span>
+                        <span
+                            className={`lesson-player__status ${
+                                stepDone ? 'lesson-player__status--done' : ''
+                            }`}
+                        >
+                            {stepDone ? 'Selesai' : 'Belum selesai'}
                         </span>
                     </div>
-
-                    <p className="lesson-player__meta">Materi pelajaran</p>
-                    <h2 className="lesson-player__heading">{lesson.title}</h2>
+                    <h1 className="lesson-player__heading">
+                        {step ? stepLabel(step) : lesson.title}
+                    </h1>
                     <p className="lesson-player__description">
                         {lesson.description}
                     </p>
@@ -360,9 +410,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                             <p className="lesson-player__empty-label">
                                 Materi belum tersedia
                             </p>
-                            <h3 className="lesson-player__empty-heading">
+                            <h2 className="lesson-player__empty-heading">
                                 Pelajaran ini belum memiliki langkah.
-                            </h3>
+                            </h2>
                             <p>
                                 Kembali ke dashboard untuk memilih pelajaran
                                 lain.
@@ -383,22 +433,28 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                     aria-label="Ringkasan pelajaran"
                 >
                     <section className="lesson-player__side-panel">
-                        <p className="lesson-player__rail-label">
+                        <h2>
+                            <Target aria-hidden="true" size={19} />
                             Di pelajaran ini
-                        </p>
+                        </h2>
                         <ul className="lesson-player__goal-list">
-                            {lesson.steps.map((item) => (
+                            {lesson.steps.map((item, index) => (
                                 <li key={item.id}>
-                                    <span aria-hidden="true">✓</span>
+                                    <span aria-hidden="true">
+                                        {completedSteps.has(item.id)
+                                            ? '✓'
+                                            : index + 1}
+                                    </span>
                                     {stepLabel(item)}
                                 </li>
                             ))}
                         </ul>
                     </section>
                     <section className="lesson-player__side-panel lesson-player__side-panel--note">
-                        <p className="lesson-player__rail-label">
-                            Tentang materi
-                        </p>
+                        <h2>
+                            <HelpCircle aria-hidden="true" size={19} />
+                            Ingat ini
+                        </h2>
                         <p>{lesson.description}</p>
                     </section>
                 </aside>
@@ -408,7 +464,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 <div className="lesson-player__footer-inner">
                     <div className="lesson-player__footer-current">
                         <span className="lesson-player__footer-icon">
-                            {state.stepIndex + 1}
+                            <BookOpen aria-hidden="true" size={21} />
                         </span>
                         <span>
                             <strong>
@@ -420,21 +476,24 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                         </span>
                     </div>
                     <div className="lesson-player__footer-actions">
+                        <button
+                            type="button"
+                            className="lesson-player__previous"
+                            disabled={state.stepIndex === 0 || state.pending}
+                            onClick={() => store.getState().previous()}
+                        >
+                            <ArrowLeft aria-hidden="true" size={17} />
+                            Sebelumnya
+                        </button>
                         <Button
                             variant="primary"
+                            className="lesson-player__continue"
                             data-testid="player-continue-button"
-                            disabled={
-                                state.pending ||
-                                !step ||
-                                (step.type !== 'concept' &&
-                                    !outcome?.correct &&
-                                    !lesson.completedStepIds.includes(step.id))
-                            }
+                            disabled={!canContinue}
                             onClick={() => void handleContinue()}
                         >
-                            {state.stepIndex < total - 1
-                                ? 'Lanjut ke langkah berikutnya'
-                                : 'Selesaikan pelajaran'}
+                            {nextLabel}
+                            <ArrowRight aria-hidden="true" size={18} />
                         </Button>
                     </div>
                 </div>
@@ -455,6 +514,51 @@ function stepLabel(step: LessonStep): string {
             return step.content.title ?? 'Lengkapi kode';
         case 'code':
             return step.content.title ?? 'Tulis program';
+    }
+}
+
+function stepTypeLabel(step: LessonStep): string {
+    switch (step.type) {
+        case 'concept':
+            return 'Materi';
+        case 'quiz':
+            return 'Kuis';
+        case 'blockly':
+            return 'Susun blok';
+        case 'code-fill':
+            return 'Lengkapi kode';
+        case 'code':
+            return 'Tulis kode';
+    }
+}
+
+function stepIcon(step: LessonStep) {
+    switch (step.type) {
+        case 'concept':
+            return BookOpen;
+        case 'quiz':
+            return HelpCircle;
+        case 'blockly':
+        case 'code-fill':
+        case 'code':
+            return Code2;
+    }
+}
+
+function nextStepLabel(step?: LessonStep): string {
+    if (!step) {
+        return 'Lanjut ke langkah berikutnya';
+    }
+
+    switch (step.type) {
+        case 'concept':
+            return 'Lanjut ke materi berikutnya';
+        case 'quiz':
+            return 'Lanjut ke cek pemahaman';
+        case 'blockly':
+        case 'code-fill':
+        case 'code':
+            return 'Lanjut ke latihan';
     }
 }
 
