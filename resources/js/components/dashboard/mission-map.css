@@ -70,11 +70,14 @@
 .dashboard-logout:hover {
     background: #eef3fa;
 }
+.dashboard-sidebar-actions {
+    border-top: 1px solid #d4deea;
+    padding: 18px;
+}
 .dashboard-logout {
     width: 100%;
-    border-top: 1px solid #d4deea;
-    border-radius: 0;
-    padding: 24px 34px;
+    min-height: 44px;
+    padding-block: 10px;
     font-size: 14px;
 }
 
@@ -83,7 +86,7 @@
     min-height: 0;
     padding: 24px 32px;
 }
-.learn-workspace {
+.learner-page-workspace {
     overflow-y: auto;
     padding: 0;
 }
@@ -397,8 +400,7 @@
     font-size: 13px;
     line-height: 1.5;
 }
-.dashboard-ranking-link,
-.dashboard-unlock a {
+.dashboard-ranking-link {
     display: flex;
     min-height: 44px;
     align-items: center;
@@ -410,8 +412,7 @@
     font-size: 13px;
     font-weight: 600;
 }
-.dashboard-ranking-link:hover,
-.dashboard-unlock a:hover {
+.dashboard-ranking-link:hover {
     background: #eef3fa;
 }
 
@@ -435,6 +436,9 @@
         justify-content: center;
         padding-inline: 0;
     }
+    .dashboard-sidebar-actions {
+        padding-inline: 10px;
+    }
     .dashboard-logout {
         justify-content: center;
         padding-inline: 0;
@@ -450,7 +454,7 @@
         display: block;
         background: #0a1730;
     }
-    .dashboard-shell.learn-shell {
+    .dashboard-shell.learner-page-shell {
         overflow-y: auto;
         background: #f6f8fc;
     }
@@ -465,7 +469,7 @@
         overflow: hidden;
         padding: 0;
     }
-    .learn-workspace {
+    .learner-page-workspace {
         display: block;
         height: auto;
         min-height: calc(100dvh - 80px);
@@ -563,7 +567,7 @@
         left: 0;
         display: grid;
         height: 80px;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         border-top: 1px solid #203759;
         background: #0d1e3b;
         padding: 8px 16px 10px;

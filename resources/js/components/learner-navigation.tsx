@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, LogOut, Trophy, UserRound } from 'lucide-react';
+import { BookCopy, BookOpen, LogOut, Trophy, UserRound } from 'lucide-react';
 import { dashboard, home, leaderboard, logout } from '@/routes';
 import { index as learnIndex } from '@/routes/learn';
 import { show as profileShow } from '@/routes/profile';
@@ -7,45 +7,49 @@ import './dashboard/mission-map.css';
 
 type NavigationKey = 'courses' | 'missions' | 'leaderboard' | 'profile';
 
-const navigation = (primary: 'courses' | 'missions') =>
-    [
-        {
-            key: primary,
-            label: primary === 'courses' ? 'Pilih kursus' : 'Peta misi',
-            mobileLabel: primary === 'courses' ? 'Kursus' : 'Peta misi',
-            href: primary === 'courses' ? learnIndex.url() : dashboard.url(),
-            icon: BookOpen,
-        },
-        {
-            key: 'leaderboard',
-            label: 'Papan skor',
-            mobileLabel: 'Papan skor',
-            href: leaderboard.url(),
-            icon: Trophy,
-        },
-        {
-            key: 'profile',
-            label: 'Profil penjelajah',
-            mobileLabel: 'Profil',
-            href: profileShow.url(),
-            icon: UserRound,
-        },
-    ] satisfies Array<{
-        key: NavigationKey;
-        label: string;
-        mobileLabel: string;
-        href: string;
-        icon: typeof BookOpen;
-    }>;
+const navigation = [
+    {
+        key: 'courses',
+        label: 'Ganti modul',
+        mobileLabel: 'Modul',
+        href: learnIndex.url(),
+        icon: BookCopy,
+    },
+    {
+        key: 'missions',
+        label: 'Peta misi',
+        mobileLabel: 'Peta misi',
+        href: dashboard.url(),
+        icon: BookOpen,
+    },
+    {
+        key: 'leaderboard',
+        label: 'Papan skor',
+        mobileLabel: 'Papan skor',
+        href: leaderboard.url(),
+        icon: Trophy,
+    },
+    {
+        key: 'profile',
+        label: 'Profil penjelajah',
+        mobileLabel: 'Profil',
+        href: profileShow.url(),
+        icon: UserRound,
+    },
+] satisfies Array<{
+    key: NavigationKey;
+    label: string;
+    mobileLabel: string;
+    href: string;
+    icon: typeof BookOpen;
+}>;
 
 export default function LearnerNavigation({
     active,
-    primary = 'missions',
 }: {
-    active?: NavigationKey;
-    primary?: 'courses' | 'missions';
+    active: NavigationKey;
 }) {
-    const items = navigation(primary);
+    const items = navigation;
     return (
         <>
             <aside className="dashboard-sidebar">
@@ -77,15 +81,17 @@ export default function LearnerNavigation({
                         })}
                     </nav>
                 </div>
-                <Link
-                    href={logout.url()}
-                    method="post"
-                    as="button"
-                    className="dashboard-logout"
-                >
-                    <LogOut aria-hidden="true" />
-                    <span>Keluar</span>
-                </Link>
+                <div className="dashboard-sidebar-actions">
+                    <Link
+                        href={logout.url()}
+                        method="post"
+                        as="button"
+                        className="dashboard-logout"
+                    >
+                        <LogOut aria-hidden="true" />
+                        <span>Keluar</span>
+                    </Link>
+                </div>
             </aside>
 
             <nav className="dashboard-bottom-nav" aria-label="Navigasi utama">

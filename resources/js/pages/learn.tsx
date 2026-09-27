@@ -16,10 +16,10 @@ export default function Learn({ courses }: { courses: CourseCatalogItem[] }) {
     return (
         <>
             <Head title="Pilih Kursus | ZenUniverse" />
-            <main className="dashboard-shell learn-shell">
-                <LearnerNavigation active="courses" primary="courses" />
+            <main className="dashboard-shell learner-page-shell">
+                <LearnerNavigation active="courses" />
 
-                <div className="dashboard-workspace learn-workspace">
+                <div className="dashboard-workspace learner-page-workspace">
                     <section className="mx-auto min-h-full w-full max-w-[1184px] px-5 py-8 pb-28 sm:px-8 lg:px-11 lg:pb-8">
                         <header>
                             <p className="text-[11px] font-bold tracking-[0.14em] text-[#a6400a] uppercase">

@@ -201,9 +201,6 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                                     Selesaikan misi aktif untuk membuka misi
                                     berikutnya.
                                 </p>
-                                <Link href={learnIndex.url()}>
-                                    Ganti jalur belajar
-                                </Link>
                             </section>
                         </aside>
                     </div>
