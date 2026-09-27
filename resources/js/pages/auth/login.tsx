@@ -41,7 +41,7 @@ export default function Login({ next, signedOut = false }: LoginProps) {
                 <div className="mx-auto grid w-full max-w-[1320px] gap-10 px-5 py-8 sm:px-10 lg:min-h-[calc(100svh-73px)] lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,.7fr)] lg:items-center lg:px-16">
                     <section className="relative overflow-hidden rounded-2xl bg-[#dff2ff] p-8 sm:p-12 dark:bg-[#162f52]">
                         <div className="max-w-md">
-                            <p className="text-sm font-bold tracking-[0.16em] text-[#ea6a12] uppercase">
+                            <p className="text-primary text-sm font-bold tracking-[0.16em] uppercase">
                                 Kembali ke petualangan
                             </p>
                             <h1 className="font-display mt-4 text-4xl leading-[1.08] font-semibold tracking-tight text-[#1e293b] sm:text-5xl dark:text-[#f4f6ff]">
@@ -68,7 +68,7 @@ export default function Login({ next, signedOut = false }: LoginProps) {
                         aria-labelledby="login-title"
                         className="mx-auto w-full max-w-md py-4 lg:py-0"
                     >
-                        <p className="text-sm font-semibold text-[#ea6a12]">
+                        <p className="text-primary text-sm font-semibold">
                             Selamat datang kembali.
                         </p>
                         <h2
