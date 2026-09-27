@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { home } from '@/routes';
 
 export function Header() {
@@ -39,7 +38,6 @@ export function Header() {
                             Segera hadir
                         </span>
                     </span>
-                    <ThemeToggle />
                 </nav>
             </div>
         </header>
