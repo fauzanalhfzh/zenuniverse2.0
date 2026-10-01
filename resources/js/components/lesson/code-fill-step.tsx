@@ -70,8 +70,11 @@ export function CodeFillStepView({
                             : ''
                     }`}
                     value={answers[blank.id] ?? ''}
+                    style={{
+                        width: `${Math.max(2, (answers[blank.id] ?? '').length) + 2}ch`,
+                    }}
                     disabled={pending}
-                    placeholder="ketik jawaban"
+                    placeholder="..."
                     autoComplete="off"
                     onFocus={() => setFocusedBlankId(blank.id)}
                     onBlur={() => setFocusedBlankId(null)}
@@ -186,7 +189,6 @@ export function CodeFillStepView({
                         <span>
                             {pending ? 'Memeriksa...' : 'Periksa jawaban'}
                         </span>
-                        <span aria-hidden="true">→</span>
                     </button>
                 </div>
             </div>

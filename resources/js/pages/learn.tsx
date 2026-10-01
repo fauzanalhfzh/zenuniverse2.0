@@ -69,7 +69,7 @@ export default function Learn({ courses }: { courses: CourseCatalogItem[] }) {
                                                     {course.lessonCount}{' '}
                                                     pelajaran
                                                 </span>
-                                                <span className="inline-flex min-h-11 items-center rounded-xl bg-[#ff8a3d] px-[18px] text-sm font-bold text-[#172033] shadow-[3px_7px_0_#9c4913] transition-colors group-hover:bg-[#ed762c]">
+                                                <span className="bg-primary inline-flex min-h-11 items-center rounded-xl px-[18px] text-sm font-bold text-white shadow-[3px_7px_0_#9c4913]">
                                                     Mulai
                                                 </span>
                                             </div>

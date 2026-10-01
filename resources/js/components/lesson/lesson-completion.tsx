@@ -5,9 +5,11 @@ import { index as learnIndex } from '@/routes/learn';
 export function LessonCompletion({
     xpEarned,
     lessonTitle,
+    courseId,
 }: {
     xpEarned: number;
     lessonTitle: string;
+    courseId: string;
 }) {
     return (
         <div className="flex flex-col items-center gap-5 rounded-3xl border-4 border-yellow-200 bg-white p-8 text-center">
@@ -22,7 +24,9 @@ export function LessonCompletion({
                 Kerja bagus! Lanjutkan ke pelajaran berikutnya.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-                <Button href={dashboard.url()}>Kembali ke dashboard</Button>
+                <Button href={dashboard.url({ query: { course: courseId } })}>
+                    Kembali ke modul
+                </Button>
                 <Button href={learnIndex.url()} variant="outline">
                     Lihat jalur belajar
                 </Button>

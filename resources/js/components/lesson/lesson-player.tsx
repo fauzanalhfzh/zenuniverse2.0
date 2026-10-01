@@ -193,6 +193,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                     <LessonCompletion
                         xpEarned={state.xpEarned}
                         lessonTitle={lesson.title}
+                        courseId={lesson.courseId}
                     />
                 </div>
             </div>
@@ -385,7 +386,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 </aside>
 
                 <main className="lesson-player__main">
-                    {step?.type === 'blockly' ? (
+                    {step?.type === 'blockly' || step?.type === 'code' ? (
                         <h1 className="sr-only">{stepLabel(step)}</h1>
                     ) : (
                         <div className="lesson-player__main-heading">
