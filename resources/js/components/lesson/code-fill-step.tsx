@@ -100,11 +100,6 @@ export function CodeFillStepView({
                 <span className="lesson-player__code-fill-kicker">
                     Latihan ketik kode
                 </span>
-                {step.content.title ? (
-                    <h2 className="lesson-player__code-fill-title">
-                        {step.content.title}
-                    </h2>
-                ) : null}
                 {step.content.instructions ? (
                     <p className="lesson-player__code-fill-instructions">
                         {step.content.instructions}

@@ -29,11 +29,6 @@ export function CodeEditorStepView({
 
     return (
         <div className="flex flex-col gap-5">
-            {step.content.title ? (
-                <h2 className="font-display text-2xl font-bold text-slate-900">
-                    {step.content.title}
-                </h2>
-            ) : null}
             {step.content.prompt ? (
                 <p className="leading-relaxed text-slate-600">
                     {step.content.prompt}

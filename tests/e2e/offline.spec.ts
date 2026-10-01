@@ -40,12 +40,7 @@ test.describe('offline replay', () => {
 
         await context.setOffline(true);
 
-        const understand = page.getByRole('button', {
-            name: 'Saya paham, lanjut',
-            exact: true,
-        });
-
-        await understand.click();
+        await page.getByTestId('player-continue-button').click();
         await expect(page.getByRole('alert')).toContainText(/Koneksi/);
 
         await expect.poll(() => pendingJobs(page)).toBe(1);

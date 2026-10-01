@@ -9,7 +9,7 @@ test.describe('learner flow', () => {
 
         await page.goto('/learn');
         await expect(
-            page.getByRole('heading', { name: 'Jalur belajar' }),
+            page.getByRole('heading', { name: 'Pilih planetmu' }),
         ).toBeVisible();
 
         await page
@@ -26,15 +26,51 @@ test.describe('learner flow', () => {
         await expect(page.getByRole('progressbar')).toBeVisible();
         await expect(page.getByTestId('player-hearts')).toBeVisible();
 
-        const next = page.getByRole('button', {
-            name: 'Lanjut ke langkah berikutnya →',
-            exact: true,
-        });
+        const next = page.getByTestId('player-continue-button');
 
         await expect(next).toBeEnabled();
         await next.click();
         await expect(
-            page.getByText('Apa arti coding dalam latihan ini?'),
+            page.getByRole('heading', {
+                name: 'Apa arti coding dalam latihan ini?',
+                level: 1,
+            }),
+        ).toBeVisible();
+    });
+
+    test('jawaban salah dan benar tampil dalam modal', async ({ page }) => {
+        await page.goto('/e2e/login?email=e2e-result@zenuniverse.test');
+        await page.goto('/lesson/blockly-basics-lesson-01');
+        await page.getByTestId('player-continue-button').click();
+
+        await page.locator('.lesson-player__quiz-option', { hasText: 'Menggambar robot' }).click();
+        const wrong = page.getByRole('dialog');
+        await expect(
+            wrong.getByRole('heading', { name: 'Belum tepat, coba lagi' }),
+        ).toBeVisible();
+        await expect(
+            wrong.getByRole('button', { name: 'Coba lagi' }),
+        ).toBeFocused();
+        await expect(wrong.getByRole('button', { name: 'Baca ulang materi' })).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(wrong).not.toBeVisible();
+        await expect(page.locator('.lesson-player__quiz-option', { hasText: 'Menggambar robot' })).toBeFocused();
+
+        await page
+            .locator('.lesson-player__quiz-option', { hasText: 'Menyusun instruksi untuk robot' })
+            .click();
+        const correct = page.getByRole('dialog');
+        await expect(
+            correct.getByRole('heading', { name: 'Jawabanmu benar!' }),
+        ).toBeVisible();
+        await correct
+            .getByRole('button', { name: 'Lanjut ke materi berikutnya' })
+            .click();
+        await expect(correct).not.toBeVisible();
+        await expect(
+            page.getByRole('heading', {
+                name: 'Program adalah kumpulan instruksi.',
+            }),
         ).toBeVisible();
     });
 
@@ -53,17 +89,13 @@ test.describe('learner flow', () => {
 
         const before = await second.getByTestId('player-xp').textContent();
 
-        const understand = page.getByRole('button', {
-            name: 'Saya paham, lanjut',
-            exact: true,
-        });
-
-        if ((await understand.count()) > 0) {
-            await understand.click();
-            await expect(
-                page.getByText('Materi sudah dipahami.'),
-            ).toBeVisible();
-        }
+        await page.getByTestId('player-continue-button').click();
+        await expect(
+            page.getByRole('heading', {
+                name: 'Apa arti coding dalam latihan ini?',
+                level: 1,
+            }),
+        ).toBeVisible();
 
         await expect(second.getByTestId('player-xp')).not.toHaveText(
             before ?? '',

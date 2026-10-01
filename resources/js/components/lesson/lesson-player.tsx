@@ -1,18 +1,16 @@
+import { Dialog } from '@base-ui/react/dialog';
 import { Link } from '@inertiajs/react';
 import {
-    ArrowLeft,
     ArrowRight,
     BookOpen,
     Check,
     Code2,
     HelpCircle,
+    ListTree,
     LockKeyhole,
-    PanelLeftClose,
-    PanelLeftOpen,
-    Target,
     X,
 } from 'lucide-react';
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import { CodeFillStepView } from '@/components/lesson/code-fill-step';
 import { ConceptStepView } from '@/components/lesson/concept-step';
@@ -42,11 +40,38 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
     const { submit, completeLesson, progress } = useProgressSession();
     const [error, setError] = useState<string | null>(null);
     const [selected, setSelected] = useState<Record<string, string>>({});
-    const [leftRailOpen, setLeftRailOpen] = useState(true);
+    const [outlineOpen, setOutlineOpen] = useState(false);
+    const [resultStepId, setResultStepId] = useState<string | null>(null);
+    const outlineToggleRef = useRef<HTMLButtonElement>(null);
+    const continueRef = useRef<HTMLButtonElement>(null);
+    const answerTriggerRef = useRef<HTMLElement | null>(null);
+
+    function playSound(name: 'correct' | 'incorrect' | 'finish') {
+        void new Audio(`/sounds/${name}.mp3`).play().catch(() => {});
+    }
+
+    useEffect(() => {
+        if (!outlineOpen) {
+            return;
+        }
+
+        function closeOutline(event: KeyboardEvent) {
+            if (event.key === 'Escape') {
+                setOutlineOpen(false);
+                outlineToggleRef.current?.focus();
+            }
+        }
+
+        document.addEventListener('keydown', closeOutline);
+
+        return () => document.removeEventListener('keydown', closeOutline);
+    }, [outlineOpen]);
 
     const total = lesson.steps.length;
     const step = lesson.steps[state.stepIndex];
-    const outcome = step ? state.outcomes[step.id] : undefined;
+    const resultOutcome = resultStepId
+        ? state.outcomes[resultStepId]
+        : undefined;
     const completedSteps = new Set(lesson.completedStepIds);
 
     for (const [stepId, stepOutcome] of Object.entries(state.outcomes)) {
@@ -78,6 +103,11 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 consumeHeart: result.result.consumeHeart,
                 xpAwarded: result.xpAwarded,
             });
+
+            if (stepToAnswer.type !== 'concept') {
+                setResultStepId(stepToAnswer.id);
+                playSound(result.result.correct ? 'correct' : 'incorrect');
+            }
 
             return result.result.correct;
         } catch (caught) {
@@ -144,6 +174,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
         try {
             await completeLesson(lesson.id, lesson.contentRevision);
             store.getState().setCompleted(true);
+            playSound('finish');
         } catch (caught) {
             setError(
                 caught instanceof ApiError
@@ -180,6 +211,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
         state.stepIndex < total - 1
             ? nextStepLabel(lesson.steps[state.stepIndex + 1])
             : 'Selesaikan pelajaran';
+    const previousConceptIndex = lesson.steps.findLastIndex(
+        (item, index) => index < state.stepIndex && item.type === 'concept',
+    );
 
     return (
         <div className="lesson-player">
@@ -195,24 +229,6 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                         >
                             <X aria-hidden="true" size={20} />
                         </Link>
-                        <button
-                            type="button"
-                            className="lesson-player__rail-toggle"
-                            aria-controls="lesson-step-rail"
-                            aria-expanded={leftRailOpen}
-                            aria-label={
-                                leftRailOpen
-                                    ? 'Sembunyikan alur pelajaran'
-                                    : 'Tampilkan alur pelajaran'
-                            }
-                            onClick={() => setLeftRailOpen((open) => !open)}
-                        >
-                            {leftRailOpen ? (
-                                <PanelLeftClose aria-hidden="true" size={18} />
-                            ) : (
-                                <PanelLeftOpen aria-hidden="true" size={18} />
-                            )}
-                        </button>
                         <div className="lesson-player__identity">
                             <span>{lesson.courseTitle}</span>
                             <strong>{lesson.title}</strong>
@@ -234,8 +250,29 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                     </div>
 
                     <div className="lesson-player__stats">
-                        <span data-testid="player-xp">
-                            XP {progress?.totalXp ?? '—'}
+                        <button
+                            ref={outlineToggleRef}
+                            type="button"
+                            className="lesson-player__outline-toggle"
+                            aria-controls="lesson-step-outline"
+                            aria-expanded={outlineOpen}
+                            aria-label={
+                                outlineOpen
+                                    ? 'Tutup alur pelajaran'
+                                    : `Buka alur pelajaran, materi ${currentStepNumber} dari ${total}`
+                            }
+                            onClick={() => setOutlineOpen((open) => !open)}
+                        >
+                            <ListTree aria-hidden="true" size={17} />
+                            <span>
+                                Materi {currentStepNumber} / {total}
+                            </span>
+                        </button>
+                        <span
+                            data-testid="player-xp"
+                            className="lesson-player__xp"
+                        >
+                            XP {progress?.totalXp ?? '-'}
                         </span>
                         <span className="lesson-player__stats-divider" />
                         <span
@@ -256,7 +293,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                 )
                             ) : (
                                 <span className="lesson-player__hearts-empty">
-                                    —
+                                    -
                                 </span>
                             )}
                         </span>
@@ -264,16 +301,15 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 </div>
             </header>
 
-            <div
-                className={`lesson-player__body ${
-                    leftRailOpen ? '' : 'lesson-player__body--left-rail-hidden'
-                }`}
-            >
+            <div className="lesson-player__body">
                 <aside
-                    id="lesson-step-rail"
-                    className="lesson-player__rail lesson-player__rail--left"
+                    id="lesson-step-outline"
+                    className={`lesson-player__rail lesson-player__rail--left ${
+                        outlineOpen ? 'lesson-player__rail--open' : ''
+                    }`}
                     aria-label="Alur pelajaran"
-                    aria-hidden={!leftRailOpen}
+                    aria-hidden={!outlineOpen}
+                    {...(!outlineOpen ? { inert: true } : {})}
                 >
                     <div className="lesson-player__rail-header">
                         <p className="lesson-player__rail-label">
@@ -303,7 +339,11 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                     aria-current={
                                         isCurrent ? 'step' : undefined
                                     }
-                                    onClick={() => store.getState().goTo(index)}
+                                    onClick={() => {
+                                        store.getState().goTo(index);
+                                        setOutlineOpen(false);
+                                        outlineToggleRef.current?.focus();
+                                    }}
                                     className={`lesson-player__step-link ${
                                         isCurrent
                                             ? 'lesson-player__step-link--current'
@@ -345,25 +385,39 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                 </aside>
 
                 <main className="lesson-player__main">
-                    <div className="lesson-player__context">
-                        <span>
-                            <BookOpen aria-hidden="true" size={16} />
-                            Materi pelajaran
-                        </span>
-                        <span
-                            className={`lesson-player__status ${
-                                stepDone ? 'lesson-player__status--done' : ''
-                            }`}
-                        >
-                            {stepDone ? 'Selesai' : 'Belum selesai'}
-                        </span>
-                    </div>
-                    <h1 className="lesson-player__heading">
-                        {step ? stepLabel(step) : lesson.title}
-                    </h1>
-                    <p className="lesson-player__description">
-                        {lesson.description}
-                    </p>
+                    {step?.type === 'blockly' ? (
+                        <h1 className="sr-only">{stepLabel(step)}</h1>
+                    ) : (
+                        <div className="lesson-player__main-heading">
+                            <div className="lesson-player__context">
+                                <span>
+                                    <BookOpen aria-hidden="true" size={16} />
+                                    {step
+                                        ? stepTypeLabel(step)
+                                        : 'Materi pelajaran'}
+                                </span>
+                                <span
+                                    className={`lesson-player__status ${
+                                        stepDone
+                                            ? 'lesson-player__status--done'
+                                            : ''
+                                    }`}
+                                >
+                                    {stepDone ? 'Selesai' : 'Belum selesai'}
+                                </span>
+                            </div>
+                            {step?.type !== 'concept' ? (
+                                <>
+                                    <h1 className="lesson-player__heading">
+                                        {step ? stepLabel(step) : lesson.title}
+                                    </h1>
+                                    <p className="lesson-player__description">
+                                        {lesson.description}
+                                    </p>
+                                </>
+                            ) : null}
+                        </div>
+                    )}
 
                     {error ? (
                         <div role="alert" className="lesson-player__error">
@@ -372,16 +426,32 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                     ) : null}
 
                     {step ? (
-                        <div className="lesson-player__step-card">
+                        <div
+                            className={`lesson-player__step-card ${
+                                step.type === 'concept'
+                                    ? 'lesson-player__step-card--concept'
+                                    : ''
+                            }`}
+                        >
                             <StepView
                                 key={step.id}
                                 step={step}
                                 pending={state.pending}
                                 selected={selected[step.id]}
                                 onAnswer={(payload) => {
+                                    answerTriggerRef.current =
+                                        document.activeElement instanceof
+                                        HTMLElement
+                                            ? document.activeElement
+                                            : null;
                                     void answer(payload, step);
                                 }}
                                 onSelect={(optionId) => {
+                                    answerTriggerRef.current =
+                                        document.activeElement instanceof
+                                        HTMLElement
+                                            ? document.activeElement
+                                            : null;
                                     setSelected((current) => ({
                                         ...current,
                                         [step.id]: optionId,
@@ -392,18 +462,6 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                     );
                                 }}
                             />
-
-                            {outcome ? (
-                                <div
-                                    className={`lesson-player__feedback ${
-                                        outcome.correct
-                                            ? 'lesson-player__feedback--correct'
-                                            : 'lesson-player__feedback--wrong'
-                                    }`}
-                                >
-                                    {outcome.feedback}
-                                </div>
-                            ) : null}
                         </div>
                     ) : (
                         <div className="lesson-player__empty" role="status">
@@ -427,77 +485,97 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                         </div>
                     )}
                 </main>
-
-                <aside
-                    className="lesson-player__rail lesson-player__rail--right"
-                    aria-label="Ringkasan pelajaran"
-                >
-                    <section className="lesson-player__side-panel">
-                        <h2>
-                            <Target aria-hidden="true" size={19} />
-                            Di pelajaran ini
-                        </h2>
-                        <ul className="lesson-player__goal-list">
-                            {lesson.steps.map((item, index) => (
-                                <li key={item.id}>
-                                    <span aria-hidden="true">
-                                        {completedSteps.has(item.id)
-                                            ? '✓'
-                                            : index + 1}
-                                    </span>
-                                    {stepLabel(item)}
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                    <section className="lesson-player__side-panel lesson-player__side-panel--note">
-                        <h2>
-                            <HelpCircle aria-hidden="true" size={19} />
-                            Ingat ini
-                        </h2>
-                        <p>{lesson.description}</p>
-                    </section>
-                </aside>
             </div>
 
             <footer className="lesson-player__footer">
                 <div className="lesson-player__footer-inner">
-                    <div className="lesson-player__footer-current">
-                        <span className="lesson-player__footer-icon">
-                            <BookOpen aria-hidden="true" size={21} />
-                        </span>
-                        <span>
-                            <strong>
-                                {step ? stepLabel(step) : 'Belum ada materi'}
-                            </strong>
-                            <small>
-                                Materi {currentStepNumber} dari {total}
-                            </small>
-                        </span>
-                    </div>
                     <div className="lesson-player__footer-actions">
-                        <button
-                            type="button"
-                            className="lesson-player__previous"
-                            disabled={state.stepIndex === 0 || state.pending}
-                            onClick={() => store.getState().previous()}
-                        >
-                            <ArrowLeft aria-hidden="true" size={17} />
-                            Sebelumnya
-                        </button>
                         <Button
                             variant="primary"
                             className="lesson-player__continue"
                             data-testid="player-continue-button"
+                            ref={continueRef}
                             disabled={!canContinue}
                             onClick={() => void handleContinue()}
                         >
-                            {nextLabel}
-                            <ArrowRight aria-hidden="true" size={18} />
+                            {state.pending ? 'Menyimpan…' : nextLabel}
                         </Button>
                     </div>
                 </div>
             </footer>
+
+            <Dialog.Root
+                open={Boolean(resultOutcome)}
+                onOpenChange={(open) => !open && setResultStepId(null)}
+            >
+                <Dialog.Portal>
+                    <Dialog.Backdrop className="lesson-result__backdrop" />
+                    <Dialog.Popup
+                        className="lesson-result__popup"
+                        initialFocus={() =>
+                            document.querySelector<HTMLElement>(
+                                '.lesson-result__action',
+                            )
+                        }
+                        finalFocus={() =>
+                            answerTriggerRef.current?.isConnected
+                                ? answerTriggerRef.current
+                                : continueRef.current
+                        }
+                    >
+                        <Dialog.Close
+                            className="lesson-result__close"
+                            aria-label="Tutup hasil jawaban"
+                        >
+                            <X size={17} aria-hidden="true" />
+                        </Dialog.Close>
+                        <Dialog.Title className="lesson-result__title">
+                            {resultOutcome?.correct
+                                ? 'Jawabanmu benar!'
+                                : 'Belum tepat, coba lagi'}
+                        </Dialog.Title>
+                        <Dialog.Description className="lesson-result__description">
+                            {resultOutcome?.feedback}
+                        </Dialog.Description>
+                        <div className="lesson-result__actions">
+                            {resultOutcome?.correct ? (
+                                <button
+                                    type="button"
+                                    className="lesson-result__action lesson-result__action--correct"
+                                    onClick={() => {
+                                        setResultStepId(null);
+                                        void handleContinue();
+                                    }}
+                                >
+                                    {state.stepIndex < total - 1
+                                        ? 'Lanjut ke materi berikutnya'
+                                        : 'Selesaikan pelajaran'}
+                                </button>
+                            ) : (
+                                <>
+                                    <Dialog.Close className="lesson-result__action lesson-result__action--wrong">
+                                        Coba lagi
+                                    </Dialog.Close>
+                                    {previousConceptIndex >= 0 ? (
+                                        <button
+                                            type="button"
+                                            className="lesson-result__action lesson-result__action--review"
+                                            onClick={() => {
+                                                store
+                                                    .getState()
+                                                    .goTo(previousConceptIndex);
+                                                setResultStepId(null);
+                                            }}
+                                        >
+                                            Baca ulang materi
+                                        </button>
+                                    ) : null}
+                                </>
+                            )}
+                        </div>
+                    </Dialog.Popup>
+                </Dialog.Portal>
+            </Dialog.Root>
         </div>
     );
 }

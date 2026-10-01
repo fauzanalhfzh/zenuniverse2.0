@@ -14,12 +14,6 @@ export function QuizStepView({
 }) {
     return (
         <div className="lesson-player__quiz">
-            {step.content.question ? (
-                <h2 className="lesson-player__quiz-question">
-                    {step.content.question}
-                </h2>
-            ) : null}
-
             <div className="lesson-player__quiz-options" role="list">
                 {step.content.options.map((option) => (
                     <button
