@@ -24426,7 +24426,7 @@
                   "type": "text",
                   "id": "ESveN",
                   "name": "Course label",
-                  "fill": "#A6400A",
+                  "fill": "$primary",
                   "content": "PYTHON · LATIHAN 6",
                   "fontFamily": "Figtree",
                   "fontSize": 9,
@@ -24460,7 +24460,7 @@
                   "name": "Progress completed",
                   "width": 560,
                   "height": "fill_container",
-                  "fill": "$dashboard-accent-dark",
+                  "fill": "$primary",
                   "cornerRadius": 5
                 }
               ]
@@ -24526,181 +24526,11 @@
           ],
           "children": [
             {
-              "id": "h9AKT",
-              "type": "ref",
-              "ref": "K5xE84",
-              "name": "Lesson progress tracker",
-              "width": 220,
-              "height": "fill_container",
-              "fill": "$dashboard-light-panel",
-              "stroke": "$dashboard-light-border",
-              "descendants": {
-                "heUIV": {
-                  "fill": "$dashboard-light-elevated",
-                  "stroke": "$dashboard-light-border"
-                },
-                "xnrMt": {
-                  "fill": "$dashboard-light-muted"
-                },
-                "Wssxm": {
-                  "fill": "$dashboard-light-heading"
-                },
-                "kKfiH": {
-                  "content": "6 dari 6 langkah",
-                  "fill": "#9B3C0A"
-                },
-                "o0Hvc5": {
-                  "fill": "$dashboard-light-panel",
-                  "stroke": "#00000000",
-                  "strokeWidth": 1
-                },
-                "e818j": {
-                  "fill": "#DDF5EA",
-                  "stroke": "#00000000"
-                },
-                "BR9pt": {
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "#087A4F"
-                },
-                "yaVN0": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "700"
-                },
-                "B90Q3c": {
-                  "fill": "#087A4F"
-                },
-                "eNeeE": {
-                  "fill": "$dashboard-light-panel",
-                  "stroke": "#00000000",
-                  "strokeWidth": 1
-                },
-                "edn0a": {
-                  "fill": "#DDF5EA",
-                  "stroke": "#00000000"
-                },
-                "AHS57": {
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "#087A4F"
-                },
-                "gyP33": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "700"
-                },
-                "lDqgp": {
-                  "fill": "#087A4F"
-                },
-                "keZph": {
-                  "enabled": false,
-                  "fill": "$dashboard-light-muted"
-                },
-                "loPY9": {
-                  "fill": "$dashboard-light-panel",
-                  "stroke": "#00000000",
-                  "strokeWidth": 1
-                },
-                "M23t2J": {
-                  "fill": "#DDF5EA",
-                  "stroke": "#00000000"
-                },
-                "DlZNi": {
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "#087A4F"
-                },
-                "mFjJr": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "700"
-                },
-                "Q76q6": {
-                  "fill": "#087A4F"
-                },
-                "N1xFF": {
-                  "enabled": false,
-                  "fill": "$dashboard-light-muted"
-                },
-                "AORB3": {
-                  "fill": "$dashboard-light-panel",
-                  "stroke": "#00000000",
-                  "strokeWidth": 1
-                },
-                "Ek71t": {
-                  "fill": "#DDF5EA",
-                  "stroke": "#00000000"
-                },
-                "NqgPS": {
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "#087A4F"
-                },
-                "r92nk": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "700"
-                },
-                "d1Qs0b": {
-                  "fill": "#087A4F"
-                },
-                "h8Y6N": {
-                  "enabled": false,
-                  "fill": "$dashboard-light-muted"
-                },
-                "AvREL": {
-                  "fill": "$dashboard-light-panel",
-                  "stroke": "#00000000",
-                  "strokeWidth": 1
-                },
-                "JjF7u": {
-                  "fill": "#DDF5EA",
-                  "stroke": "#00000000"
-                },
-                "X6GOq3": {
-                  "icon": "check",
-                  "library": "lucide",
-                  "fill": "#087A4F"
-                },
-                "AmEDg": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "700"
-                },
-                "xmo8h": {
-                  "fill": "#087A4F"
-                },
-                "otSoK": {
-                  "enabled": false,
-                  "fill": "$dashboard-light-muted"
-                },
-                "kGGMT": {
-                  "fill": "$dashboard-accent-soft",
-                  "stroke": "$dashboard-accent-dark",
-                  "strokeWidth": 1
-                },
-                "hZaDL": {
-                  "fill": "$dashboard-accent-dark",
-                  "stroke": "#00000000"
-                },
-                "QV5e0": {
-                  "fill": "#FFFFFF"
-                },
-                "mGvYt": {
-                  "fill": "$dashboard-light-heading",
-                  "fontWeight": "800"
-                },
-                "tKKTM": {
-                  "fill": "#A6400A"
-                },
-                "dyg61": {
-                  "enabled": false,
-                  "fill": "$dashboard-light-muted"
-                }
-              }
-            },
-            {
               "type": "frame",
               "id": "jw3BD",
               "name": "Challenge panel",
               "clip": true,
-              "width": 250,
+              "width": 376,
               "height": "fill_container",
               "fill": "$dashboard-light-panel",
               "cornerRadius": 14,
@@ -24750,6 +24580,7 @@
                       "type": "frame",
                       "id": "j4b4w",
                       "name": "Petunjuk tab",
+                      "width": "fit_content(112)",
                       "height": "fill_container",
                       "fill": "$dashboard-light-elevated",
                       "padding": [
@@ -24757,19 +24588,7 @@
                         18
                       ],
                       "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "Vkiri",
-                          "name": "Petunjuk label",
-                          "fill": "$dashboard-light-muted",
-                          "content": "Alur Pelajaran",
-                          "fontFamily": "Figtree",
-                          "fontSize": 12,
-                          "fontWeight": "600"
-                        }
-                      ]
+                      "alignItems": "center"
                     }
                   ]
                 },
@@ -25011,42 +24830,6 @@
                           ]
                         }
                       ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "p9B854",
-                      "name": "Execution limits",
-                      "width": "fill_container",
-                      "fill": "$dashboard-accent-soft",
-                      "cornerRadius": 9,
-                      "gap": 8,
-                      "padding": [
-                        10,
-                        11
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon",
-                          "id": "mohH2",
-                          "name": "Limits icon",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "speed",
-                          "library": "Material Symbols Rounded",
-                          "fill": "#9B3C0A"
-                        },
-                        {
-                          "type": "text",
-                          "id": "kmChQ",
-                          "name": "Limits text",
-                          "fill": "#8F3811",
-                          "content": "Waktu 1 dtk  ·  Memori 64 MB",
-                          "fontFamily": "Figtree",
-                          "fontSize": 10,
-                          "fontWeight": "700"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -25056,7 +24839,7 @@
               "type": "frame",
               "id": "Z5Dtb",
               "name": "Editor column",
-              "width": "fill_container",
+              "width": 574,
               "height": "fill_container",
               "layout": "vertical",
               "gap": 12,
@@ -25935,387 +25718,17 @@
               "type": "frame",
               "id": "YjNtE",
               "name": "Tests and console",
-              "width": 280,
+              "width": 482,
               "height": "fill_container",
               "layout": "vertical",
               "gap": 12,
               "children": [
                 {
                   "type": "frame",
-                  "id": "XVAUB",
-                  "name": "Test cases panel",
-                  "clip": true,
-                  "width": "fill_container",
-                  "height": 350,
-                  "fill": "$dashboard-light-panel",
-                  "cornerRadius": 14,
-                  "stroke": "$dashboard-light-border",
-                  "strokeWidth": 1,
-                  "layout": "vertical",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "HZtgJ",
-                      "name": "Test cases header",
-                      "width": "fill_container",
-                      "height": 48,
-                      "fill": "$dashboard-light-elevated",
-                      "stroke": "$dashboard-light-border",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "padding": [
-                        0,
-                        14
-                      ],
-                      "justifyContent": "space_between",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "AoHoK",
-                          "name": "Test cases title",
-                          "gap": 8,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "yHakP",
-                              "name": "Test cases icon",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "fact_check",
-                              "library": "Material Symbols Rounded",
-                              "fill": "#0369A1"
-                            },
-                            {
-                              "type": "text",
-                              "id": "CZ1GC",
-                              "name": "Test cases label",
-                              "fill": "$dashboard-light-heading",
-                              "content": "Test Case",
-                              "fontFamily": "Figtree",
-                              "fontSize": 12,
-                              "fontWeight": "800"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "bt3qL",
-                          "name": "Test summary",
-                          "fill": "$dashboard-light-muted",
-                          "content": "2 publik · 2 tersembunyi",
-                          "fontFamily": "Figtree",
-                          "fontSize": 9,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "I6a0aV",
-                      "name": "Test case list",
-                      "width": "fill_container",
-                      "height": "fill_container",
-                      "layout": "vertical",
-                      "gap": 9,
-                      "padding": 12,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "A9MgfR",
-                          "name": "Test 1",
-                          "width": "fill_container",
-                          "height": 60,
-                          "fill": "#F8FAFC",
-                          "cornerRadius": 9,
-                          "stroke": "$dashboard-light-border",
-                          "strokeWidth": 1,
-                          "gap": 9,
-                          "padding": [
-                            9,
-                            10
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "elQ8U",
-                              "name": "Test 1 status",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "check_circle",
-                              "library": "Material Symbols Rounded",
-                              "fill": "#087A4F"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "sSRCZ",
-                              "name": "Test 1 copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "bCAUD",
-                                  "name": "Test 1 title",
-                                  "fill": "$dashboard-light-heading",
-                                  "content": "Test 1",
-                                  "fontFamily": "Figtree",
-                                  "fontSize": 10,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "YuIxH",
-                                  "name": "Test 1 input",
-                                  "fill": "$dashboard-light-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "[80, 65, 90, 75]",
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontSize": 9,
-                                  "fontWeight": "500"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "a97X2Q",
-                              "name": "Test 1 expected",
-                              "fill": "#087A4F",
-                              "content": "245",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 11,
-                              "fontWeight": "800"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "RlQk9",
-                          "name": "Test 2",
-                          "width": "fill_container",
-                          "height": 60,
-                          "fill": "#F8FAFC",
-                          "cornerRadius": 9,
-                          "stroke": "$dashboard-light-border",
-                          "strokeWidth": 1,
-                          "gap": 9,
-                          "padding": [
-                            9,
-                            10
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "mzfGO",
-                              "name": "Test 2 status",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "check_circle",
-                              "library": "Material Symbols Rounded",
-                              "fill": "#087A4F"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "tOvpT",
-                              "name": "Test 2 copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "WDpgO",
-                                  "name": "Test 2 title",
-                                  "fill": "$dashboard-light-heading",
-                                  "content": "Test 2",
-                                  "fontFamily": "Figtree",
-                                  "fontSize": 10,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "iMH25",
-                                  "name": "Test 2 input",
-                                  "fill": "$dashboard-light-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "[40, 50, 60]",
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontSize": 9,
-                                  "fontWeight": "500"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "T54sO",
-                              "name": "Test 2 expected",
-                              "fill": "#087A4F",
-                              "content": "0",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 11,
-                              "fontWeight": "800"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "uLMTw",
-                          "name": "Test 3",
-                          "width": "fill_container",
-                          "height": 60,
-                          "fill": "#F8FAFC",
-                          "cornerRadius": 9,
-                          "stroke": "$dashboard-light-border",
-                          "strokeWidth": 1,
-                          "gap": 9,
-                          "padding": [
-                            9,
-                            10
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "dp7yd",
-                              "name": "Test 3 status",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "lock",
-                              "library": "Material Symbols Rounded",
-                              "fill": "$dashboard-light-muted"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "G3AWD",
-                              "name": "Test 3 copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "Pd1jg",
-                                  "name": "Test 3 title",
-                                  "fill": "$dashboard-light-heading",
-                                  "content": "Test 3",
-                                  "fontFamily": "Figtree",
-                                  "fontSize": 10,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "o8Ysw",
-                                  "name": "Test 3 input",
-                                  "fill": "$dashboard-light-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "Kasus tersembunyi",
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontSize": 9,
-                                  "fontWeight": "500"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "BHswg",
-                              "name": "Test 3 expected",
-                              "fill": "$dashboard-light-muted",
-                              "content": "Tersembunyi",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 11,
-                              "fontWeight": "800"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "C4GEsn",
-                          "name": "Test 4",
-                          "width": "fill_container",
-                          "height": 60,
-                          "fill": "#F8FAFC",
-                          "cornerRadius": 9,
-                          "stroke": "$dashboard-light-border",
-                          "strokeWidth": 1,
-                          "gap": 9,
-                          "padding": [
-                            9,
-                            10
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "V2brW",
-                              "name": "Test 4 status",
-                              "width": 18,
-                              "height": 18,
-                              "icon": "lock",
-                              "library": "Material Symbols Rounded",
-                              "fill": "$dashboard-light-muted"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "wMC5O",
-                              "name": "Test 4 copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "sKJYK",
-                                  "name": "Test 4 title",
-                                  "fill": "$dashboard-light-heading",
-                                  "content": "Test 4",
-                                  "fontFamily": "Figtree",
-                                  "fontSize": 10,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "c6LcDi",
-                                  "name": "Test 4 input",
-                                  "fill": "$dashboard-light-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "Kasus tersembunyi",
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontSize": 9,
-                                  "fontWeight": "500"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "YRl9O",
-                              "name": "Test 4 expected",
-                              "fill": "$dashboard-light-muted",
-                              "content": "Tersembunyi",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 11,
-                              "fontWeight": "800"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
                   "id": "qbgfS",
                   "name": "Console panel",
                   "clip": true,
-                  "width": "fill_container",
+                  "width": 423,
                   "height": "fill_container",
                   "fill": "#F8FAFC",
                   "cornerRadius": 14,
@@ -27795,11 +27208,11 @@
       "x": 37943,
       "y": 3,
       "name": "Lesson Player · Materi pengenalan",
-      "context": "Introductory lesson content shown before learners enter multiple choice, fill-in-code, block coding, and real code editor activities.",
+      "context": "Static microlearning desktop design: one concept per screen. Left: 400px explanation, one brief paragraph and an interaction cue. Right: 680px visual stage with array, selected item, instruction, output and next/reset controls. One visual interaction, no bundled code exercise or quiz. Major reasons: split layout replaces stacked form cards and lets the visual lead; Fredoka headline/numerals retain playful ZenUniverse identity; Figtree prose at 20px improves readability; warm selected item shows the changing variable while neutral waiting items defer; only the current-item card has a small hard shadow to signal selection; arrows communicate data flow rather than decorate CTAs; dark instruction contrasts with white output; stage background groups the process without boxing every sentence. ENERGY 2 / RHYTHM 2 / MOTION 1. Next iteration advances 80 to 90 to 75, updates output/counter; reset returns to first item. Footer continues to a separate bite-sized material. Runtime interactivity not implemented on canvas. Mobile implementation should stack text above the visual with 20px gutters and keep controls at least 44px. Keyboard focus 2px #C45112, logical reading order, Enter/Space for actions. Visual states loading/empty/error preserve the short reading unit, not a long article.",
       "clip": true,
       "width": 1440,
       "height": 1024,
-      "fill": "$dashboard-light-canvas",
+      "fill": "#F6F8FC",
       "layout": "vertical",
       "children": [
         {
@@ -27807,16 +27220,16 @@
           "id": "H8EN6",
           "name": "Lesson material header",
           "width": "fill_container",
-          "height": 76,
+          "height": 88,
           "fill": "$dashboard-light-navigation",
           "stroke": "$dashboard-light-border",
           "strokeWidth": {
             "bottom": 1
           },
-          "gap": 18,
+          "gap": 24,
           "padding": [
-            13,
-            26
+            18,
+            32
           ],
           "alignItems": "center",
           "children": [
@@ -27824,8 +27237,8 @@
               "type": "frame",
               "id": "NtZ2w",
               "name": "Close lesson",
-              "width": 42,
-              "height": 42,
+              "width": 44,
+              "height": 44,
               "fill": "$dashboard-light-elevated",
               "cornerRadius": 12,
               "stroke": "$dashboard-light-border",
@@ -27849,20 +27262,19 @@
               "type": "frame",
               "id": "WWlPC",
               "name": "Lesson identity",
-              "width": 255,
+              "width": 285,
               "layout": "vertical",
-              "gap": 2,
+              "gap": 4,
               "children": [
                 {
                   "type": "text",
                   "id": "SEio9",
                   "name": "Lesson eyebrow",
-                  "fill": "$primary",
-                  "content": "PYTHON · PELAJARAN 3",
+                  "fill": "#9A3E0B",
+                  "content": "Python · Pelajaran 3",
                   "fontFamily": "Figtree",
-                  "fontSize": 9,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.1
+                  "fontSize": 12,
+                  "fontWeight": "700"
                 },
                 {
                   "type": "text",
@@ -27871,7 +27283,7 @@
                   "fill": "$dashboard-light-heading",
                   "content": "Perulangan dengan for",
                   "fontFamily": "Fredoka",
-                  "fontSize": 17,
+                  "fontSize": 22,
                   "fontWeight": "600"
                 }
               ]
@@ -27889,7 +27301,7 @@
                   "type": "frame",
                   "id": "QLjTc",
                   "name": "Progress completed",
-                  "width": 155,
+                  "width": 114,
                   "height": "fill_container",
                   "fill": "$primary",
                   "cornerRadius": 5
@@ -27910,7 +27322,7 @@
                   "fill": "$dashboard-light-text",
                   "content": "Materi 1 / 6",
                   "fontFamily": "Figtree",
-                  "fontSize": 11,
+                  "fontSize": 14,
                   "fontWeight": "700"
                 },
                 {
@@ -27973,173 +27385,214 @@
         {
           "type": "frame",
           "id": "l7aiV",
-          "name": "Lesson material body",
+          "name": "Satu layar · satu konsep",
           "width": "fill_container",
           "height": "fill_container",
-          "gap": 18,
-          "padding": 24,
+          "fill": "#F6F8FC",
+          "padding": [
+            48,
+            72
+          ],
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
             {
               "type": "frame",
-              "id": "tdwt3",
-              "name": "Centered Markdown lesson article",
-              "width": 820,
+              "id": "jp26R",
+              "x": 172,
+              "y": 48,
+              "name": "Daftar isi materi panjang",
+              "enabled": false,
+              "width": 240,
               "layout": "vertical",
-              "gap": 14,
+              "gap": 24,
               "children": [
                 {
-                  "type": "frame",
-                  "id": "X3DXPN",
-                  "name": "Markdown article heading",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "LXI5d",
-                      "name": "Lesson content type",
-                      "width": "fit_content(17)",
-                      "height": "fit_content(17)",
-                      "gap": 7,
-                      "alignItems": "center"
-                    },
-                    {
-                      "type": "text",
-                      "id": "GD6yG",
-                      "name": "Markdown H1",
-                      "fill": "$dashboard-light-heading",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Kenapa memakai perulangan?",
-                      "lineHeight": 1.1,
-                      "fontFamily": "Fredoka",
-                      "fontSize": 36,
-                      "fontWeight": "600"
-                    },
-                    {
-                      "type": "text",
-                      "id": "Z843Fi",
-                      "name": "Markdown lead paragraph",
-                      "fill": "$dashboard-light-text",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Perulangan menjalankan instruksi yang sama untuk setiap item dalam daftar.",
-                      "lineHeight": 1.45,
-                      "fontFamily": "Figtree",
-                      "fontSize": 15,
-                      "fontWeight": "500"
-                    }
-                  ]
+                  "type": "text",
+                  "id": "hlEMH",
+                  "name": "Outline heading",
+                  "fill": "#172033",
+                  "content": "Dalam materi ini",
+                  "fontFamily": "Figtree",
+                  "fontSize": 18,
+                  "fontWeight": "700"
                 },
                 {
                   "type": "frame",
-                  "id": "CjAYz",
-                  "name": "Markdown lesson image",
-                  "clip": true,
+                  "id": "GBlVy",
+                  "name": "Navigasi bagian materi",
                   "width": "fill_container",
-                  "height": 238,
-                  "fill": "#EDF6FF",
-                  "cornerRadius": 18,
-                  "stroke": "#C8E2F5",
-                  "strokeWidth": 1,
                   "layout": "vertical",
-                  "gap": 2,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "id": "lHBdg",
-                      "type": "ref",
-                      "ref": "lf2bL",
-                      "name": "ZenUniverse coding mascot image",
-                      "width": 180,
-                      "height": 180
-                    },
-                    {
-                      "type": "text",
-                      "id": "cjM6K",
-                      "name": "Markdown image caption",
-                      "fill": "#3E5874",
-                      "content": "Tulis polanya sekali, lalu jalankan untuk setiap data.",
-                      "fontFamily": "Figtree",
-                      "fontSize": 11,
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "AQhqK",
-                  "name": "Markdown fenced code block",
-                  "clip": true,
-                  "width": "fill_container",
-                  "height": 154,
-                  "fill": "#20243D",
-                  "cornerRadius": 14,
-                  "layout": "vertical",
+                  "gap": 4,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "xXa9F",
-                      "name": "Code block header",
+                      "id": "dTlRy",
+                      "name": "Daftar isi · Kenapa memakai perulangan?",
+                      "context": "Outline anchor for the matching section in the article.",
                       "width": "fill_container",
-                      "height": 38,
-                      "fill": "#2C3150",
-                      "gap": 8,
+                      "fill": "#FFF0E5",
+                      "cornerRadius": 8,
+                      "stroke": "#C45112",
+                      "strokeWidth": {
+                        "left": 3
+                      },
+                      "gap": 12,
                       "padding": [
-                        0,
-                        14
+                        13,
+                        12
                       ],
-                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "zi8gJ",
-                          "name": "Python code icon",
-                          "width": 17,
-                          "height": 17,
-                          "icon": "code",
-                          "library": "Material Symbols Rounded",
-                          "fill": "#FFAE3D"
+                          "type": "text",
+                          "id": "fD2SQ",
+                          "name": "Nomor bagian 1",
+                          "fill": "#9A3E0B",
+                          "content": "01",
+                          "fontFamily": "Figtree",
+                          "fontSize": 13,
+                          "fontWeight": "700"
                         },
                         {
                           "type": "text",
-                          "id": "x2kDbN",
-                          "name": "Code language label",
-                          "fill": "#DCE7F5",
-                          "content": "python",
-                          "fontFamily": "JetBrains Mono",
-                          "fontSize": 11,
-                          "fontWeight": "600"
+                          "id": "ltUPX",
+                          "name": "Judul bagian 1",
+                          "fill": "#9A3E0B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Kenapa memakai perulangan?",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Figtree",
+                          "fontSize": 14,
+                          "fontWeight": "700"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "EFDpl",
-                      "name": "Code block content",
+                      "id": "WC1Gw",
+                      "name": "Daftar isi · Lihat cara kerjanya",
+                      "context": "Outline anchor for the matching section in the article.",
                       "width": "fill_container",
-                      "height": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 8,
+                      "stroke": "#00000000",
+                      "strokeWidth": {
+                        "left": 3
+                      },
+                      "gap": 12,
                       "padding": [
-                        12,
-                        16
+                        13,
+                        12
                       ],
-                      "alignItems": "center",
                       "children": [
                         {
                           "type": "text",
-                          "id": "USIP5",
-                          "name": "Markdown code fence content",
-                          "fill": "#F6FAFE",
+                          "id": "GZmiv",
+                          "name": "Nomor bagian 2",
+                          "fill": "#5F6F85",
+                          "content": "02",
+                          "fontFamily": "Figtree",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yzZmB",
+                          "name": "Judul bagian 2",
+                          "fill": "#4A5A70",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "nilai = [80, 90, 75]\n\nfor skor in nilai:\n    print(skor)",
+                          "content": "Lihat cara kerjanya",
                           "lineHeight": 1.45,
-                          "fontFamily": "JetBrains Mono",
+                          "fontFamily": "Figtree",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZLmtS",
+                      "name": "Daftar isi · Baca kode perulangan",
+                      "context": "Outline anchor for the matching section in the article.",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 8,
+                      "stroke": "#00000000",
+                      "strokeWidth": {
+                        "left": 3
+                      },
+                      "gap": 12,
+                      "padding": [
+                        13,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "JtKYF",
+                          "name": "Nomor bagian 3",
+                          "fill": "#5F6F85",
+                          "content": "03",
+                          "fontFamily": "Figtree",
                           "fontSize": 13,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "C2DIjn",
+                          "name": "Judul bagian 3",
+                          "fill": "#4A5A70",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Baca kode perulangan",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Figtree",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ySGjN",
+                      "name": "Daftar isi · Cek pemahamanmu",
+                      "context": "Outline anchor for the matching section in the article.",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 8,
+                      "stroke": "#00000000",
+                      "strokeWidth": {
+                        "left": 3
+                      },
+                      "gap": 12,
+                      "padding": [
+                        13,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "spGoY",
+                          "name": "Nomor bagian 4",
+                          "fill": "#5F6F85",
+                          "content": "04",
+                          "fontFamily": "Figtree",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IfEyG",
+                          "name": "Judul bagian 4",
+                          "fill": "#4A5A70",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Cek pemahamanmu",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Figtree",
+                          "fontSize": 14,
                           "fontWeight": "500"
                         }
                       ]
@@ -28148,60 +27601,1351 @@
                 },
                 {
                   "type": "frame",
-                  "id": "MpWd9",
-                  "name": "Markdown takeaway quote",
+                  "id": "g6B591",
+                  "name": "Petunjuk membaca materi panjang",
                   "width": "fill_container",
-                  "height": 64,
-                  "fill": "#FFF3E8",
-                  "cornerRadius": 12,
-                  "stroke": "#F2C29F",
-                  "strokeWidth": 1,
-                  "gap": 12,
+                  "stroke": "#D4DEEA",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
                   "padding": [
-                    12,
-                    14
+                    20,
+                    12
                   ],
-                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ptwZO",
+                      "name": "Read at your own pace",
+                      "fill": "#172033",
+                      "content": "Belajar sesuai ritmemu",
+                      "fontFamily": "Figtree",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "lGZGD",
+                      "name": "Outline instruction",
+                      "fill": "#5F6F85",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pindah ke bagian yang ingin kamu baca. Coba interaksinya sebelum melanjutkan.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Figtree",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tdwt3",
+              "name": "Microlearning · penjelasan dan panggung interaktif",
+              "width": 1152,
+              "gap": 72,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mebFC",
+                  "name": "Penjelasan singkat di kiri",
+                  "width": 400,
+                  "layout": "vertical",
+                  "gap": 28,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "pYeK4",
-                      "name": "Takeaway quote marker",
-                      "width": 4,
-                      "height": 36,
-                      "fill": "$primary",
-                      "cornerRadius": 2
-                    },
-                    {
-                      "type": "frame",
-                      "id": "T54025",
-                      "name": "Takeaway quote copy",
+                      "id": "X3DXPN",
+                      "name": "Satu ide · satu paragraf",
                       "width": "fill_container",
                       "layout": "vertical",
-                      "gap": 2,
+                      "gap": 20,
                       "children": [
                         {
-                          "type": "text",
-                          "id": "ewJ1b",
-                          "name": "Takeaway quote label",
-                          "fill": "$primary",
-                          "content": "Ingat",
-                          "fontFamily": "Figtree",
-                          "fontSize": 11,
-                          "fontWeight": "800"
+                          "type": "frame",
+                          "id": "LXI5d",
+                          "name": "Lesson content type",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "fdVa1",
+                              "name": "Materi baca icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "book-open",
+                              "library": "lucide",
+                              "fill": "#9A3E0B"
+                            },
+                            {
+                              "type": "text",
+                              "id": "LLBh5",
+                              "name": "Jenis materi",
+                              "fill": "#9A3E0B",
+                              "content": "Materi pengenalan",
+                              "fontFamily": "Figtree",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
                         },
                         {
                           "type": "text",
-                          "id": "H8yw5",
-                          "name": "Markdown blockquote content",
-                          "fill": "#5A4234",
+                          "id": "GD6yG",
+                          "name": "Microlearning headline",
+                          "fill": "$dashboard-light-heading",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Gunakan for saat tindakan yang sama berlaku untuk semua item.",
-                          "lineHeight": 1.35,
+                          "content": "Tulis sekali.\nUlangi untuk\nsemua nilai.",
+                          "lineHeight": 1.12,
+                          "fontFamily": "Fredoka",
+                          "fontSize": 46,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z843Fi",
+                          "name": "Markdown lead paragraph",
+                          "fill": "#4A5A70",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Perulangan menjalankan instruksi yang sama untuk setiap item dalam daftar.",
+                          "lineHeight": 1.6,
                           "fontFamily": "Figtree",
-                          "fontSize": 12,
+                          "fontSize": 20
+                        }
+                      ]
+                    },
+                    {
+                      "id": "KbjK7",
+                      "type": "ref",
+                      "ref": "ucZ2G",
+                      "name": "Ilustrasi belajar coding · aset ZenUniverse",
+                      "width": 168,
+                      "height": 162,
+                      "enabled": false
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MpWd9",
+                      "name": "Petunjuk interaksi singkat",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "stroke": "#00000000",
+                      "gap": 14,
+                      "padding": [
+                        4,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "pYeK4",
+                          "name": "Takeaway quote marker",
+                          "width": 4,
+                          "height": 48,
+                          "fill": "#C45112",
+                          "cornerRadius": 2
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T54025",
+                          "name": "Takeaway quote copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ewJ1b",
+                              "name": "Takeaway quote label",
+                              "fill": "#172033",
+                              "content": "Coba jalankan contohnya",
+                              "fontFamily": "Figtree",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "H8yw5",
+                              "name": "Markdown blockquote content",
+                              "fill": "#4A5A70",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Amati nilai yang diambil di setiap putaran.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Figtree",
+                              "fontSize": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cITEc",
+                  "name": "Visual belajar yang dominan di kanan",
+                  "width": 680,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PURe3",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Heading cara kerja",
+                      "enabled": false,
+                      "fill": "#172033",
+                      "textGrowth": "fixed-width",
+                      "width": 760,
+                      "content": "Lihat cara kerjanya",
+                      "lineHeight": 1.25,
+                      "fontFamily": "Fredoka",
+                      "fontSize": 27,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "o7bWZg",
+                      "x": 0,
+                      "y": 34,
+                      "name": "Penjelasan diagram",
+                      "enabled": false,
+                      "fill": "#4A5A70",
+                      "textGrowth": "fixed-width",
+                      "width": 760,
+                      "content": "Bayangkan kamu ingin menampilkan setiap nilai dalam daftar. Perulangan mengambil satu nilai, menjalankan instruksi, lalu berpindah ke nilai berikutnya.",
+                      "lineHeight": 1.65,
+                      "fontFamily": "Figtree",
+                      "fontSize": 18
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CjAYz",
+                      "name": "Panggung interaktif · ambil, jalankan, ulangi",
+                      "context": "One visual explanation of iteration. At each next click select the next array item, update print output and iteration counter. Selected-item label and numbers accompany the color signal. No code submission is executed.",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "#EBF1FA",
+                      "cornerRadius": 24,
+                      "stroke": "#00000000",
+                      "layout": "vertical",
+                      "gap": 24,
+                      "padding": 32,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tkiXl",
+                          "name": "Label diagram dan putaran",
+                          "width": "fill_container",
+                          "gap": 16,
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r76Tcg",
+                              "name": "Label simulasi",
+                              "fill": "#172033",
+                              "content": "Daftar nilai",
+                              "fontFamily": "Figtree",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "usQih",
+                              "name": "Status putaran",
+                              "fill": "#4A5A70",
+                              "content": "Putaran 1 / 3",
+                              "fontFamily": "Figtree",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "lHBdg",
+                          "type": "ref",
+                          "ref": "lf2bL",
+                          "name": "ZenUniverse coding mascot image",
+                          "width": 180,
+                          "height": 180,
+                          "enabled": false
+                        },
+                        {
+                          "type": "text",
+                          "id": "cjM6K",
+                          "x": 28,
+                          "y": 69,
+                          "name": "Markdown image caption",
+                          "enabled": false,
+                          "fill": "#172033",
+                          "textGrowth": "fixed-width",
+                          "width": 712,
+                          "content": "Tulis polanya sekali, jalankan untuk setiap data.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Figtree",
+                          "fontSize": 16,
                           "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DII1q",
+                          "name": "Daftar nilai dalam perulangan",
+                          "width": "fill_container",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "shQvG",
+                              "name": "Item nilai 80",
+                              "width": "fill_container",
+                              "height": 136,
+                              "fill": "#FFBC8A",
+                              "cornerRadius": 16,
+                              "stroke": "#C45112",
+                              "strokeWidth": 2,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#C45112",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 4
+                                }
+                              },
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "lZM28",
+                                  "name": "Nilai 80",
+                                  "fill": "#71300F",
+                                  "content": "80",
+                                  "fontFamily": "Fredoka",
+                                  "fontSize": 54,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "tAMSc",
+                                  "name": "State item 80",
+                                  "fill": "#71300F",
+                                  "content": "skor saat ini",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "F4jZI",
+                              "name": "Item nilai 90",
+                              "width": "fill_container",
+                              "height": 136,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 16,
+                              "stroke": "#D4DEEA",
+                              "strokeWidth": 1,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Eqca3",
+                                  "name": "Nilai 90",
+                                  "fill": "#34435B",
+                                  "content": "90",
+                                  "fontFamily": "Fredoka",
+                                  "fontSize": 54,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "TzRzM",
+                                  "name": "State item 90",
+                                  "fill": "#5F6F85",
+                                  "content": "berikutnya",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "p7hRd",
+                              "name": "Item nilai 75",
+                              "width": "fill_container",
+                              "height": 136,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 16,
+                              "stroke": "#D4DEEA",
+                              "strokeWidth": 1,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "x9vx2G",
+                                  "name": "Nilai 75",
+                                  "fill": "#34435B",
+                                  "content": "75",
+                                  "fontFamily": "Fredoka",
+                                  "fontSize": 54,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "VYEje",
+                                  "name": "State item 75",
+                                  "fill": "#5F6F85",
+                                  "content": "setelahnya",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c3sEEb",
+                          "name": "Penghubung data ke instruksi",
+                          "width": "fill_container",
+                          "height": 32,
+                          "gap": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "szxNQ",
+                              "name": "Ambil nilai direction",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow-down",
+                              "library": "lucide",
+                              "fill": "#4A5A70"
+                            },
+                            {
+                              "type": "text",
+                              "id": "TMDlI",
+                              "name": "Ambil satu nilai explanation",
+                              "fill": "#4A5A70",
+                              "content": "Ambil satu nilai, jalankan instruksinya",
+                              "fontFamily": "Figtree",
+                              "fontSize": 15,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f7cwZL",
+                          "name": "Instruksi dan hasil putaran",
+                          "width": "fill_container",
+                          "fill": "#00000000",
+                          "gap": 20,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "B5dVa",
+                              "name": "Satu instruksi yang diulang",
+                              "width": "fill_container",
+                              "height": 124,
+                              "fill": "#20243D",
+                              "cornerRadius": 14,
+                              "layout": "vertical",
+                              "gap": 12,
+                              "padding": 24,
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "c9q5if",
+                                  "name": "Label variabel",
+                                  "fill": "#DCE7F5",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Instruksi yang diulang",
+                                  "lineHeight": 1.4,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "XCNGp",
+                                  "name": "Current score variable",
+                                  "fill": "#FFFFFF",
+                                  "content": "print(skor)",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 24,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "icon",
+                              "id": "DlR3M",
+                              "name": "Arah proses ke hasil",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow-right",
+                              "library": "lucide",
+                              "fill": "#4A5A70"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "m6LV8",
+                              "name": "Hasil satu putaran",
+                              "width": "fill_container",
+                              "height": 124,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 14,
+                              "layout": "vertical",
+                              "gap": 2,
+                              "padding": 20,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Ki9i0",
+                                  "name": "Label hasil print",
+                                  "fill": "#5F6F85",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Hasilnya",
+                                  "lineHeight": 1.4,
+                                  "textAlign": "center",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "PZgCg",
+                                  "name": "Output nilai aktif",
+                                  "fill": "#172033",
+                                  "content": "80",
+                                  "fontFamily": "Fredoka",
+                                  "fontSize": 48,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IQ2NP",
+                          "name": "Kontrol diagram",
+                          "width": "fill_container",
+                          "stroke": "#CAD5E5",
+                          "strokeWidth": {
+                            "top": 1
+                          },
+                          "gap": 20,
+                          "padding": [
+                            24,
+                            0,
+                            0,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ThNs2",
+                              "name": "Ulangi simulasi",
+                              "context": "Reset to the first item and clear simulated output.",
+                              "height": 48,
+                              "gap": 8,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "hRbS0",
+                                  "name": "Reset loop icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "rotate-ccw",
+                                  "library": "lucide",
+                                  "fill": "#4A5A70"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "iYu6W",
+                                  "name": "Reset simulation label",
+                                  "fill": "#4A5A70",
+                                  "content": "Ulangi",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zhn5T",
+                              "name": "Putaran berikutnya",
+                              "context": "Advance one iteration, highlight the next score and update the output. Keyboard Enter or Space in implementation.",
+                              "height": 48,
+                              "fill": "#172033",
+                              "cornerRadius": 10,
+                              "gap": 10,
+                              "padding": [
+                                0,
+                                20
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "u0Sw35",
+                                  "name": "Next iteration label",
+                                  "fill": "#FFFFFF",
+                                  "content": "Putaran berikutnya",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "oZnOw",
+                                  "name": "Next iteration direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "chevron-right",
+                                  "library": "lucide",
+                                  "fill": "#FFFFFF"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "CUDhy",
+                      "x": 0,
+                      "y": 526,
+                      "name": "Diagram caption",
+                      "enabled": false,
+                      "fill": "#5F6F85",
+                      "textGrowth": "fixed-width",
+                      "width": 760,
+                      "content": "Setiap nilai diproses sesuai urutannya: 80, lalu 90, lalu 75.",
+                      "lineHeight": 1.65,
+                      "fontFamily": "Figtree",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Mgfc1",
+                  "x": 0,
+                  "y": 851,
+                  "name": "03 · Baca kode perulangan",
+                  "enabled": false,
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x25fZt",
+                      "name": "Heading baca kode",
+                      "fill": "#172033",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Baca kode perulangannya",
+                      "lineHeight": 1.25,
+                      "fontFamily": "Fredoka",
+                      "fontSize": 27,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "L55hL",
+                      "name": "Kode explanation",
+                      "fill": "#4A5A70",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pada contoh ini, nilai adalah daftar yang dibaca. Variabel skor menyimpan satu item pada setiap putaran. Instruksi print(skor) dijalankan untuk masing-masing item.",
+                      "lineHeight": 1.65,
+                      "fontFamily": "Figtree",
+                      "fontSize": 18
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AQhqK",
+                      "name": "Markdown fenced code block",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "#20243D",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "xXa9F",
+                          "name": "Code block header",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#2C3150",
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            20
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "zi8gJ",
+                              "name": "Python code icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "code",
+                              "library": "Material Symbols Rounded",
+                              "fill": "#FFAE3D"
+                            },
+                            {
+                              "type": "text",
+                              "id": "x2kDbN",
+                              "name": "Code language label",
+                              "fill": "#DCE7F5",
+                              "content": "Python",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EFDpl",
+                          "name": "Code block content",
+                          "width": "fill_container",
+                          "gap": 28,
+                          "padding": 24,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "USIP5",
+                              "name": "Markdown code fence content",
+                              "fill": "#F6FAFE",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "nilai = [80, 90, 75]\n\nfor skor in nilai:\n    print(skor)",
+                              "lineHeight": 1.75,
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 16,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "icSxj",
+                              "name": "Console output",
+                              "width": 172,
+                              "stroke": "#66708B",
+                              "strokeWidth": {
+                                "left": 1
+                              },
+                              "layout": "vertical",
+                              "gap": 12,
+                              "padding": [
+                                0,
+                                0,
+                                0,
+                                24
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TVgfK",
+                                  "name": "Output heading",
+                                  "fill": "#DCE7F5",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Output",
+                                  "lineHeight": 1.65,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "J65H9",
+                                  "name": "Printed output values",
+                                  "fill": "#FFFFFF",
+                                  "content": "80\n90\n75",
+                                  "lineHeight": 1.75,
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 16,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n7GaGz",
+                      "name": "Penjelasan yang bisa dibuka satu per satu",
+                      "context": "Accordion. Expand each explanation with Enter or Space; expanded state is announced. Long explanations stay collapsed by default.",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "T61ib",
+                          "name": "Accordion · Apa fungsi variabel skor?",
+                          "width": "fill_container",
+                          "stroke": "#D4DEEA",
+                          "strokeWidth": {
+                            "top": 1
+                          },
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            18,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ZRMSp",
+                              "name": "Accordion trigger 0",
+                              "width": "fill_container",
+                              "height": 44,
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "k0O5Um",
+                                  "name": "Accordion label 0",
+                                  "fill": "#172033",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Apa fungsi variabel skor?",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "ELrnH",
+                                  "name": "Expand explanation 0",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "chevron-up",
+                                  "library": "lucide",
+                                  "fill": "#4A5A70"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "jEsZh",
+                              "name": "Expanded score explanation",
+                              "fill": "#4A5A70",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "skor adalah nama untuk item yang sedang diproses. Nilainya berubah dari 80 menjadi 90, lalu 75. Kamu bisa memakai nama variabel lain yang sesuai dengan datanya.",
+                              "lineHeight": 1.6,
+                              "fontFamily": "Figtree",
+                              "fontSize": 16
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "y1qoSQ",
+                          "name": "Accordion · Mengapa print(skor) menjorok ke dalam?",
+                          "width": "fill_container",
+                          "stroke": "#D4DEEA",
+                          "strokeWidth": {
+                            "top": 1
+                          },
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            18,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "vUHWe",
+                              "name": "Accordion trigger 1",
+                              "width": "fill_container",
+                              "height": 44,
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "y0InB",
+                                  "name": "Accordion label 1",
+                                  "fill": "#172033",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Mengapa print(skor) menjorok ke dalam?",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "vsz34",
+                                  "name": "Expand explanation 1",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "chevron-down",
+                                  "library": "lucide",
+                                  "fill": "#4A5A70"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lRTfQ",
+                  "x": 0,
+                  "y": 819,
+                  "name": "04 · Cek pemahamanmu",
+                  "enabled": false,
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bMS6i",
+                      "name": "Heading cek pemahaman",
+                      "fill": "#172033",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cek pemahamanmu",
+                      "lineHeight": 1.25,
+                      "fontFamily": "Fredoka",
+                      "fontSize": 27,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RpW8V",
+                      "name": "Quiz introduction",
+                      "fill": "#4A5A70",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Coba jawab dengan melihat kembali contoh kode di atas.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Figtree",
+                      "fontSize": 18
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FhFFz",
+                      "name": "Latihan singkat di dalam materi",
+                      "context": "Inline practice example, checked-success state. Option selection and correctness feedback are separate. In the app, correctness comes from the server; this canvas is static.",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "stroke": "#D4DEEA",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 20,
+                      "padding": 28,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "JpMQ9",
+                          "name": "Question type",
+                          "fill": "#5F6F85",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Latihan singkat",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Figtree",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RYqbY",
+                          "name": "Question about print",
+                          "fill": "#172033",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Berapa kali print(skor) dijalankan untuk daftar nilai = [80, 90, 75]?",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Figtree",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "aUZqv",
+                          "name": "Pilihan jawaban kuis",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "X14vR",
+                              "name": "Pilihan · 1 kali",
+                              "context": "Radio choice. Third option selected in this checked-success design state.",
+                              "width": "fill_container",
+                              "height": 56,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 9,
+                              "stroke": "#77849A",
+                              "strokeWidth": 1,
+                              "gap": 12,
+                              "padding": [
+                                0,
+                                16
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "zzT4d",
+                                  "name": "Radio pilihan 1",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "circle",
+                                  "library": "lucide",
+                                  "fill": "#5F6F85"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Z47v8",
+                                  "name": "Jawaban 1",
+                                  "fill": "#172033",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "1 kali",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IzXih",
+                              "name": "Pilihan · 2 kali",
+                              "context": "Radio choice. Third option selected in this checked-success design state.",
+                              "width": "fill_container",
+                              "height": 56,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 9,
+                              "stroke": "#77849A",
+                              "strokeWidth": 1,
+                              "gap": 12,
+                              "padding": [
+                                0,
+                                16
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "KgJg0",
+                                  "name": "Radio pilihan 2",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "circle",
+                                  "library": "lucide",
+                                  "fill": "#5F6F85"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "sQkXu",
+                                  "name": "Jawaban 2",
+                                  "fill": "#172033",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "2 kali",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "frPgN",
+                              "name": "Pilihan · 3 kali",
+                              "context": "Radio choice. Third option selected in this checked-success design state.",
+                              "width": "fill_container",
+                              "height": 56,
+                              "fill": "#FFF0E5",
+                              "cornerRadius": 9,
+                              "stroke": "#C45112",
+                              "strokeWidth": 2,
+                              "gap": 12,
+                              "padding": [
+                                0,
+                                16
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "J6O7Z",
+                                  "name": "Radio pilihan 3",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "circle-dot",
+                                  "library": "lucide",
+                                  "fill": "#9A3E0B"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "toYBU",
+                                  "name": "Jawaban 3",
+                                  "fill": "#9A3E0B",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "3 kali",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "u59Wxh",
+                                  "name": "Correct answer check",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "check",
+                                  "library": "lucide",
+                                  "fill": "#9A3E0B"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L4RoP",
+                          "name": "Umpan balik benar dengan penjelasan",
+                          "width": "fill_container",
+                          "fill": "#F0FDF4",
+                          "cornerRadius": 8,
+                          "gap": 12,
+                          "padding": 18,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "o6cQN",
+                              "name": "Success feedback icon",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "circle-check",
+                              "library": "lucide",
+                              "fill": "#166534"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kUYig",
+                              "name": "Success feedback copy",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rEUT4",
+                                  "name": "Feedback title",
+                                  "fill": "#166534",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Benar, ada tiga putaran.",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 16,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "G4VXOF",
+                                  "name": "Feedback explanation",
+                                  "fill": "#166534",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Daftar berisi tiga item. Setiap item menjalankan print(skor) satu kali.",
+                                  "lineHeight": 1.6,
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 15
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RjZjY",
+                          "name": "Tindakan setelah kuis",
+                          "width": "fill_container",
+                          "height": 44,
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "WYtmv",
+                              "name": "Status latihan",
+                              "fill": "#5F6F85",
+                              "content": "Latihan selesai",
+                              "fontFamily": "Figtree",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "l52OQG",
+                              "name": "Coba lagi tanpa jawaban",
+                              "context": "Clear selection and feedback to retry the inline example.",
+                              "height": 44,
+                              "cornerRadius": 8,
+                              "stroke": "#77849A",
+                              "strokeWidth": 1,
+                              "padding": [
+                                0,
+                                16
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "VMjic",
+                                  "name": "Try again label",
+                                  "fill": "#172033",
+                                  "content": "Coba lagi",
+                                  "fontFamily": "Figtree",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UrBoU",
+                  "x": 0,
+                  "y": 1458,
+                  "name": "Ringkasan sebelum materi berikutnya",
+                  "enabled": false,
+                  "width": 760,
+                  "stroke": "#D4DEEA",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "gap": 14,
+                  "padding": [
+                    24,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "BWZDu",
+                      "name": "Materi berikutnya icon",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "book-open-check",
+                      "library": "lucide",
+                      "fill": "#9A3E0B"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j5a76",
+                      "name": "Ringkasan pelajaran",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "u3R6M",
+                          "name": "Ringkasan heading",
+                          "fill": "#172033",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Sekarang kamu tahu kapan memakai for.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Figtree",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SXj46",
+                          "name": "Ringkasan copy",
+                          "fill": "#4A5A70",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Satu pola instruksi bisa dipakai untuk semua item dalam daftar. Lanjutkan untuk mempelajari contoh berikutnya.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Figtree",
+                          "fontSize": 16
                         }
                       ]
                     }
@@ -28216,15 +28960,16 @@
           "id": "m6EQk",
           "name": "Lesson material footer",
           "width": "fill_container",
-          "height": 94,
+          "height": 96,
           "fill": "$dashboard-light-navigation",
           "stroke": "$dashboard-light-border",
           "strokeWidth": {
             "top": 1
           },
+          "gap": 24,
           "padding": [
-            16,
-            26
+            18,
+            40
           ],
           "justifyContent": "space_between",
           "alignItems": "center",
@@ -28273,7 +29018,7 @@
                       "fill": "$dashboard-light-heading",
                       "content": "Pengenalan perulangan",
                       "fontFamily": "Figtree",
-                      "fontSize": 12,
+                      "fontSize": 15,
                       "fontWeight": "800"
                     },
                     {
@@ -28283,7 +29028,7 @@
                       "fill": "$dashboard-light-muted",
                       "content": "1 materi lagi sebelum latihan",
                       "fontFamily": "Figtree",
-                      "fontSize": 10,
+                      "fontSize": 13,
                       "fontWeight": "500"
                     }
                   ]
@@ -28301,23 +29046,14 @@
                   "type": "frame",
                   "id": "n2Quqy",
                   "name": "Next material",
-                  "height": 48,
+                  "context": "Continue to the next bite-sized material screen. Code practice and quiz are separate subsequent lesson stages.",
+                  "height": 52,
                   "fill": "$primary",
-                  "cornerRadius": 10,
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#FF6A162B",
-                    "offset": {
-                      "x": 0,
-                      "y": 5
-                    },
-                    "blur": 10
-                  },
+                  "cornerRadius": 12,
                   "gap": 8,
                   "padding": [
                     0,
-                    18
+                    28
                   ],
                   "alignItems": "center",
                   "children": [
@@ -28326,10 +29062,10 @@
                       "id": "p4bGA",
                       "name": "Next label",
                       "fill": "#FFFFFF",
-                      "content": "Lanjut ke mater",
+                      "content": "Lanjut ke materi",
                       "fontFamily": "Figtree",
-                      "fontSize": 13,
-                      "fontWeight": "800"
+                      "fontSize": 16,
+                      "fontWeight": "700"
                     }
                   ]
                 }
