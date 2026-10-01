@@ -12,13 +12,16 @@ export function ConceptStepView({ step }: { step: ConceptStep }) {
             ) : null}
 
             {content.title ? (
-                <h2 className="lesson-player__concept-title">
+                <h1 className="lesson-player__concept-title">
                     {content.title}
-                </h2>
+                </h1>
             ) : null}
 
-            {content.body ? (
-                <p className="lesson-player__concept-body">{content.body}</p>
+            {content.bodyHtml ? (
+                <div
+                    className="lesson-player__concept-body"
+                    dangerouslySetInnerHTML={{ __html: content.bodyHtml }}
+                />
             ) : null}
 
             {content.illustration ? (

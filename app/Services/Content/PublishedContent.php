@@ -6,6 +6,7 @@ use App\Enums\StepType;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LessonStep;
+use Illuminate\Support\Str;
 
 /**
  * Builds the public read model for learners. Every payload is an explicit
@@ -118,7 +119,13 @@ class PublishedContent
         return match ($step->type) {
             StepType::Concept => [
                 ...$payload,
-                'content' => $this->pick($content, ['eyebrow', 'title', 'body', 'illustration', 'code']),
+                'content' => [
+                    ...$this->pick($content, ['eyebrow', 'title', 'illustration', 'code']),
+                    'bodyHtml' => Str::markdown((string) ($content['body'] ?? ''), [
+                        'html_input' => 'strip',
+                        'allow_unsafe_links' => false,
+                    ]),
+                ],
             ],
             StepType::Quiz => [
                 ...$payload,

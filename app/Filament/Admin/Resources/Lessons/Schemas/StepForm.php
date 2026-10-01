@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Lessons\Schemas;
 
 use App\Enums\StepType;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -54,7 +55,12 @@ class StepForm
                 ->schema([
                     TextInput::make('content.title')->label('Judul')->required(),
                     TextInput::make('content.eyebrow')->label('Eyebrow'),
-                    Textarea::make('content.body')->label('Isi materi')->required()->columnSpanFull(),
+                    MarkdownEditor::make('content.body')
+                        ->label('Isi materi')
+                        ->helperText('Gunakan Markdown. Unggah lampiran belum tersedia.')
+                        ->disableToolbarButtons(['attachFiles'])
+                        ->required()
+                        ->columnSpanFull(),
                     Textarea::make('content.code')->label('Contoh kode')->columnSpanFull(),
                     TextInput::make('content.illustration.src')->label('Ilustrasi (URL)'),
                     TextInput::make('content.illustration.alt')->label('Alt ilustrasi'),

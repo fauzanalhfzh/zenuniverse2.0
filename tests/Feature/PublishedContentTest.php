@@ -95,6 +95,28 @@ class PublishedContentTest extends TestCase
         }
     }
 
+    public function test_public_concept_renders_safe_markdown_without_exposing_source(): void
+    {
+        $concept = LessonStep::query()
+            ->where('type', 'concept')
+            ->whereHas('lesson.unit.course', fn ($query) => $query->where('status', 'published'))
+            ->firstOrFail();
+        $concept->content = [
+            ...$concept->content,
+            'body' => "## Coba ini\n\n**Tebal** [aman](https://example.com) [jahat](javascript:alert(1))\n\n<script>alert('xss')</script>",
+        ];
+
+        $step = $this->content()->publicStep($concept, 1);
+        $html = $step['content']['bodyHtml'];
+
+        $this->assertArrayNotHasKey('body', $step['content']);
+        $this->assertStringContainsString('<h2>Coba ini</h2>', $html);
+        $this->assertStringContainsString('<strong>Tebal</strong>', $html);
+        $this->assertStringContainsString('href="https://example.com"', $html);
+        $this->assertStringNotContainsString('<script', $html);
+        $this->assertStringNotContainsString('javascript:', $html);
+    }
+
     public function test_public_fill_hides_accepted_answers(): void
     {
         $fill = $this->publishedFill();

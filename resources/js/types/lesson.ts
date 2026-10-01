@@ -27,7 +27,7 @@ export interface ConceptStep {
     content: {
         eyebrow?: string;
         title?: string;
-        body?: string;
+        bodyHtml: string;
         illustration?: { src: string; alt: string; caption?: string };
         code?: string;
     };
