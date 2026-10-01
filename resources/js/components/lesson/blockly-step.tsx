@@ -1,7 +1,8 @@
 import * as Blockly from 'blockly';
-import { useEffect, useRef } from 'react';
+import { Blocks, Flag, Lightbulb, Play, RotateCcw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { ChallengeBoard } from '@/components/lesson/challenge-board';
-import { Button } from '@/components/ui/button';
+import { previewRobot } from '@/lib/content/robot-preview';
 import {
     commandsToWorkspaceState,
     workspaceToCommands,
@@ -64,7 +65,13 @@ export function BlocklyStepView({
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
+    const [blockCount, setBlockCount] = useState(0);
+    const [robot, setRobot] = useState(step.challenge?.start);
+    const [running, setRunning] = useState(false);
+    const runRef = useRef<AbortController | null>(null);
     const challenge = step.challenge;
+
+    useEffect(() => () => runRef.current?.abort(), []);
 
     useEffect(() => {
         if (!containerRef.current || !challenge) {
@@ -88,6 +95,13 @@ export function BlocklyStepView({
                 })),
             },
             renderer: 'zelos',
+            maxBlocks: challenge.maxBlocks,
+            grid: {
+                spacing: 24,
+                length: 2,
+                colour: '#d5deeb',
+                snap: true,
+            },
             trashcan: true,
             scrollbars: true,
             zoom: { controls: true, wheel: true, startScale: 0.9 },
@@ -102,7 +116,20 @@ export function BlocklyStepView({
             );
         }
 
+        const updateBlockCount = () => {
+            setBlockCount(workspace.getAllBlocks(false).length);
+        };
+        const resizeObserver = new ResizeObserver(() =>
+            Blockly.svgResize(workspace),
+        );
+
+        workspace.addChangeListener(updateBlockCount);
+        resizeObserver.observe(containerRef.current);
+        updateBlockCount();
+
         return () => {
+            resizeObserver.disconnect();
+            workspace.removeChangeListener(updateBlockCount);
             workspace.dispose();
             workspaceRef.current = null;
         };
@@ -116,6 +143,9 @@ export function BlocklyStepView({
             return;
         }
 
+        runRef.current?.abort();
+        setRunning(false);
+        setRobot(challenge.start);
         workspace.clear();
 
         if (challenge.starterProgram?.length) {
@@ -126,43 +156,145 @@ export function BlocklyStepView({
         }
     }
 
-    function run(): void {
+    async function run(): Promise<void> {
         const workspace = workspaceRef.current;
+        if (!workspace || !challenge || running || pending) return;
 
-        if (!workspace) {
-            return;
+        const commands = workspaceToCommands(workspace);
+        const frames = previewRobot(commands, challenge);
+        const controller = new AbortController();
+        runRef.current?.abort();
+        runRef.current = controller;
+        setRobot(challenge.start);
+        setRunning(true);
+
+        try {
+            if (
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ) {
+                for (const frame of frames.slice(1)) {
+                    setRobot(frame);
+                    await new Promise<void>((resolve) => {
+                        const timer = window.setTimeout(resolve, 550);
+                        controller.signal.addEventListener(
+                            'abort',
+                            () => {
+                                clearTimeout(timer);
+                                resolve();
+                            },
+                            { once: true },
+                        );
+                    });
+                    if (controller.signal.aborted) return;
+                }
+            } else {
+                setRobot(frames.at(-1) ?? challenge.start);
+            }
+            if (!controller.signal.aborted) onSubmit(commands);
+        } finally {
+            if (!controller.signal.aborted) setRunning(false);
         }
-
-        onSubmit(workspaceToCommands(workspace));
     }
 
+    const maxBlocks = challenge?.maxBlocks;
+
     return (
-        <div className="flex flex-col gap-5">
-            {step.content.title ? (
-                <h2 className="font-display text-2xl font-bold text-slate-900">
-                    {step.content.title}
-                </h2>
-            ) : null}
-            {step.content.objective ? (
-                <p className="leading-relaxed text-slate-600">
-                    {step.content.objective}
-                </p>
-            ) : null}
+        <div className="blockly-lesson">
+            <div className="blockly-lesson__toolbar">
+                <div className="blockly-lesson__tab">
+                    <Blocks size={18} aria-hidden="true" />
+                    Kode block
+                </div>
+                <div className="blockly-lesson__toolbar-actions">
+                    <button
+                        type="button"
+                        className="blockly-lesson__reset"
+                        onClick={reset}
+                        disabled={pending || running}
+                    >
+                        <RotateCcw size={17} aria-hidden="true" />
+                        Atur ulang
+                    </button>
+                    <button
+                        type="button"
+                        className="blockly-lesson__run"
+                        onClick={() => void run()}
+                        disabled={pending || running}
+                    >
+                        <Play
+                            size={17}
+                            aria-hidden="true"
+                            fill="currentColor"
+                        />
+                        {pending || running
+                            ? 'Menjalankan...'
+                            : 'Jalankan program'}
+                    </button>
+                </div>
+            </div>
 
-            {challenge ? <ChallengeBoard challenge={challenge} /> : null}
+            <div className="blockly-lesson__workspace">
+                <section
+                    className="blockly-lesson__editor"
+                    aria-labelledby={`blockly-editor-${step.id}`}
+                >
+                    <div className="blockly-lesson__panel-heading">
+                        <span id={`blockly-editor-${step.id}`}>
+                            Area program
+                        </span>
+                        {maxBlocks ? (
+                            <span className="blockly-lesson__block-count">
+                                {blockCount} / {maxBlocks} blok
+                            </span>
+                        ) : null}
+                    </div>
+                    <div
+                        ref={containerRef}
+                        className="blockly-lesson__canvas"
+                    />
+                </section>
 
-            <div
-                ref={containerRef}
-                className="border-border h-80 w-full overflow-hidden rounded-2xl border-2"
-            />
+                <aside className="blockly-lesson__side" aria-label="Tantangan">
+                    <section className="blockly-lesson__stage">
+                        <div className="blockly-lesson__panel-heading">
+                            <span>
+                                <Flag size={17} aria-hidden="true" />
+                                Panggung
+                            </span>
+                            <span
+                                className="blockly-lesson__stage-status"
+                                aria-live="polite"
+                            >
+                                {pending
+                                    ? 'Memeriksa jawaban'
+                                    : running
+                                      ? 'Robot bergerak'
+                                      : 'Siap'}
+                            </span>
+                        </div>
+                        <div className="blockly-lesson__stage-body">
+                            {challenge ? (
+                                <ChallengeBoard
+                                    challenge={challenge}
+                                    robot={robot ?? challenge.start}
+                                />
+                            ) : null}
+                        </div>
+                    </section>
 
-            <div className="flex flex-wrap gap-3">
-                <Button onClick={run} disabled={pending}>
-                    {pending ? 'Menjalankan...' : 'Jalankan program'}
-                </Button>
-                <Button variant="outline" onClick={reset} disabled={pending}>
-                    Reset
-                </Button>
+                    <section className="blockly-lesson__mission">
+                        <span className="blockly-lesson__eyebrow">Misi</span>
+                        {step.content.objective ? (
+                            <p>{step.content.objective}</p>
+                        ) : null}
+                        {challenge?.hint ? (
+                            <div className="blockly-lesson__hint">
+                                <Lightbulb size={17} aria-hidden="true" />
+                                <span>{challenge.hint}</span>
+                            </div>
+                        ) : null}
+                    </section>
+                </aside>
             </div>
         </div>
     );

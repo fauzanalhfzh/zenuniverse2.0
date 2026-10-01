@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type {
     BlocklyChallengeConfig,
     GridPosition,
@@ -17,8 +18,10 @@ function key(position: GridPosition): string {
 
 export function ChallengeBoard({
     challenge,
+    robot,
 }: {
     challenge: BlocklyChallengeConfig;
+    robot: GridPosition & { direction: RobotDirection };
 }) {
     const obstacles = new Set((challenge.obstacles ?? []).map(key));
     const goal = key(challenge.goal);
@@ -33,13 +36,39 @@ export function ChallengeBoard({
 
     return (
         <div
-            className="grid gap-1 rounded-2xl bg-slate-900 p-2"
-            style={{
-                gridTemplateColumns: `repeat(${challenge.board.width}, minmax(0, 1fr))`,
-            }}
+            className="challenge-board"
+            style={
+                {
+                    gridTemplateColumns: `repeat(${challenge.board.width}, minmax(0, 1fr))`,
+                    '--board-width': challenge.board.width,
+                } as CSSProperties
+            }
             role="img"
-            aria-label="Papan tantangan robot"
+            aria-label={`Papan tantangan robot. Posisi ${robot.x + 1}, ${robot.y + 1}, menghadap ${robot.direction}`}
         >
+            <div
+                className="challenge-board__actor"
+                style={
+                    {
+                        '--robot-x': robot.x,
+                        '--robot-y': robot.y,
+                    } as CSSProperties
+                }
+                aria-hidden="true"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    className="challenge-board__robot"
+                    style={{
+                        transform: `rotate(${rotation[robot.direction]}deg)`,
+                    }}
+                >
+                    <polygon
+                        points="12,3 20,21 12,16 4,21"
+                        fill="currentColor"
+                    />
+                </svg>
+            </div>
             {cells.map((cell) => {
                 const id = key(cell);
                 const isGoal = id === goal;
@@ -49,25 +78,14 @@ export function ChallengeBoard({
                 return (
                     <div
                         key={id}
-                        className={`relative flex aspect-square items-center justify-center rounded-lg ${
-                            isObstacle ? 'bg-slate-700' : 'bg-slate-800'
+                        className={`challenge-board__cell ${
+                            isObstacle ? 'challenge-board__cell--obstacle' : ''
+                        } ${isGoal ? 'challenge-board__cell--goal' : ''} ${
+                            isStart ? 'challenge-board__cell--start' : ''
                         }`}
                     >
-                        {isGoal ? <span className="text-lg">⭐</span> : null}
-                        {isStart ? (
-                            <svg
-                                viewBox="0 0 24 24"
-                                className="size-6 text-sky-400"
-                                style={{
-                                    transform: `rotate(${rotation[challenge.start.direction]}deg)`,
-                                }}
-                                aria-hidden="true"
-                            >
-                                <polygon
-                                    points="12,3 20,21 12,16 4,21"
-                                    fill="currentColor"
-                                />
-                            </svg>
+                        {isGoal ? (
+                            <span className="challenge-board__goal">★</span>
                         ) : null}
                     </div>
                 );
