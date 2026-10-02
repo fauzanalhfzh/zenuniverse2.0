@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import MissionMap from '@/components/dashboard/mission-map';
 import LearnerNavigation from '@/components/learner-navigation';
 import { ApiClient } from '@/lib/progress/client';
@@ -8,6 +8,19 @@ import { index as learnIndex } from '@/routes/learn';
 import type { CourseDetail, ProgressSnapshot } from '@/types/lesson';
 
 export default function Dashboard({ active }: { active: CourseDetail | null }) {
+    useLayoutEffect(() => {
+        const root = document.documentElement;
+        const wasDark = root.classList.contains('dark');
+        const previousColorScheme = root.style.colorScheme;
+        root.classList.remove('dark');
+        root.style.colorScheme = 'light';
+
+        return () => {
+            root.classList.toggle('dark', wasDark);
+            root.style.colorScheme = previousColorScheme;
+        };
+    }, []);
+
     const [progress, setProgress] = useState<ProgressSnapshot | null>(null);
     const [progressLoading, setProgressLoading] = useState(true);
     const [progressError, setProgressError] = useState(false);
