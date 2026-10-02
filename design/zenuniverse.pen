@@ -27719,7 +27719,8 @@
                           "content": "Perulangan menjalankan instruksi yang sama untuk setiap item dalam daftar.",
                           "lineHeight": 1.6,
                           "fontFamily": "Figtree",
-                          "fontSize": 20
+                          "fontSize": 20,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -27783,7 +27784,8 @@
                               "content": "Amati nilai yang diambil di setiap putaran.",
                               "lineHeight": 1.5,
                               "fontFamily": "Figtree",
-                              "fontSize": 16
+                              "fontSize": 16,
+                              "fontWeight": "normal"
                             }
                           ]
                         }
@@ -27827,7 +27829,8 @@
                       "content": "Bayangkan kamu ingin menampilkan setiap nilai dalam daftar. Perulangan mengambil satu nilai, menjalankan instruksi, lalu berpindah ke nilai berikutnya.",
                       "lineHeight": 1.65,
                       "fontFamily": "Figtree",
-                      "fontSize": 18
+                      "fontSize": 18,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -28267,7 +28270,8 @@
                       "content": "Setiap nilai diproses sesuai urutannya: 80, lalu 90, lalu 75.",
                       "lineHeight": 1.65,
                       "fontFamily": "Figtree",
-                      "fontSize": 14
+                      "fontSize": 14,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -28305,7 +28309,8 @@
                       "content": "Pada contoh ini, nilai adalah daftar yang dibaca. Variabel skor menyimpan satu item pada setiap putaran. Instruksi print(skor) dijalankan untuk masing-masing item.",
                       "lineHeight": 1.65,
                       "fontFamily": "Figtree",
-                      "fontSize": 18
+                      "fontSize": 18,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -28490,7 +28495,8 @@
                               "content": "skor adalah nama untuk item yang sedang diproses. Nilainya berubah dari 80 menjadi 90, lalu 75. Kamu bisa memakai nama variabel lain yang sesuai dengan datanya.",
                               "lineHeight": 1.6,
                               "fontFamily": "Figtree",
-                              "fontSize": 16
+                              "fontSize": 16,
+                              "fontWeight": "normal"
                             }
                           ]
                         },
@@ -28584,7 +28590,8 @@
                       "content": "Coba jawab dengan melihat kembali contoh kode di atas.",
                       "lineHeight": 1.6,
                       "fontFamily": "Figtree",
-                      "fontSize": 18
+                      "fontSize": 18,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -28826,7 +28833,8 @@
                                   "content": "Daftar berisi tiga item. Setiap item menjalankan print(skor) satu kali.",
                                   "lineHeight": 1.6,
                                   "fontFamily": "Figtree",
-                                  "fontSize": 15
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
                                 }
                               ]
                             }
@@ -28945,7 +28953,8 @@
                           "content": "Satu pola instruksi bisa dipakai untuk semua item dalam daftar. Lanjutkan untuk mempelajari contoh berikutnya.",
                           "lineHeight": 1.6,
                           "fontFamily": "Figtree",
-                          "fontSize": 16
+                          "fontSize": 16,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -68013,6 +68022,1814 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fXv8x",
+      "x": 37943,
+      "y": -437,
+      "name": "Loading / Anak naik roket SVG",
+      "context": "Reusable generated editable SVG of a child riding a rocket. Requested artwork for white lesson-loading page, not an invented user avatar. Warm orange, sky blue, navy and natural skin tones match the ZenUniverse learning journey. Generation finished with 65 vector child nodes.",
+      "reusable": true,
+      "clip": true,
+      "width": 360,
+      "height": 320,
+      "fill": "#00000000",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "NcNi9",
+          "x": 20,
+          "y": 0,
+          "fill": "#ffffff80",
+          "width": 320,
+          "height": 320
+        },
+        {
+          "type": "path",
+          "id": "w81u0",
+          "x": 104.8785,
+          "y": 222.12,
+          "geometry": "M23.00151 0.20001c-16.07999 3.51999-23.12 19.39999-23 32.71999 0 0.68001 0.4 1.24001 1 1.47999 14.88001 5.80002 31.00001-0.03998 37.76-11.15999l-13.08-23.24-2.68 0.20001z",
+          "fill": "#FFB824",
+          "width": 38.7615,
+          "height": 36.6776
+        },
+        {
+          "type": "path",
+          "id": "OamD1",
+          "x": 116.64,
+          "y": 230,
+          "geometry": "M14.36 0c-9.56 2.2-14.2 11.92-14.36 17 7.44 2.11999 17.59999-1.67999 21.48-7.16l-7.12-9.84z",
+          "fill": "#FFDB76",
+          "width": 21.48,
+          "height": 17.5964
+        },
+        {
+          "type": "ellipse",
+          "id": "yJmfE",
+          "x": 91.5272,
+          "y": 254.4064,
+          "fill": "#FF8131",
+          "width": 9.7967,
+          "height": 9.7967
+        },
+        {
+          "type": "ellipse",
+          "id": "uCT8e",
+          "x": 88.6955,
+          "y": 267.4455,
+          "fill": "#FF8131",
+          "width": 4.9218,
+          "height": 4.9218
+        },
+        {
+          "type": "path",
+          "id": "lu5A6",
+          "x": 40.52,
+          "y": 247.96,
+          "geometry": "M51.4 28.11998c-1.24 0-2.4 0.20001-3.48 0.52002-0.08-5.56-4.28-9.80002-9.36-10.08002 0.56-1.28 0.8-2.59998 0.8-3.95999 0-8.39999-6.64-14.59999-14.92-14.59999-8.28 0-15.08 6.71999-15.08 14.99998 0 1.92001 0.24001 3.68002 0.72 5.16001-6.24 1.67999-10.08 6.88001-10.08 13.39999 0 7.84 6.36 14.08002 14.16 14.08002 1.48 0 2.68-0.16 3.76-0.48001 1.36 6.64001 7.48 11.20001 14.52 11.20001 5.6 0 10.52-2.76001 12.48-6.72 2.07999 1.35999 4.39999 2 6.76 2 7.2 0 12.56001-5.84 12.4-13.04001 0.03999-7.07999-5.84-12.48001-12.68-12.48001z",
+          "fill": "#AAD9FF",
+          "width": 64.0835,
+          "height": 58.36
+        },
+        {
+          "type": "path",
+          "id": "UYyTG",
+          "x": 97.4587,
+          "y": 161.9311,
+          "geometry": "M54.78134 0.06892c-26.92001-1.44-48.08 20.03999-54.12 31-1.96 3.75999 0.64 7.52 5.11999 7.08001 11.48-1.28 23.52-0.12 32.4 3.67999l23.08001-31.87999-6.48-9.88001z",
+          "fill": "#FF8131",
+          "width": 61.2613,
+          "height": 41.8289,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "CMoHw",
+          "x": 113.3933,
+          "y": 169.9017,
+          "geometry": "M19.6467 0.09825c-7.60001 2.67999-15.44001 8-19.12001 12.24001-1.64 2.03999 0.88 3.92 3.04 2.08 5-4.56001 12.04-8.88001 17.52001-11.04001 2.15999-0.92 1.12-3.95999-1.44-3.28z",
+          "fill": "#FFB580",
+          "width": 22.2553,
+          "height": 15.1674
+        },
+        {
+          "type": "path",
+          "id": "ZDvQT",
+          "x": 134.36,
+          "y": 103.96,
+          "geometry": "M120 0c-29.8 5.32-51 20.72-60.32001 31.36001l-41.87999 21.43999c0.12 2.60001 0.12 5.88 0.80001 8.08 0.75999 2.92 4.36 6.12001 5.51999 6.91999-9.67999 11.16-18.92 24.28-24.12 34.68001 1.12001 16.16001 13.84 34.44001 26.08 38.8 3.2-0.04001 6.52-0.48001 8.64-1.07999 0-1.40002 0.84-2.76001 2.16001-3.52002 13.48-8.67999 30.67999-18.99999 39.23999-21.83999 6.52-1.52 8.56 4.4 7.64 10.32 35.44-17.72001 60.88-46 75.08001-66.76-22.72003-1.64-44.56001-38.6-38.84001-58.4z",
+          "fill": "#FFF9ED",
+          "width": 158.84,
+          "height": 141.28,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "cPLg5",
+          "x": 252.7037,
+          "y": 101.0064,
+          "geometry": "M3.0963 2.79362c-2.84 0.75999-3.28 4.92-3.04001 9.03999 1.8 25.60001 22.59999 50.08 36.44002 50 1.23999 0 3.03998-1 3.95999-2.28 10.16-15.03999 19.44-36.96 19.23999-48.79999-0.07999-5.04-3.32001-7.56-10.12-9.40001-13.88-2.28-32.19998-1.6-46.47999 1.44001z",
+          "fill": "#FF8131",
+          "width": 59.6995,
+          "height": 61.8338,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "LK7pr",
+          "x": 265.884,
+          "y": 106.9562,
+          "geometry": "M23.396 0.12378c-7.56-0.4-15.92001 0.2-20.56 1.36-4.63998 1-3.12 6.52 1.19998 5.56 6.44-1.64 13.96002-2.52 19.48001-3.08 2.92001-0.36 2.88001-3.68-0.11999-3.84z",
+          "fill": "#FFB580",
+          "width": 25.6764,
+          "height": 7.1554
+        },
+        {
+          "type": "path",
+          "id": "vYuBm",
+          "x": 97.3687,
+          "y": 162.1101,
+          "geometry": "M54.07132 0.04993c-25.48-1.2-47.96 19.51999-53.52 30.95999-1.75999 3.96001 0.84 7.44 5.72 6.92 11.24-1.31999 23.16-0.28 32.03999 3.72 6.60001-11.92 16-24.08 23.16-32.23999-3.28-3.04001-5.64-6.2-7.39999-9.36z",
+          "width": 61.4713,
+          "height": 41.6499,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "EKBd6",
+          "x": 126.5043,
+          "y": 208.08,
+          "geometry": "M7.89565 0c-3.39999 1.72-7.67999 3.88-7.87999 6.72-0.6 9.2 16.2 32.92 24.04 35.16 2.8 0.84 7.48-2.68001 9.68-5.20001-11.92-7.76-23.04001-25.08-25.84001-36.67999z",
+          "fill": "#254277",
+          "width": 33.7357,
+          "height": 42.0067,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "frhpB",
+          "x": 161.5481,
+          "y": 218.4085,
+          "geometry": "M49.61186 0.15149c-8.12001 2.16-30.32001 15.88-40.24 22-1.24001 0.76001-1.88 1.96001-1.88001 3.36 0.08 10.64-3.56 22.8-6.95999 30.08-1.84 4.79999 1.36 7.67999 5.52 6.56 30.15999-10.07999 50.36-35.84 50.92-55.31999 0.2-5.36-2.84001-7.44-7.36-6.68001z",
+          "fill": "#FF8131",
+          "width": 56.9812,
+          "height": 62.3927,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "s1O8fT",
+          "x": 186.8318,
+          "y": 241.3849,
+          "geometry": "M15.9682 0.89514c-3.84 6.84-10.44 13.56-15.04001 17.48001-2.2 2-0.12 4.39999 2.40001 2.72 6.84-4.96002 13.67999-12.56001 16.23999-18.16 1.04001-2.48001-2.15999-4-3.59999-2.04001z",
+          "fill": "#FFB580",
+          "width": 19.7723,
+          "height": 21.6618
+        },
+        {
+          "type": "ellipse",
+          "id": "z3yc8",
+          "x": 211.6644,
+          "y": 146.8124,
+          "fill": "#254277",
+          "width": 46.4064,
+          "height": 46.4064,
+          "stroke": "#17284D",
+          "strokeWidth": 2.258144
+        },
+        {
+          "type": "ellipse",
+          "id": "X7zhNL",
+          "x": 216.2345,
+          "y": 152.8125,
+          "fill": "#102146",
+          "width": 36.3438,
+          "height": 36.3438
+        },
+        {
+          "type": "path",
+          "id": "c5PH5F",
+          "x": 219.6393,
+          "y": 155.7595,
+          "geometry": "M16.96069 0.0005c-10.04001-0.08-17.04001 9.44-16.96 15.20002 0.03999 2.36 2.68001 2.59999 3.08 0.75999 1.67999-6.39999 7.44-11.64 14.39999-12.88 2.16-0.48 1.92-3.08-0.51999-3.08001z",
+          "fill": "#BDCAE4",
+          "width": 18.9574,
+          "height": 17.1778
+        },
+        {
+          "type": "path",
+          "id": "nyd93",
+          "x": 151.2686,
+          "y": 108.4355,
+          "geometry": "M27.41142 97.68445c5.64001-8.12 16.28001-21.75999 16.24001-30.79999-0.03999-8.08-6.31999-16.28001-11.64-20.28001 6.24001 0.8 13.39999 1.08 16.47999 0.56001 2.04001-5.08 3.68001-12.44 3.80001-16.84001l-9.52001-3.48-7.43998-2.28-9.44001-16.72c-1.84-3.16-4.36-6.44-7.96-7.51999-4.11999-1-8.64 0.24-11.56 4.72-5.72 10.16-6.72 29.6-6.28 43.12 0.24001 8.64 6.67999 16.03999 15.72 20.51999-5.08 9.44-10.44 20.12001-14.08 28.24-4.03999 8.96001 12.39999 21 23.39999 20.96001 11.88001 0.07999 14.16-14.40001 2.28-20.20001z",
+          "fill": "#BBE2FC",
+          "width": 52.2914,
+          "height": 117.8848,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "kyJ90",
+          "x": 159.28,
+          "y": 189.92,
+          "geometry": "M1.72 0l-1.72 3.24001c4.16 6.51999 13.24001 11 21.56 11.11999l2.28-4c-8.84-0.2-17.56-4.52-22.12-10.36z",
+          "fill": "#29467C",
+          "width": 23.84,
+          "height": 14.36
+        },
+        {
+          "type": "path",
+          "id": "C74IgR",
+          "x": 157.04,
+          "y": 169.04,
+          "geometry": "M9.52 7.04001c-3.23999-1.84-7.16-4.52-9.52-7.04001",
+          "width": 9.52,
+          "height": 7.04,
+          "stroke": "#17284D",
+          "strokeWidth": 2.219336,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "r5Hb2I",
+          "x": 164.96,
+          "y": 176.04,
+          "geometry": "M3.31999 0c-0.64 1-2.24001 3.92001-3.31999 5.84001",
+          "width": 3.32,
+          "height": 5.84,
+          "stroke": "#17284D",
+          "strokeWidth": 2.09086,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "cvc88",
+          "x": 165.2,
+          "y": 155.1053,
+          "geometry": "M0 3.21469c5.12001-3.36 12.96001-4.12001 18.76001-2.12001",
+          "width": 18.76,
+          "height": 3.2147,
+          "stroke": "#17284D",
+          "strokeWidth": 1.730932,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "jC8Ll",
+          "x": 139.3471,
+          "y": 105.4,
+          "geometry": "M14.57288 0c-4.39999 0-8.15999 3.88-10.80001 12.92-2.63998 9.32-4.67999 22.2-3.35998 29.4 1.07999 6.72 6.43999 9.12 11.56 9.03999-0.20001-19.43999 1-42.56 11.15998-48.11999-2.59999-1.6-5.64-3.24-8.55999-3.24z",
+          "fill": "#BBE2FC",
+          "width": 23.1329,
+          "height": 51.3619,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "JHb2i",
+          "x": 205.88,
+          "y": 72.08,
+          "geometry": "M31.64 0c-6 7.8-14.76001 15.4-22.24001 19.43999-3.16 4.04-6.92 7.64001-9.39999 10.12001 4.28 4.84 7 12.56 7.39999 18.12l16.4-7.88001c11.52-7.71999 19.88001-21.48 21.48001-30.79999-5.52-1.12-10.40001-4.56001-13.64-9z",
+          "fill": "#BBE2FC",
+          "width": 45.28,
+          "height": 47.68,
+          "stroke": "#17284D",
+          "strokeWidth": 2.577868
+        },
+        {
+          "type": "path",
+          "id": "b6zT6V",
+          "x": 233.4,
+          "y": 72.08,
+          "geometry": "M4.12001 0c-1.60001 0.52-3.16 2.12-4.12001 4.2 2.20001 5.8 9.44 10.44 15.36 10.72 1.20001-1.84 2.08-4.08 2.28-5.96-5.47999-1.16-10.51999-4.52-13.51999-8.96z",
+          "fill": "#BBE2FC",
+          "width": 17.64,
+          "height": 14.92,
+          "stroke": "#17284D",
+          "strokeWidth": 2.32302
+        },
+        {
+          "type": "path",
+          "id": "uLt1E",
+          "x": 237.1221,
+          "y": 48.9994,
+          "geometry": "M28.55789 14.08063c-0.84-1.64-5.15997 0.04-7.35998 1.92 2.95999-2.4 6.64002-6.84 5.20001-9.04001-1.44-1.88-6.08002 2.12-8.04002 5.04001 2.48003-3 5.60002-8.2 3.63999-9.88001-2.28-1.44-6.59999 4.56-7.79998 7.60001 1.48-3.48 3.15999-8.96 0.79998-9.68-3.31999-0.76-5.67999 9.36-7.79998 12.16-1-3.44-4.04001-6-6.28002-5.08001-1.79999 0.84-0.59999 4.4 0.60001 7.16 0.64 2.96 0.48 6.44 0.03999 8.80001 1.64001 4.28 6.8 7.52 12.24001 8l0.8-2.04c3.28-1.68 5.92001-4.28 7.36002-6.88 3.63998-2.08 7.83997-5.64001 6.59997-8.08z",
+          "fill": "#E58F54",
+          "width": 28.7797,
+          "height": 31.0806,
+          "stroke": "#132449",
+          "strokeWidth": 1.988936,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "baKcY",
+          "x": 244.934,
+          "y": 62.2211,
+          "geometry": "M0.186 0.61894c2.52 1.52 3.16 4.24 2.84002 6.68-0.04001 0.64001 0.84 0.76 1 0.12 0.71999-3.08-0.84001-6.44-3.56002-7.4-0.43999-0.12-0.64 0.36-0.28 0.6z",
+          "fill": "#AD5D35",
+          "width": 4.2012,
+          "height": 7.8431
+        },
+        {
+          "type": "path",
+          "id": "Ay080",
+          "x": 130.4399,
+          "y": 15.5194,
+          "geometry": "M49.52013 0.00056c-27.56001 0.16-49.44002 22.16-49.52001 48.76-0.04001 19.24 10.28 34.96 25.95999 41.48 6.16 2.2 13.68001 3.24 21.08 3.24 15.72 0 28.48001-5.84 37.56-16.24 7.60001-8.32 11.56001-19.04 11.56002-31.52 0-26.64-20.36-45.84-46.64-45.72z",
+          "fill": "#ffffff66",
+          "width": 96.1601,
+          "height": 93.4806,
+          "stroke": "#74A7DA",
+          "strokeWidth": 2.254908
+        },
+        {
+          "type": "path",
+          "id": "AtLFP",
+          "x": 203.92,
+          "y": 26.72,
+          "geometry": "M0 0c9.16 8.64 12.96001 21.68 12.36 33.64-0.2 5.04-1.16 10-2.60001 14.64l2.20002 8.08c3.87999-6.2 5.87999-13.52 5.87999-21.76 0.04001-15-7.08-27.56-17.84-34.6z",
+          "fill": "#E5F2FF",
+          "width": 17.8402,
+          "height": 56.36
+        },
+        {
+          "type": "path",
+          "id": "JHpG8",
+          "x": 158.04,
+          "y": 90.88,
+          "geometry": "M50.92001 0.08c-7.28001 7.4-19.24 11.4-32.40001 11.52001-7.16 0.07999-14.2-0.72-18.52-2.24001 3.52-1.88 8.08-3 11.64-3.36l35.88-6 3.40001 0.08z",
+          "fill": "#BBE2FC",
+          "width": 50.92,
+          "height": 11.6055,
+          "stroke": "#17284D",
+          "strokeWidth": 2.254908
+        },
+        {
+          "type": "path",
+          "id": "cocFj",
+          "x": 171.32,
+          "y": 97.48,
+          "geometry": "M0 0l0 4.35999c2.95999 0.44 6.48 0.52 9.39999 0.24001l-8.52-4.6-0.87999 0z",
+          "fill": "#E18146",
+          "width": 9.4,
+          "height": 4.7633,
+          "stroke": "#132449",
+          "strokeWidth": 1.81834
+        },
+        {
+          "type": "path",
+          "id": "JZS4y",
+          "x": 143.2681,
+          "y": 26.28,
+          "geometry": "M59.4119 10.24c1.76001-0.8 1.72-2.76-0.2-4.24-3.67999-2.92-11.12-2.72-15.64-1.64 1.64-2.2 0.40001-4.36-4.8-4.36-9.23999 0.04-19.11999 6.04-23.43999 11.28 0.43999-1.92 0.51999-4.44-1.20001-4-3.36 1.12-4.43999 5.92-4.15999 8.96-3.20001-0.8-7.04001-0.68-7.16001 1.92-0.03999 2.16 2.48 3.16 4.52001 3.44-11.64001 8.96-7.64001 26.08-0.28 32.92 3-2.76 7.31999-2.04 9.51999-0.56 0.72 0.44 1.12001 0.12 1.04001-0.68-0.12001-2.72-0.52-5.8-0.92-8 2.95999-4.16 2.84-11.6 1.59999-16.28 7.72 3.12 17.88001-2.52 23.12-8.12-1.56 2.48-1.59999 5.32 0.96 5.2 5.8-0.4 11.12-5.16 12.28-9.44 7.44 3.56 11.36 12.8 12.60001 20.36 2.03999-10.32 0.8-22.36-7.84001-26.76z",
+          "fill": "#102146",
+          "width": 68.106,
+          "height": 54.52,
+          "stroke": "#102146",
+          "strokeWidth": 1.799808,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "w1BTBX",
+          "x": 148.0719,
+          "y": 42.96,
+          "geometry": "M49.72813 0c-1.48 4.4-8.12001 9.04-13.04 9.28-2.51999 0.12-2.03999-3.24-0.72001-5.4-6.03999 6.56-16.31999 11.2-23.87999 8.32 1.36 5.08 1.23999 12.36-1.52 16.12 0.48 2.48 1.08 5.52 1.16 8.2 0.03999 0.71999-0.40001 0.88-0.91999 0.48-3.36-2.4-8.36-1.68-10.12001 2-1.87999 4.08 0.24001 9.24 4.56001 11.56 3.64 1.92001 7.75999 1.16 10.03999-0.92 4.96001 5.4 13.16 8.04 21.28 7.88 16.12-0.4 28.28-10.8 28.12-23.28 0.08-15.76-4-29.44-14.96-34.24z",
+          "fill": "#E58F54",
+          "width": 64.6897,
+          "height": 57.5269,
+          "stroke": "#132449",
+          "strokeWidth": 1.992412
+        },
+        {
+          "type": "path",
+          "id": "j0i0nY",
+          "x": 210.52,
+          "y": 62.0141,
+          "geometry": "M0 0.14594c0.67999 5.28 1.56 10.68 1.64 15.32 3.12-0.28001 5.39999-4.04 5.16-8.52001-0.16-5.08-3.36-7.6-6.8-6.79999z",
+          "fill": "#D37C4B",
+          "width": 6.8173,
+          "height": 15.4659,
+          "stroke": "#132449",
+          "strokeWidth": 1.992412
+        },
+        {
+          "type": "ellipse",
+          "id": "m3vgsM",
+          "x": 170.375,
+          "y": 68.4766,
+          "fill": "#ffffff",
+          "width": 11.5156,
+          "height": 11.5156
+        },
+        {
+          "type": "ellipse",
+          "id": "p7YYqd",
+          "x": 170.1954,
+          "y": 68.164,
+          "fill": "#132449",
+          "width": 9.25,
+          "height": 11.2656
+        },
+        {
+          "type": "ellipse",
+          "id": "r2QpUT",
+          "x": 172.2658,
+          "y": 72.3358,
+          "fill": "#ffffff",
+          "width": 2.0469,
+          "height": 2.0469
+        },
+        {
+          "type": "ellipse",
+          "id": "V2PXwx",
+          "x": 195.2498,
+          "y": 61.6329,
+          "fill": "#ffffff",
+          "width": 9.9531,
+          "height": 11.6406
+        },
+        {
+          "type": "ellipse",
+          "id": "nxQyt",
+          "x": 194.797,
+          "y": 61.7111,
+          "fill": "#132449",
+          "width": 8.5156,
+          "height": 11.3594
+        },
+        {
+          "type": "ellipse",
+          "id": "gfndX",
+          "x": 196.328,
+          "y": 65.9608,
+          "fill": "#ffffff",
+          "width": 2.2031,
+          "height": 2.2031
+        },
+        {
+          "type": "path",
+          "id": "UxM26",
+          "x": 180.5179,
+          "y": 81.6093,
+          "geometry": "M17.44206 0.07072c-4.56001 2.72-11.92001 3.12-16.40001 2.36001-1.03999-0.16-1.2 1.08-0.91999 2.23999 0.88 4.32 5.03999 7.28 9.11999 7.12001 5.8-0.28 9.36-6.08 9.08-10.96 0-0.60001-0.39999-1-0.87999-0.76001z",
+          "fill": "#132449",
+          "width": 18.3374,
+          "height": 11.7969
+        },
+        {
+          "type": "path",
+          "id": "P6HiN",
+          "x": 183.52,
+          "y": 88.0944,
+          "geometry": "M0 1.3856c2.8 4 8.95999 4.16 10.92 1.28-2.68001-3.12-8.40001-3.44-10.92-1.28z",
+          "fill": "#F47053",
+          "width": 10.92,
+          "height": 4.634
+        },
+        {
+          "type": "path",
+          "id": "S1Hnm",
+          "x": 192.303,
+          "y": 73.6712,
+          "geometry": "M0.21698 0.40884c2.51999 0.64 2.51999 3.32 0.64 4.64-0.32001 0.24-0.08 0.64 0.28 0.55999 4.23999-1.12 2.8-5.84-0.84-5.6-0.36 0.04-0.40001 0.32-0.08 0.40001z",
+          "fill": "#944D31",
+          "width": 3.7326,
+          "height": 5.6192
+        },
+        {
+          "type": "path",
+          "id": "XF9Sa",
+          "x": 152.23,
+          "y": 83.1414,
+          "geometry": "M0.25 1.69862c1.84001-0.92 3.40001-0.07999 3.48001 2.08 0 0.84 1.03999 0.96 1.03999 0.04 0-0.68 0.24001-1.56 1.44001-0.92 0.75999 0.52 1-0.16 0.55999-0.64-1.96001-2.68-6-2.96-6.75999-0.92-0.04001 0.24 0.03999 0.43999 0.23999 0.36z",
+          "fill": "#AD5D35",
+          "width": 6.9893,
+          "height": 4.46
+        },
+        {
+          "type": "path",
+          "id": "R9hDH",
+          "x": 167.1854,
+          "y": 59.3378,
+          "geometry": "M8.41457 0.14219c-4.04001-0.88-7.84001 2.48-8.40001 5.79999-0.16 0.96 1.04001 1.32 1.55999 0.6 1.52-2.36 4.28-3.68 6.88001-3.87999 1.12-0.16 1.08-2.24-0.03999-2.52z",
+          "fill": "#102146",
+          "width": 9.2748,
+          "height": 6.9223
+        },
+        {
+          "type": "path",
+          "id": "MiZzu",
+          "x": 193.734,
+          "y": 53.0122,
+          "geometry": "M9.30598 1.4278c-2.48-2.16-7.48-1.72-9.07998 0.32-0.60001 0.76 0.07999 1.92 1.03999 1.52 2.48-1 5.32001-0.88 7.44-0.12 0.92 0.32 1.28-1.08 0.59999-1.72z",
+          "fill": "#102146",
+          "width": 9.6585,
+          "height": 3.3495
+        },
+        {
+          "type": "path",
+          "id": "xAXGY",
+          "x": 155.16,
+          "y": 91.44,
+          "geometry": "M53.67999 0c-15.08 17.64-40.92 17.79999-53.67999 13.88 17.51999 8.76 42.28 6.28 53.67999-13.88z",
+          "fill": "#17284D",
+          "width": 53.68,
+          "height": 18.6718
+        },
+        {
+          "type": "path",
+          "id": "VGUPI",
+          "x": 173.12,
+          "y": 101.76,
+          "geometry": "M33.04001 0c-9.52 7.07999-23.40001 9.4-33.04001 8.32l1.64 1.79999c12.64 1.24001 24.84001-2.52 31.88-9.15999l-0.47999-0.96z",
+          "fill": "#17284D",
+          "width": 33.52,
+          "height": 10.3549
+        },
+        {
+          "type": "path",
+          "id": "BXfze",
+          "x": 205.88,
+          "y": 101.6,
+          "geometry": "M0 0c3.87999 4.6 7 12.20001 7.36 18.36",
+          "width": 7.36,
+          "height": 18.36,
+          "stroke": "#17284D",
+          "strokeWidth": 2.577868
+        },
+        {
+          "type": "path",
+          "id": "kYqtf",
+          "x": 194.04,
+          "y": 129.36,
+          "geometry": "M0 5.96001c1.52-1.72 3.8-3.88 6.40001-5.96001",
+          "width": 6.4,
+          "height": 5.96,
+          "stroke": "#17284D",
+          "strokeWidth": 2.512408
+        },
+        {
+          "type": "path",
+          "id": "WkPn9",
+          "x": 177.32,
+          "y": 116.32,
+          "geometry": "M0 0l9.2 16.88 17.19999 5.40001",
+          "width": 26.4,
+          "height": 22.28,
+          "stroke": "#17284D",
+          "strokeWidth": 2.020732,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "S3fEB",
+          "x": 184.48,
+          "y": 133.32,
+          "geometry": "M0 1.35999l2.28-1.35999",
+          "width": 2.28,
+          "height": 1.36,
+          "stroke": "#17284D",
+          "strokeWidth": 1.728664,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "OePUO",
+          "x": 160.76,
+          "y": 131.4,
+          "geometry": "M0 0c1.76001 6.12001 6.52 14.56001 13.16 18.72 7.64 4.68001 21.11999 6.12001 25.64 5.52001 2.60001-4.75999 3.96001-11.92 4-16.96001l-16.75999-5.48",
+          "fill": "#BBE2FC",
+          "width": 42.8,
+          "height": 24.3688
+        },
+        {
+          "type": "path",
+          "id": "NqRVP",
+          "x": 160.76,
+          "y": 131.4,
+          "geometry": "M0 0c1.76001 6.12001 6.52 14.56001 13.16 18.72 7.64 4.68001 21.11999 6.12001 25.64 5.52001 2.60001-4.75999 3.96001-11.92 4-16.96001l-16.75999-5.48",
+          "width": 42.8,
+          "height": 24.3688,
+          "stroke": "#17284D",
+          "strokeWidth": 2.334536,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "I2kOPE",
+          "x": 152.16,
+          "y": 141.72,
+          "geometry": "M12.84 0c-3.92 2.92-9.08 4.48-12.84 4.56l0.2 4.04001c5.48-0.12001 11.72-2.56001 15.24-5.40001l-2.6-3.2z",
+          "fill": "#243F70",
+          "width": 15.44,
+          "height": 8.6
+        },
+        {
+          "type": "path",
+          "id": "hH8VX",
+          "x": 193.08,
+          "y": 137.32,
+          "geometry": "M4.59999 0c-0.28 6.31999-2.39999 13.64-4.59999 17.84l6.03999 0.36c2.68001-5 4.12001-11.64 4.08-16.88001l-5.52-1.31999z",
+          "fill": "#BBE2FC",
+          "width": 10.1208,
+          "height": 18.2,
+          "stroke": "#17284D",
+          "strokeWidth": 2.177416
+        },
+        {
+          "type": "path",
+          "id": "KgCAg",
+          "x": 200.44,
+          "y": 134.6857,
+          "geometry": "M3.08 4.0343c3.56-2.36 9.08-4.88 10.31999-3.75999 1.44 1.31999 0.12001 4.03999-1.95999 4.87999 4.31999-0.48 8.36 0.08 8.4 3.04001 0.04001 1.51999-1.39999 2.51999-3.12 2.79998 1.87999 0.20001 3.2 0.84001 3 2.48001-0.2 1.72-2.08 2.75999-4.04001 2.84 1.76001 0.32001 2.88001 1 2.20001 2.72-1.92001 4.88001-12.56001 3.88001-17.88 0.44 2-4.8 2.95999-10.28 3.08-15.44z",
+          "fill": "#E58F54",
+          "width": 19.8408,
+          "height": 22.3778,
+          "stroke": "#132449",
+          "strokeWidth": 2.177416,
+          "strokeLinejoin": "round",
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "X7w2za",
+          "x": 213.24,
+          "y": 144.96,
+          "geometry": "M0 0c1.87999 0.36 3.79999 0.39999 5.31999 0.12",
+          "width": 5.32,
+          "height": 0.3037,
+          "stroke": "#132449",
+          "strokeWidth": 1.021904,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "h4aEN7",
+          "x": 213.52,
+          "y": 149.44,
+          "geometry": "M0 0c1.75999 0.36 3.67999 0.39999 5.08 0.08",
+          "width": 5.08,
+          "height": 0.297,
+          "stroke": "#132449",
+          "strokeWidth": 1.021904,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "wsNvE",
+          "x": 211.96,
+          "y": 153.48,
+          "geometry": "M0 0c1.79999 0.28 3.79999 0.32001 5.15999 0",
+          "width": 5.16,
+          "height": 0.2253,
+          "stroke": "#132449",
+          "strokeWidth": 1.080488,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "VWK18",
+          "x": 189.4981,
+          "y": 113.5587,
+          "geometry": "M1.90189 3.32131l10.68-3.19999c1.28-0.4 2.36 0.2 2.80001 1.63999l1.08 5.08001c0.31999 1.48-0.36 2.88-1.88001 3.4l-10.40001 3.07999c-1.56 0.4-2.87999-0.32-3.19999-1.92l-0.92-4.55999c-0.28-1.68 0.40001-3 1.84-3.52001z",
+          "fill": "#FFF6E7",
+          "width": 16.5394,
+          "height": 13.4299,
+          "stroke": "#17284D",
+          "strokeWidth": 2.068932
+        },
+        {
+          "type": "path",
+          "id": "m4NQw0",
+          "x": 269.2,
+          "y": 108.56,
+          "geometry": "M0 0c0 0.04 0.03998 0.04 0.03998 0.04l0.08002 0-0.12-0.04z",
+          "fill": "#FFF6E7",
+          "width": 0.12,
+          "height": 0.04
+        },
+        {
+          "type": "path",
+          "id": "TfgC5",
+          "x": 165.04,
+          "y": 108.89,
+          "geometry": "M9.64 3.43004c-2.31999-1.96-5.95999-3.68-9.64-3.4",
+          "width": 9.64,
+          "height": 3.43,
+          "stroke": "#17284D",
+          "strokeWidth": 1.45822,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "ZvNDe",
+          "x": 88.8,
+          "y": 269.92,
+          "geometry": "M0 0c0 0 0 0 0 0 0 0 0 0 0 0z",
+          "fill": "#AAD9FF",
+          "width": 0,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "TwRK0",
+      "x": 39503,
+      "y": 3,
+      "name": "Loading · Menuju lesson player",
+      "context": "Design Read: full-page lesson loading for learners, white ZenUniverse canvas and child riding a rocket. ENERGY 2 / RHYTHM 1 / MOTION 2. White background preserves a calm transition; existing Fredoka/Figtree and orange preserve identity. Child riding rocket directly represents travel from the mission map into a lesson. One centered focal illustration, not a card. Runtime spec only: rocket drifts up 6px and back during loading, flame flickers gently, indeterminate segment slides along rail; stop when navigation resolves, static under reduced motion. No fake progress percentage. Back-to-map text button cancels navigation. This canvas screen is a static visual design, not implemented runtime behavior. Design gate PASS: 1440×1024 white frame, flex layout checked with no clipped nodes; SVG has 86 editable vector nodes; centered illustration is the single focal point; Fredoka heading and Figtree text retain identity; text colors #172033 and #4A5A70 on white meet AA; indeterminate segment #C45112 against #E5ECF4 measures 3.89:1 for non-text contrast; cancel target is 44px tall. No new data, statistics, claims, avatars, fake progress, cards, glow or gradients. Mobile handoff: content width fills viewport within 24px side gutters; scale SVG down proportionally to fit, retain 44px control. Runtime cancellation, keyboard focus and reduced-motion behaviors are specifications only, not simulated by this static canvas. Requested character revision: TyILt / Cutout image 3 is the visual reference. Revised child has navy side-swept hair, a peach round face with rosy cheeks, orange helmet earpads and a white-orange astronaut suit. White page, loading typography, rail and cancellation area remain unchanged.",
+      "clip": true,
+      "width": 1440,
+      "height": 1024,
+      "fill": "#FFFFFF",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "uTv9S",
+          "name": "Loading identity",
+          "width": "fill_container",
+          "height": 96,
+          "padding": [
+            32,
+            48
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "j3RWPS",
+              "name": "ZenUniverse wordmark",
+              "fill": "$dashboard-light-heading",
+              "content": "ZenUniverse",
+              "fontFamily": "$font-display",
+              "fontSize": 22,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tK9Nh",
+          "name": "Centered loading stage",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            0,
+            48,
+            80,
+            48
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "LLdfw",
+              "name": "Rocket and loading message",
+              "width": 520,
+              "layout": "vertical",
+              "gap": 28,
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "t27xCO",
+                  "type": "ref",
+                  "ref": "WR3Il",
+                  "name": "Anak referensi TyILt naik roket · SVG loading"
+                },
+                {
+                  "type": "frame",
+                  "id": "T0OCyF",
+                  "name": "Loading copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RkQ3m",
+                      "name": "Menyiapkan misi · Heading",
+                      "fill": "$dashboard-light-heading",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Menyiapkan misimu...",
+                      "textAlign": "center",
+                      "fontFamily": "$font-display",
+                      "fontSize": 32,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cN6PE",
+                      "name": "Loading explanation",
+                      "fill": "$dashboard-light-text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Sebentar, pelajaranmu sedang dimuat.",
+                      "textAlign": "center",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "U9W7nE",
+                  "name": "Indikator indeterminate · Bukan persentase",
+                  "clip": true,
+                  "width": 176,
+                  "height": 6,
+                  "fill": "#E5ECF4",
+                  "cornerRadius": 3,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "J3Y02",
+                      "name": "Segmen bergerak · Posisi contoh",
+                      "fill": "$dashboard-accent-dark",
+                      "width": 52,
+                      "height": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Z4NdNM",
+          "name": "Cancel navigation area",
+          "width": "fill_container",
+          "height": 88,
+          "padding": 20,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "lHsz0",
+              "name": "Kembali ke peta · Batalkan navigasi",
+              "height": 44,
+              "cornerRadius": 10,
+              "gap": 8,
+              "padding": [
+                0,
+                20
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "axYwW",
+                  "name": "Back to map icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$dashboard-light-text"
+                },
+                {
+                  "type": "text",
+                  "id": "O4A4e8",
+                  "name": "Kembali ke peta label",
+                  "fill": "$dashboard-light-text",
+                  "content": "Kembali ke peta",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "WR3Il",
+      "x": 37943,
+      "y": -837,
+      "name": "Loading / Anak referensi TyILt naik roket SVG",
+      "context": "Requested revision: use Cutout image 3 (TyILt) as the child character reference. Preserve loading page and orange-white rocket subject; adapt rounded navy-haired astronaut with peach skin, rosy cheeks, white suit, orange cuffs and helmet earpads as editable SVG.",
+      "reusable": true,
+      "clip": true,
+      "width": 360,
+      "height": 320,
+      "fill": "#00000000",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "SIZUy",
+          "x": 20,
+          "y": 0,
+          "fill": "#ffffff91",
+          "width": 320,
+          "height": 320
+        },
+        {
+          "type": "path",
+          "id": "DvikG",
+          "x": 42.52,
+          "y": 251.369,
+          "geometry": "M66.8 36.87103c2.08-0.47998 4.03999-1.51999 5.59999-3.03997-3.72-0.28-6.64-2.24002-6.39999-6.60001-5.4 1.60001-14 0.95999-14.48-5.80002-0.4-7.35998 3.28-16 8.08-20.99998-6.08-1.84-14.36 2.44-16.4 8.47999-3-3.88-7.48-6.03999-12.36-5.8-9.24001 0.52-15.84 8.96001-14.84 18.47999-9.12-0.07999-16 7.28-16 16.92002 0 12.72 11.68 19.88001 21.8 15.88 2.28 6.19998 8.20001 10.31998 15.04 10.31998 6.96 0 12.84-4.23999 15.08-9.63998 1.75999 0.88001 3.64 1.35999 5.52 1.35998 6.92 0 11.96-5.35999 11.95999-12.07999 0.08-2.92001-0.92-5.48001-2.59999-7.48001z",
+          "fill": "#BBDEFF",
+          "width": 72.4,
+          "height": 64.711
+        },
+        {
+          "type": "path",
+          "id": "FNyQu",
+          "x": 50.6962,
+          "y": 279.5844,
+          "geometry": "M11.74376 0.49564c-2.16-1.35999-7.12 0.04001-10.2 4.68002-3.2 5.03998-1.04 12.75998 2.96 13.19998 1.6 0.20001 2.28-1.28 1.88-3.60001-0.64-4.19998 1.16-8.43997 4.4-10.43997 1.36-0.92001 1.72-3.16 0.96-3.84002z",
+          "fill": "#ffffff",
+          "width": 12.1354,
+          "height": 18.3937
+        },
+        {
+          "type": "path",
+          "id": "IBD8A",
+          "x": 65.295,
+          "y": 262.7649,
+          "geometry": "M14.14502 0.95511c-2.12-1.72-7.12-1.39999-11.32001 3.32001-3.84 4.35999-3.59999 9.88001-0.28 10.51998 1.16 0.23999 1.84-0.56 2.12001-2.16 0.72-3.79999 4.28001-7.04001 8.12-7.79999 1.8-0.44 2.2-3.04001 1.36-3.88z",
+          "fill": "#ffffff",
+          "width": 14.5658,
+          "height": 14.837
+        },
+        {
+          "type": "path",
+          "id": "fbBVW",
+          "x": 42.52,
+          "y": 276.84,
+          "opacity": 0.07,
+          "geometry": "M14.52 10.04001l-0.72 1.32001c-0.08 2 0.04 4.19998 0.76 6.15997 0.4 2.32001-0.28 3.80002-1.88 3.6-4-0.44-6.16-8.16-2.96-13.19998 0.36-0.52002 0.72-1 1.12-1.44l-6.04-6.48001c-2.96 3-4.8 7.56-4.8 12.84 0 12.92001 11.68 20.08002 21.8 16.08001 2.28 6.19998 8.20001 10.31998 15.04 10.31998 2.39999 0 4.68-0.51999 6.72-1.39999l-14.56-7-14.48-20.79999z",
+          "fill": "#132C5E",
+          "width": 43.56,
+          "height": 39.24
+        },
+        {
+          "type": "path",
+          "id": "iVjdU",
+          "x": 94.04,
+          "y": 238.5687,
+          "geometry": "M33.92 0.11125c-19.2-1.84-33.92 19.56-33.92 33.28 0 6.96002 8.2 8.44 14.48 6.64001-0.32 3.84 2.44 6.56 7.08 6.47999 10-0.28 21.91999-8.12 25.16001-15.35999-7.08002-8-11.08002-19.72-12.80001-31.04001z",
+          "fill": "#FF8A33",
+          "width": 46.72,
+          "height": 46.513
+        },
+        {
+          "type": "path",
+          "id": "E4bPNQ",
+          "x": 103.3856,
+          "y": 245.2228,
+          "geometry": "M23.81443 0.01717c-12.12-0.60001-23 14.68001-23.8 22.68-0.4 5 7.6 4.59998 13.40001 2.79999-1.56001 3.51999-1.2 6.23999 2.19999 6.16001 5.76-0.28 14.92-6.76001 17.16001-11.36002-4.16-6.23999-6.8-13.67999-8.96001-20.27998z",
+          "fill": "#FFEC83",
+          "width": 32.7744,
+          "height": 31.6589
+        },
+        {
+          "type": "path",
+          "id": "Ui4SO",
+          "x": 175.7148,
+          "y": 250.92,
+          "geometry": "M7.68524 18.28001c-4.31999 13.07999-7.84 26.47998-7.67999 31.87998 0.12 4.40002 2.75999 6.76001 6.75999 6.28 18.96001-2.75998 54-32.56 59.92-56.43999-19.76 9.52-40.23999 14.84001-59 18.28001z",
+          "fill": "#FF8A33",
+          "width": 66.6852,
+          "height": 56.5013
+        },
+        {
+          "type": "path",
+          "id": "Tkiwg",
+          "x": 175.7112,
+          "y": 251.08,
+          "geometry": "M62.60878 9.52c1.31999-3.16 2.59999-6.12001 3.87999-9.52-19.48 9.27998-40.12 14.75999-58.8 18.12001-4.64 13.47998-7.87999 26.19998-7.68 31.87998 0.12 4.40002 2.75999 6.76001 6.76 6.27999 1.84001-0.35999 3.8-0.84 5.88-1.51998 7.24001-11.67999 16.48-23.63999 24.4-32.60001 5.8-5.03998 16.92-8.23999 25.56001-12.63999z",
+          "fill": "#F77128",
+          "width": 66.4888,
+          "height": 56.3413
+        },
+        {
+          "type": "path",
+          "id": "FrkyF",
+          "x": 90.5596,
+          "y": 128.24,
+          "geometry": "M201.16035 1.95999c-28.75997 0-56.16 12.12001-74.44 24.12001 2-6.28001-4.24-21.24001-8.92-26.08-12.6 6.12-26.6 9.48-41.44 10.72-11.56 0.43999-22.68001-0.92001-27.64-0.08-9.23999 2.03999-12.96 15.84-12.79999 30.36 0.11999 14.31999 6.75999 19.64 17.68 19.23999-0.08 1.2-0.04001 2.32001 0.07998 3.40001-22.87999-2.84001-53.79999 30.92-53.67999 41 0.04 4.23999 3.52 5.72 8.84 4.56 11.16-2.76001 22.56-4.28 31.48001-3.76001-5.16 10.12001 0.95999 38.6 19.84 38.67999 25.11999 0.16 63.55999-7.91998 94.63999-22.31999 48.59999-24.4 76.43999-86.36 76.04-105.2-0.07999-10.64-10.16001-14.64-29.68-14.64z",
+          "fill": "#FFFBF4",
+          "width": 230.8446,
+          "height": 144.1223
+        },
+        {
+          "type": "path",
+          "id": "N12X0",
+          "x": 138.04,
+          "y": 187.52,
+          "geometry": "M154.19998 0c-15.03998 25.72-36.11999 46.08-66.07999 60.12-25.56 12.00001-55.52 15.43999-88.11999 13.24 3.19998 6.16 7.47998 11.39999 13.63998 11.47998 25.64001 0.36002 62.76001-7.59998 93.52001-22.03998 28.15999-13.60001 48.64-39.88 58.64-57.56001-3.88001-1.31999-7.84-3.12-11.60001-5.23999z",
+          "fill": "#F0E9E4",
+          "width": 165.8,
+          "height": 84.8517
+        },
+        {
+          "type": "path",
+          "id": "EIDMg",
+          "x": 263.6741,
+          "y": 130.2,
+          "geometry": "M28.04593 0c-10.44 0.04001-20.60001 1.56-27.60001 3.56-2.35999 10.96001 4.91998 28.64 15.4 42.56001 6.92001 7.56 16.60001 14.56 24.32 16.23999 10.95999-18.31999 17.88001-37.64 17.56-47.72-0.07999-10.64-10.16-14.64-29.67999-14.64z",
+          "fill": "#FF8A33",
+          "width": 57.7366,
+          "height": 62.36
+        },
+        {
+          "type": "path",
+          "id": "gN2hp",
+          "x": 291.96,
+          "y": 140.52,
+          "geometry": "M27.96002 0c-4.88 16.56-17.80002 35.23999-27.96002 45.76 4.16 3.04001 7.76001 5.11999 11.88001 6.27999 10.80002-18.12 17.67999-37.12 17.55999-47.72-0.07999-1.56-0.63998-3.03999-1.47998-4.31999z",
+          "fill": "#F77128",
+          "width": 29.4416,
+          "height": 52.04
+        },
+        {
+          "type": "path",
+          "id": "BsgUR",
+          "x": 90.5596,
+          "y": 191.7225,
+          "geometry": "M53.68034 0.15746c-23.15999-2.72-53.79999 30.56-53.67999 40.99999 0.04 4.23999 3.52 5.72 8.84 4.56 11.16-2.76001 22.76-4.11999 31.92001-3.6 6.28-9.44 14.72-18.44 22.28-24.68-5.36-4.72-8.52-11.28-9.36002-17.27999z",
+          "fill": "#FF8A33",
+          "width": 63.0404,
+          "height": 46.0985
+        },
+        {
+          "type": "path",
+          "id": "epmEH",
+          "x": 140.0217,
+          "y": 192.16,
+          "geometry": "M0.61827 0.08c-2 7.51999 0.96001 17.43999 7.31999 22.51999 1.96001-2 3.92001-3.87999 5.84002-5.59999-5.04001-4.76001-8.2-10.96001-9.16001-17l-4 0.08z",
+          "fill": "#F77128",
+          "width": 13.7783,
+          "height": 22.6
+        },
+        {
+          "type": "path",
+          "id": "EKnHs",
+          "x": 143.7364,
+          "y": 171.92,
+          "geometry": "M56.54364 58.32001c-0.16-2.68001-0.64-5.36-1.08-6.96001 2.32001-2.60001 1.88-6.64-0.56-8.16 1.96001-10.48 0.92-20.51999-5-25.2-0.36-2.84 0.03999-5.64 0.96001-7.08-2.28 0.64-4.16-1.56-4.40001-1.04-13.59999 2.03999-27.36-2.96001-33.08-9.88-5.2 2.75999-10.35998 5.84-13.2 8.12-1.40001 16.48001 5.28 29.48001 17.47999 31.88-0.23999 4.84 0.76001 9.24 2.68001 12.32001-2.8 2.92-1.68001 7.51999 0.88001 8.64l0.56 6.47999c-1.44 5.08-1.64 10.60001-0.72001 14.2-0.68001 4.16 0.48 8 4.36 8.67999 15.44 3.20001 37.23999-2.63998 44.80001-8.67999 5.71999-5.16-0.16-22.92-13.68001-23.31999z",
+          "fill": "#ffffff",
+          "width": 72.4025,
+          "height": 91.2263
+        },
+        {
+          "type": "path",
+          "id": "XA4fL",
+          "x": 191.64,
+          "y": 194.32,
+          "geometry": "M0 0c2.60001 6.31999 2.16 15.23999 0.32001 20.71999 2.51999-0.03999 4.87999 0.28001 6.67999 0.68 1.24001-9.28-0.72-19.52-7-21.39999z",
+          "fill": "#CCE7FF",
+          "width": 7.3526,
+          "height": 21.4
+        },
+        {
+          "type": "path",
+          "id": "U8YXdY",
+          "x": 190.32,
+          "y": 222.24,
+          "geometry": "M7.43999 0.12001c-2.28-0.16-4.72-0.16-6.87999 0 1.95999 3.39999 1.79999 7.39999-0.56 8.67999 2.75999 0.32001 5.71999 0.24001 8.23999-0.11999 0.16-3.24001-0.12-6.12-0.8-8.56z",
+          "fill": "#CCE7FF",
+          "width": 8.2839,
+          "height": 9.0005
+        },
+        {
+          "type": "path",
+          "id": "LW5jl",
+          "x": 164.68,
+          "y": 230.96,
+          "geometry": "M35.84003 0c-11.56 0.43999-17.2 13.67999-14.76001 23.28-7.87999 1.36-16.03999 0.92-20.92-1.04001-0.64 4.44002 0.60001 8.12001 4.44 9.12001 15.28 3.28 37-2.28 44.88001-8.52 4.92-5.44-0.88001-22.64-13.64-22.84z",
+          "fill": "#FF8A33",
+          "width": 51.222,
+          "height": 32.333
+        },
+        {
+          "type": "path",
+          "id": "rHTuy",
+          "x": 164.842,
+          "y": 243.72,
+          "geometry": "M49.23799 0c-6.40001 6.12-19.40001 9.72-28.40001 10.44-7.79999 1.44-15.87999 0.95999-20.64-0.88-0.71999 4.32001 0.48001 8.12 4.32001 9.11999 15.28 3.16 36.72-2.07999 44.76-8.47999 2.48001-2.72 2.04001-6.88-0.04-10.2z",
+          "fill": "#F4742D",
+          "width": 50.9727,
+          "height": 19.6268
+        },
+        {
+          "type": "ellipse",
+          "id": "ly991",
+          "x": 195.6429,
+          "y": 235.4564,
+          "fill": "#FFE6CC",
+          "width": 9.4342,
+          "height": 5.6673
+        },
+        {
+          "type": "path",
+          "id": "gViUE",
+          "x": 149.5947,
+          "y": 190.44,
+          "geometry": "M0.00536 0c-0.20001 7.56 5.23999 15.39999 11.19999 17.52 1.48-4.40001 5.16-7.76001 7-10 1-1.60001-0.56-3-5.36-2-5 1.15999-9.84-1.72-12.83999-5.52z",
+          "fill": "#C5E4FF",
+          "width": 18.4934,
+          "height": 17.52
+        },
+        {
+          "type": "path",
+          "id": "Jsbjk",
+          "x": 154.36,
+          "y": 171.88,
+          "geometry": "M0 1.59999c1.44 8.08 12.75999 12.28 26.56 11.48001 5 0.36 9.68001 1.07999 13.32 2.67999l0.51999-5.11999c-14.23999 1.31999-29.43999-1.96001-37.75999-10.64l-2.64 1.59999z",
+          "fill": "#D2E5F9",
+          "width": 40.4,
+          "height": 15.76
+        },
+        {
+          "type": "path",
+          "id": "IFFkY",
+          "x": 169.52,
+          "y": 128.24,
+          "geometry": "M38.84 0c-12.60001 5.72-26.39999 9.12-38.84 10.2 5.67999 3.84 12.51999 9.03999 20.95999 9.11999 12.92 0.2 21.84001-10.12 19.52001-18.16l-1.64-1.15999z",
+          "fill": "#FF8733",
+          "width": 40.8475,
+          "height": 19.3229
+        },
+        {
+          "type": "path",
+          "id": "Q2PDYV",
+          "x": 176.12,
+          "y": 128.88,
+          "geometry": "M32.48001 0c-9.8 4.79999-22.32001 8.08-32.48001 9.31999 9.84001 6.08 25.44 1.60001 32.48001-9.31999z",
+          "fill": "#E5672A",
+          "width": 32.48,
+          "height": 12.0531
+        },
+        {
+          "type": "path",
+          "id": "b7vAvS",
+          "x": 126.48,
+          "y": 138.68,
+          "geometry": "M16.28001 0c-11.72 1.28001-16.28001 14.76001-16.28001 30.36 0 14.36 6.75999 19.84001 17.68 19.44 0.51999-15.28 4.31999-35.2 13.2-49.23999l-14.59999-0.56001z",
+          "fill": "#132C5E",
+          "width": 30.88,
+          "height": 49.8203
+        },
+        {
+          "type": "path",
+          "id": "ywGRT",
+          "x": 129.7648,
+          "y": 146.0922,
+          "opacity": 0.4,
+          "geometry": "M6.55516 0.02777c-4.64001 2.56-7.48001 17.44-6.28 20.68001 0.67999 1.92 3.47998 1.72 3.87999-2.08 0.52-5.36 2.64-12.11999 3.64-15.96001 0.44-1.95999-0.12-2.84-1.23999-2.64z",
+          "fill": "#B5D1F4",
+          "width": 7.9454,
+          "height": 21.8995
+        },
+        {
+          "type": "path",
+          "id": "eUfUy",
+          "x": 108.9838,
+          "y": 201.5995,
+          "opacity": 0.4,
+          "geometry": "M16.17619 0.0005c-4.20001-0.08-15.60001 9.36-16.16001 12.72-0.2 1.48 1.48 2.2 3.6 0.76 4.6-3.08 10.76-8 13.04-10.60001 0.96-1.44 0.68-2.67999-0.47999-2.87999z",
+          "fill": "#FCD6B7",
+          "width": 17.2365,
+          "height": 14.2632
+        },
+        {
+          "type": "path",
+          "id": "W7biIn",
+          "x": 175.6778,
+          "y": 251.04,
+          "geometry": "M66.56224 0c-6.16 26.48-43.20001 54.60002-60.28 56.16002-4.28001 0.35999-6.36-2.32001-6.28001-6.84003 0.20001-6.71997 3.88-19.87997 7.84001-31.03998",
+          "width": 66.5622,
+          "height": 56.1922,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "x6C2h7",
+          "x": 263.8603,
+          "y": 133.84,
+          "geometry": "M39.81973 58.68001c-12.63998-3.76001-25.07999-17-33.20001-32.84001-5.15997-10.31999-7.67999-21.2-6.19998-25.84",
+          "width": 39.8197,
+          "height": 58.68,
+          "stroke": "#152B59",
+          "strokeWidth": 2.254188
+        },
+        {
+          "type": "path",
+          "id": "MeWVO",
+          "x": 129.7963,
+          "y": 130.24,
+          "geometry": "M86.7637 24.84c21.68001-14.47999 50.40003-24.84 75-24.84 21 0 29.84 4 29.84 14.79999 0 17.48001-25.60001 77.64-76.67999 104.88-31.48 15.64-74.44001 22.59999-93.60001 22.43999-15.92-0.39999-24.67999-26.63998-20.12-38.55998",
+          "width": 191.6037,
+          "height": 142.1227,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576
+        },
+        {
+          "type": "path",
+          "id": "xRSoO",
+          "x": 90.5596,
+          "y": 191.6961,
+          "geometry": "M53.72035 0.18391c-22.64-2.96001-53.84 30.64-53.72 41 0.04 4.31999 3.48 5.75999 9.08 4.51999 11.24-2.84 22.56-4.15999 31.56-3.55999 5.92-9.2 14.56001-18.36 22.40001-24.6",
+          "width": 63.0404,
+          "height": 46.1318,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576
+        },
+        {
+          "type": "path",
+          "id": "RRuo4",
+          "x": 143.7872,
+          "y": 138.16,
+          "geometry": "M17.57278 73.8c-13.48-3.40001-18.48-17.08-17.44-31.88 0.52-12.88001 3.59999-25.40001 8.2-34.32001 3.24001-5.39999 8.44-7.48 13.48001-7.59999 5.51999 0.03999 11.15999 3.28 16 8.08 5.07999 4.87999 11.2 7.59999 16.15999 8.2-7.08 5.67999-10.2 17.67999-7.2 25.36 0.84 2.16 3 4 5.08 3.95999-1.67999 2.28-2.24001 4.32001-1.88 6.32001 6.12001 5.12 6.88001 15.72 5 25-9.95999-3.2-29.23999 1.67999-34.79999 9.39999-2.36-4.08-2.96001-8.8-2.60001-12.51999z",
+          "width": 55.8791,
+          "height": 86.32,
+          "stroke": "#152B59",
+          "strokeWidth": 2.254188
+        },
+        {
+          "type": "path",
+          "id": "WeMhC",
+          "x": 164.2081,
+          "y": 223.24,
+          "geometry": "M0.75192 9.51999l0.59999 6.64c-1.67999 5.88001-1.64 10.76001-0.72 14.08-0.59999 4.40001 0.68001 8.12001 4.44 8.76 14.68001 3.36002 36.96001-3.03998 44.60001-8.6 2.79999-2.36 2.31999-6.28 0.84-9.47999-0.92-8.28-8.28-13.96001-15.56-13.92 0-3.04001 0.08-5.44-0.2-7",
+          "width": 51.6998,
+          "height": 39.931,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576
+        },
+        {
+          "type": "path",
+          "id": "KDn1S",
+          "x": 162.2499,
+          "y": 213.7139,
+          "geometry": "M1.71013 10.72615c-2.76001 3.16-2.04001 7.48 1.15999 8.59999 7.8-8.64 24-11.56 33.8-9.75999 2.52001-2.48 2.32001-6.88-0.47999-8.60001-9.2-3.07999-26.44 1.48001-34.48 9.76001z",
+          "fill": "#FF8A33",
+          "width": 38.4333,
+          "height": 19.3261
+        },
+        {
+          "type": "path",
+          "id": "UqSqq",
+          "x": 177.84,
+          "y": 221.8929,
+          "geometry": "M21.16 0.54709c-7.16-1.48-15.56 0.23999-21.16 2.8 7.32001-1.84001 15.16-2.36 20.88001-1.48001l0.27999-1.31999z",
+          "fill": "#A5412D",
+          "width": 21.16,
+          "height": 3.3471
+        },
+        {
+          "type": "path",
+          "id": "khIqf",
+          "x": 164.16,
+          "y": 227.92,
+          "geometry": "M6.67999 0c-2.95999 0.60001-5.56 2.32001-6.67999 4.72l0.95999 0.64 5.92-4.72-0.2-0.64z",
+          "fill": "#A5412D",
+          "width": 6.88,
+          "height": 5.36
+        },
+        {
+          "type": "path",
+          "id": "aR3qp",
+          "x": 185.52,
+          "y": 243.64,
+          "geometry": "M0 10.64l0.36 1.47999c12.08-1.48 25.75999-6.43999 28.28-10.99999l-0.36-1.12c-6.72 5.84-17.84 9.36-28.28 10.64z",
+          "fill": "#A5412D",
+          "width": 28.64,
+          "height": 12.12
+        },
+        {
+          "type": "path",
+          "id": "u9FMW0",
+          "x": 161.069,
+          "y": 200.64,
+          "geometry": "M4.21104 0c-4.44 3.52-4.95999 11.8-3.44 11.88001",
+          "width": 4.211,
+          "height": 11.88,
+          "stroke": "#152B59",
+          "strokeWidth": 1.42426,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "path",
+          "id": "DeUAB",
+          "x": 184.76,
+          "y": 186.08,
+          "geometry": "M0 0c3.8 0.56 7.12001 2.31999 9.40001 4.31999",
+          "width": 9.4,
+          "height": 4.32,
+          "stroke": "#152B59",
+          "strokeWidth": 1.357236,
+          "strokeLinecap": "round"
+        },
+        {
+          "type": "ellipse",
+          "id": "JG1BC",
+          "x": 216.3418,
+          "y": 172.3906,
+          "fill": "#FF8A33",
+          "width": 54.9237,
+          "height": 54.9237,
+          "stroke": "#152B59",
+          "strokeWidth": 1.984188
+        },
+        {
+          "type": "ellipse",
+          "id": "D0ysnB",
+          "x": 222.0159,
+          "y": 178.1799,
+          "fill": "#132C5E",
+          "width": 43.5482,
+          "height": 43.5482
+        },
+        {
+          "type": "path",
+          "id": "RonvI",
+          "x": 228.0146,
+          "y": 183.2831,
+          "opacity": 0.5,
+          "geometry": "M14.86545 0.59691c-1.96001-1.64-7.36 0.08-12.32001 5.39999-3.64 4.04001-3.2 8.39999 0.2 8.64 2.16 0.12 7.08-4.88 10.56001-8.31999 2.2-2.44 2.56-4.68001 1.56-5.72z",
+          "fill": "#B5D1F4",
+          "width": 15.3951,
+          "height": 14.639
+        },
+        {
+          "type": "path",
+          "id": "K8iV4",
+          "x": 239.76,
+          "y": 213.8,
+          "opacity": 0.15,
+          "geometry": "M23.24001 0.72c-5.76001 6.64-14.11999 9.87999-23.24001 9.59999 1.36 1.20001 3.40001 2.04001 6.20001 2.20001 8.28-0.16 15.83998-5.76001 19.00002-12.52l-1.96002 0.72z",
+          "fill": "#991D1D",
+          "width": 25.2,
+          "height": 12.52
+        },
+        {
+          "type": "path",
+          "id": "YyN0b",
+          "x": 223.28,
+          "y": 177.08,
+          "opacity": 0.15,
+          "geometry": "M8.96001 0c-4.56001 1.88-7.88 5.44-8.96001 8.88l1.60001 0.79999c2.23999-3.51999 5.51999-6.79999 9.15999-8.83999l-1.79999-0.84z",
+          "fill": "#FFB892",
+          "width": 10.76,
+          "height": 9.68
+        },
+        {
+          "type": "path",
+          "id": "t4kHk",
+          "x": 168.2,
+          "y": 128.32,
+          "geometry": "M50.2 25.64c1.08-6.40001-4.64-20.64-9.96-25.64-12.47999 5.87999-26.56 9.23999-40.24 10.28 4.32001 1.2 8.28 4.03999 11.76001 7.07999 5.15999 5 12.07999 8.04001 17.71999 8.88 3.20001-1.59999 6-0.84 7.28001 0.68001 3.79999-1.92 8.39999-1.56001 11.43999 0.19999l2-1.47999z",
+          "fill": "#ffffff",
+          "width": 50.3325,
+          "height": 27.12,
+          "stroke": "#152B59",
+          "strokeWidth": 2.336348
+        },
+        {
+          "type": "path",
+          "id": "Qcc9C",
+          "x": 188.9675,
+          "y": 153.7999,
+          "geometry": "M16.07249 1.92014c-1.48-2-4.43999-2.48-7.19999-1.24001-7.56 4.68001-10.31999 16.24001-8.16001 24.24001 1.60001 6 7.72 7.72 10.92002 4.03999-4.88-6.36-3.72-20.59999 4.43999-27.03999z",
+          "fill": "#FF8733",
+          "width": 16.0725,
+          "height": 30.8879
+        },
+        {
+          "type": "path",
+          "id": "xRuv5",
+          "x": 188.52,
+          "y": 174.2,
+          "geometry": "M8.67999 0.36c-3.2 0.76001-6.8 0.48-8.67999-0.36 0.03999 2.08 0.36 3.76001 0.92 5.64 1.75999 5.40001 8.08 6.8 11.44 3.60001-2.28-2.76001-3.36-5.76001-3.68001-8.88001z",
+          "fill": "#F4742D",
+          "width": 12.36,
+          "height": 10.9357
+        },
+        {
+          "type": "path",
+          "id": "NHLHO",
+          "x": 188.9675,
+          "y": 153.7999,
+          "geometry": "M16.07249 1.92014c-1.48-2-4.43999-2.48-7.19999-1.24001-7.56 4.68001-10.31999 16.24001-8.16001 24.24001 1.60001 6 7.72 7.72 10.92002 4.03999",
+          "width": 16.0725,
+          "height": 30.8879,
+          "stroke": "#152B59",
+          "strokeWidth": 2.141324
+        },
+        {
+          "type": "path",
+          "id": "MGn2e",
+          "x": 196.879,
+          "y": 153.96,
+          "geometry": "M13.88095 0c-8.79999 0.2-13.87999 10-13.87999 19.07999-0.08 8.08 4.87999 12.56001 10.72 12.56001 9-0.20001 16.15999-10.24001 16.15999-19.48001 0.08-7.84-6.15999-12.11999-13-12.15999z",
+          "fill": "#ffffff",
+          "width": 26.8817,
+          "height": 31.64,
+          "stroke": "#152B59",
+          "strokeWidth": 2.254188
+        },
+        {
+          "type": "ellipse",
+          "id": "eWLOW",
+          "x": 216.1879,
+          "y": 176.1955,
+          "fill": "#6384B5",
+          "width": 2.7746,
+          "height": 2.7746
+        },
+        {
+          "type": "path",
+          "id": "BmBrk",
+          "x": 220.0533,
+          "y": 170.7104,
+          "geometry": "M1.66667 0.08958c-1.28-0.48-2.04001 1.08-1.47999 2.04l0.95999 0.88 0.83999-2.36-0.31999-0.56z",
+          "fill": "#6384B5",
+          "width": 1.9867,
+          "height": 3.0096
+        },
+        {
+          "type": "path",
+          "id": "s9ZUrY",
+          "x": 143.92,
+          "y": 169.68,
+          "geometry": "M10.84 0c-3.95999 2.16-8.24001 4.96001-10.84 7.16l0.03999 4.2 13.92002-8.28-3.12001-3.08z",
+          "fill": "#132B59",
+          "width": 13.96,
+          "height": 11.36
+        },
+        {
+          "type": "path",
+          "id": "ezW5v",
+          "x": 127.9201,
+          "y": 233.36,
+          "geometry": "M1.71992 0.88c-5.2 10.43999 1.40001 38.71999 19.68001 38.68001-13.64001-8.40002-18.88001-25.32001-17-39.56001l-2.68001 0.88z",
+          "fill": "#0C224A",
+          "width": 21.3999,
+          "height": 39.56
+        },
+        {
+          "type": "path",
+          "id": "ymMnx",
+          "x": 94.3999,
+          "y": 4.32,
+          "geometry": "M138.52013 40.04c-8.59999-25.16-31.68-40.04-61.16001-40.04-43.64 0-77.44 34.68-77.35999 73.2 0 4.12 0.28 7.96001 0.92 11 7-1.92 13.96 7.84 18.76 19.36 3.28 8.08 3.72 15.84 0.88 19.24 8.6 8.12 24.08001 12.12 42.36001 12.12 23.92 0 51.27999-7.4 68.63999-24.8 3.6-4.48 5.87999-6.28 6-9.12 2.76-2.32 5.51999-4.44 9.87999-6.84l-3.63999-10.6c13.68-3.39999 13.12001-42.48-5.28-43.52z",
+          "fill": "#FFFBF4",
+          "width": 153.2901,
+          "height": 134.92,
+          "stroke": "#152B59",
+          "strokeWidth": 2.336348
+        },
+        {
+          "type": "path",
+          "id": "LP9HZ",
+          "x": 107.16,
+          "y": 12.16,
+          "geometry": "M67.76 0c-38.08 0-67.76 29.76-67.76 63.72 0 29.92 23.44 58.44 60.08 58.44 38.51999 0 67.08-21.12001 67.08-56.72-0.04-40.04-24.04-65.44-59.40001-65.44z",
+          "fill": "#FF8A33",
+          "width": 127.16,
+          "height": 122.16
+        },
+        {
+          "type": "path",
+          "id": "L38H4",
+          "x": 110.12,
+          "y": 15.44,
+          "geometry": "M65.16 0c-35.95999 0-65.16 29.28-65.16 61.24 0 28.68 21.88 53.68 56.71999 53.68 37.12001 0 63.68001-19.08 63.68001-52.2 0-37.24-23.04001-62.72001-55.24-62.72z",
+          "fill": "#132C59",
+          "width": 120.4,
+          "height": 114.92
+        },
+        {
+          "type": "path",
+          "id": "lbLQc",
+          "x": 130.8116,
+          "y": 35.6,
+          "geometry": "M56.82837 0c0.32001 20.2-20.92 34.16-33.72 34.28-1.67999-0.04-2.31999-1.04-1.59999-2.28 2.43999-3.92 3.56-8.2 3.43998-11.24-6.67999 10.24-17.43999 20.84-24.91999 28.28-0.44 25.44 3.92001 44.03999 35.6 44.36 33.56 0.24 60.88-19.6 61.2-37.4 0.03999-3.36-0.88-6.52-2.52001-9.28-2-8.8-4.75999-19.28-9.27999-26.04-9.64-7.52-20.72-12.88-28.2-20.68z",
+          "fill": "#FFDCC4",
+          "width": 96.8296,
+          "height": 93.4022
+        },
+        {
+          "type": "path",
+          "id": "j7UgG7",
+          "x": 194.1311,
+          "y": 51.3596,
+          "geometry": "M11.10886 1.52044c-3.60001-2.84-9.36-1.44-10.96001 2.04-0.52 1.2 0.39999 2.08 1.56 1.2 2.44-2.12 5.52-2.32 8.48001-1.2 1.64 0.24 1.92-1.12 0.92-2.04z",
+          "fill": "#132B59",
+          "width": 11.6901,
+          "height": 5.1173
+        },
+        {
+          "type": "path",
+          "id": "f7pYH",
+          "x": 140.5526,
+          "y": 72.0587,
+          "geometry": "M10.28744 0.10135c-4.51999-0.84-9.92 3.71999-10.27999 7.07999-0.12 1.12 1.24001 1.36 1.92001 0.36 1.75998-3.04 4.95999-4.6 8.19998-4.91999 1.20001-0.2 1.20001-2.12 0.16-2.52z",
+          "fill": "#132B59",
+          "width": 11.0485,
+          "height": 8.1721
+        },
+        {
+          "type": "ellipse",
+          "id": "VYSs5",
+          "x": 146.5004,
+          "y": 109.5964,
+          "fill": "#FFB5AC",
+          "width": 16.1985,
+          "height": 16.1985
+        },
+        {
+          "type": "ellipse",
+          "id": "pdR0j",
+          "x": 217.7746,
+          "y": 84.638,
+          "rotation": -40.9804,
+          "fill": "#FFB5AC",
+          "width": 12.7567,
+          "height": 15.6153
+        },
+        {
+          "type": "path",
+          "id": "sE7Y6",
+          "x": 183.5175,
+          "y": 90.3391,
+          "geometry": "M5.24252 0.98089c-1.75999-1.8-4.95999-1-5.23999 1.4-0.04001 0.52 0.39999 0.76 0.80001 0.4 1.15999-1.24001 3.03999-1.16 4.23999 0.04 0.72 0.43999 0.84-1.2 0.19999-1.84z",
+          "fill": "#FFA997",
+          "width": 5.6595,
+          "height": 2.9528
+        },
+        {
+          "type": "ellipse",
+          "id": "I2zCVt",
+          "x": 192.9217,
+          "y": 65.6641,
+          "fill": "#ffffff",
+          "width": 25.3286,
+          "height": 25.3286
+        },
+        {
+          "type": "ellipse",
+          "id": "oG3tZ",
+          "x": 193.0337,
+          "y": 64.9034,
+          "fill": "#132C59",
+          "width": 19.3806,
+          "height": 27.4195
+        },
+        {
+          "type": "ellipse",
+          "id": "R5FAO",
+          "x": 196.2343,
+          "y": 71.9687,
+          "fill": "#ffffff",
+          "width": 6.5938,
+          "height": 6.5938
+        },
+        {
+          "type": "path",
+          "id": "LdDki",
+          "x": 193.1577,
+          "y": 63.6384,
+          "geometry": "M12.48235 0.00159c-8.12-0.12-12.60001 6.56-12.48 14 1.16-6.24 6.03999-10.72 12.75999-10.64 6.2 0.2 10.44 4.2 12.16001 8.72-0.40001-6.64-5.68001-12-12.44-12.08z",
+          "fill": "#132B59",
+          "width": 24.9223,
+          "height": 14.0016
+        },
+        {
+          "type": "ellipse",
+          "id": "o89WdS",
+          "x": 141.6601,
+          "y": 82.7541,
+          "fill": "#ffffff",
+          "width": 28.2894,
+          "height": 28.2894
+        },
+        {
+          "type": "ellipse",
+          "id": "E0iG5m",
+          "x": 147.0707,
+          "y": 85.824,
+          "fill": "#132B59",
+          "width": 21.3754,
+          "height": 23.5711
+        },
+        {
+          "type": "ellipse",
+          "id": "W4Fu4",
+          "x": 154.3167,
+          "y": 87.2303,
+          "fill": "#ffffff",
+          "width": 6.8985,
+          "height": 6.8985
+        },
+        {
+          "type": "path",
+          "id": "d3G0y",
+          "x": 140.92,
+          "y": 82.0794,
+          "geometry": "M15.11999 0.00064c-8.95999 0.08-15.11999 6.96-15.11999 15.32 0 3.04 1 5.64 2.31999 7.48-1-10.8 5.88-19.84 16.00002-19.96 3.08-0.04 5.75999 0.8 7.79998 2.12-2.48-3.16-6.43999-5-11-4.96z",
+          "fill": "#132B59",
+          "width": 26.12,
+          "height": 22.8006
+        },
+        {
+          "type": "path",
+          "id": "gcRZK",
+          "x": 173.8887,
+          "y": 96.2615,
+          "geometry": "M22.43126 0.01851c-0.8-0.12-1.68001 0.36-2.60001 0.96-5.36 3.24001-12.32001 4.76-17.52 5.04-1.72 0.2-2.48 1.84-2.28 4 0.8 6.36 6.52 11.12 12.8 11.04 7.11999-0.2 12.60001-5.84 12.48-13.24-0.03999-4.48-1.2-7.36-2.87999-7.8z",
+          "fill": "#842948",
+          "width": 25.3132,
+          "height": 21.0595
+        },
+        {
+          "type": "path",
+          "id": "sx4Z3",
+          "x": 176.88,
+          "y": 105.76,
+          "geometry": "M12.08 0c-6 0-10.8 3.2-12.08 6.96 2.44 3.08 6.08 4.72 10.03999 4.6 5.92-0.28 10.32001-3.96 11.36-8.08-1.92-2.12-5.39999-3.43999-9.31999-3.48z",
+          "fill": "#FF7D85",
+          "width": 21.4,
+          "height": 11.5661
+        },
+        {
+          "type": "path",
+          "id": "U2NsmH",
+          "x": 233.04,
+          "y": 44.4,
+          "geometry": "M0 0c4.24001 11 6.12001 28.64 5.04001 43.32 14.56-3.32 13.2-42.56-5.04001-43.32z",
+          "fill": "#FF8A33",
+          "width": 14.9372,
+          "height": 43.32,
+          "stroke": "#152B59",
+          "strokeWidth": 2.336348
+        },
+        {
+          "type": "path",
+          "id": "s8fcK",
+          "x": 241.5541,
+          "y": 91.9196,
+          "geometry": "M7.92587 0.00038c-4.95999-0.04-8.08 3.08-7.92 7.68 0.44 9.4 10.52 17.44 18.16001 17.32 5.51999-0.6 8.84-5.56 7.83999-9.88-9.59998-0.64-15.92-6.68-18.08-15.12z",
+          "fill": "#FF8A33",
+          "width": 26.1829,
+          "height": 25.0017
+        },
+        {
+          "type": "path",
+          "id": "H2ZrOl",
+          "x": 252.92,
+          "y": 107.28,
+          "geometry": "M14.2 0c-3.32001 4.16-9.15997 6.76-14.2 6.88 2.44 1.88 4.84001 2.84 7.40001 2.76 5.39999-0.75999 7.91998-5.48 6.79999-9.64z",
+          "fill": "#F4742D",
+          "width": 14.4613,
+          "height": 9.6446
+        },
+        {
+          "type": "path",
+          "id": "Uc5WQ",
+          "x": 241.4708,
+          "y": 91.9185,
+          "geometry": "M7.64919 0.00146c-4.75999-0.08-7.84 3.12-7.64 7.76001 0.40001 9.44 10.56 17.44 18.16002 17.32 5.63998-0.64 8.75998-5.48 7.88-9.96",
+          "width": 26.1964,
+          "height": 25.0828,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576
+        },
+        {
+          "type": "path",
+          "id": "I8Hin",
+          "x": 249.1172,
+          "y": 69.3148,
+          "geometry": "M23.80281 0.00519c-5.23999-0.16-9.47998 3.4-11.44 7.96 0.72003-4.4-1.19998-6.88-3.59998-6.84-5.16 0.12-8.88 8.96-8.76001 17.84 0.04001 11.12 9.08002 18.36 17.60001 18.91999 10.76001-3.71999 18.44-13.24 18.44-23.23999 0-8.92-5.84-14.44-12.24002-14.64z",
+          "fill": "#ffffff",
+          "width": 36.0428,
+          "height": 37.8852,
+          "stroke": "#152B59",
+          "strokeWidth": 2.336348
+        },
+        {
+          "type": "path",
+          "id": "q9b0aO",
+          "x": 208.68,
+          "y": 98.36,
+          "geometry": "M33.20001 0c-3.84001 2.64-7.64 5.4-10.56 7.84-5.64001 9.96001-14.64001 17.08-22.64001 21.32 4.96001 4.88 8.52 11.96 10.12001 18.44001 17.28-5.32001 36.28-18.16 41.43999-28.84001-9.76-1.28001-17.27998-9.12-18.35999-18.76z",
+          "fill": "#ffffff",
+          "width": 51.56,
+          "height": 47.6,
+          "stroke": "#152B59",
+          "strokeWidth": 2.447576
+        },
+        {
+          "type": "path",
+          "id": "nuI3G",
+          "x": 217.44,
+          "y": 117.56,
+          "opacity": 0.3,
+          "geometry": "M36.52 0c-6.92001 9.44-21.40001 16.96001-30.92001 17.32001l-5.59999-3.40001c2.03999 4.12001 2.95999 8.60001 2.92 12.92 16.08-5.95999 30.36-16.11999 36.55998-26.08l-2.95998-0.76z",
+          "fill": "#6BB1F9",
+          "width": 39.48,
+          "height": 26.84
+        },
+        {
+          "type": "path",
+          "id": "LUBq5",
+          "x": 89.9996,
+          "y": 87.7199,
+          "geometry": "M7.96042 0.00006c-5.16 0.12-8 5.56-7.96 13.12 0.2 14.84 10.32 27.72 20.32 27.68 4.92-0.12001 6.84-3.84 6.6-9.4-0.56-13.92001-10.48-31.44-18.96-31.4z",
+          "fill": "#FF8A33",
+          "width": 26.9403,
+          "height": 40.8002,
+          "stroke": "#152B59",
+          "strokeWidth": 2.336348
+        },
+        {
+          "type": "path",
+          "id": "h4Raw",
+          "x": 107.16,
+          "y": 120.64,
+          "opacity": 0.25,
+          "geometry": "M7.88 0c-3.52 2.08-6.36 4.8-7.88 7.28 1.43999 0.56 2.96 0.72 4.43999 0.64 3.84-0.31999 4.8-4.16 4.24-7.76l-0.79999-0.16z",
+          "fill": "#F45B22",
+          "width": 8.8271,
+          "height": 7.9393
+        },
+        {
+          "type": "path",
+          "id": "Yd7Sh",
+          "x": 278.7184,
+          "y": 134.9126,
+          "geometry": "M12.52154 0.00735c-7.16-0.16-12.44 2.32001-12.51998 4.60001-0.07999 1.87999 2.92001 2.92 10.28 2.36 7.48001-0.68001 11.20001-2.16 11.11999-4.04001 0-1.72-3.23999-2.8-8.88-2.92z",
+          "fill": "#FFF3E5",
+          "width": 21.4028,
+          "height": 7.1187
+        },
+        {
+          "type": "path",
+          "id": "Xr35B",
+          "x": 157.56,
+          "y": 163.2,
+          "geometry": "M0 0c0.04001 8.40001 14.2 18.08 31.11999 17.64l0.68001-6.95999c-12.56 0.75999-24.2-3.56-31.8-10.68001z",
+          "fill": "#C7E3FC",
+          "width": 31.8,
+          "height": 17.6545
+        },
+        {
+          "type": "path",
+          "id": "rlFro",
+          "x": 153.32,
+          "y": 165.04,
+          "geometry": "M0 0.28001c0.43999 9.56 16.35999 19.39999 36.79999 17.2l-0.31999-1.92c-17.96001 1.72-32.72-5.32001-35.96001-15.56001l-0.51999 0.28001z",
+          "fill": "#132B59",
+          "width": 36.8,
+          "height": 17.7916
+        },
+        {
+          "type": "path",
+          "id": "gSS6l",
+          "x": 143.24,
+          "y": 138.44,
+          "geometry": "M0 0l0.24002 0.16-0.24002-0.16z",
+          "fill": "#132B59",
+          "width": 0.24,
+          "height": 0.16
         }
       ]
     }

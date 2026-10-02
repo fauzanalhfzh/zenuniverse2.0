@@ -1,5 +1,7 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
+import type { MouseEvent } from 'react';
+import LessonNavigationLoading from '@/components/lesson/lesson-navigation-loading';
 import { show as lessonShow } from '@/routes/lesson';
 import type { CourseDetail } from '@/types/lesson';
 import './mission-map.css';
@@ -11,6 +13,13 @@ const stepY = 106;
 export default function MissionMap({ course }: { course: CourseDetail }) {
     const viewport = useRef<HTMLDivElement>(null);
     const [poppingId, setPoppingId] = useState<string | null>(null);
+    const [loadingLesson, setLoadingLesson] = useState<{
+        title: string;
+        icon: string;
+    } | null>(null);
+    const [navigationError, setNavigationError] = useState<string | null>(null);
+    const cancelToken = useRef<{ cancel: () => void } | null>(null);
+    const returnFocus = useRef<HTMLElement | null>(null);
     const lessons = course.units.flatMap((unit) => unit.lessons);
     const activeId = lessons.find(
         (lesson) => lesson.unlocked && !lesson.completed,
@@ -26,6 +35,56 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
         ),
     );
     const activeUnit = course.units[activeUnitIndex];
+
+    function openLesson(
+        event: MouseEvent,
+        lesson: CourseDetail['units'][number]['lessons'][number],
+        icon: string,
+    ) {
+        if (
+            event.defaultPrevented ||
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        if (cancelToken.current) return;
+        returnFocus.current =
+            event.currentTarget instanceof HTMLElement
+                ? event.currentTarget
+                : null;
+        router.visit(lessonShow.url(lesson.id), {
+            onCancelToken: (token) => {
+                cancelToken.current = token;
+            },
+            onStart: () => {
+                setPoppingId(lesson.id);
+                setNavigationError(null);
+                setLoadingLesson({ title: lesson.title, icon });
+            },
+            onNetworkError: () => {
+                setNavigationError(
+                    'Koneksi bermasalah. Tekan misi lagi untuk mencoba.',
+                );
+                return false;
+            },
+            onError: () => {
+                setNavigationError(
+                    'Pelajaran belum bisa dimuat. Tekan misi lagi untuk mencoba.',
+                );
+            },
+            onFinish: () => {
+                cancelToken.current = null;
+                setLoadingLesson(null);
+                setPoppingId(null);
+            },
+        });
+    }
 
     useEffect(() => {
         if (currentIndex < 0 || !viewport.current) return;
@@ -63,6 +122,24 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                 <span>{activeUnit?.title ?? course.title}</span>
             </div>
 
+            {navigationError ? (
+                <p
+                    role="alert"
+                    className="px-4 py-3 text-sm font-semibold text-[#a6400a]"
+                >
+                    {navigationError}
+                </p>
+            ) : null}
+
+            {loadingLesson ? (
+                <LessonNavigationLoading
+                    title={loadingLesson.title}
+                    icon={loadingLesson.icon}
+                    returnFocus={returnFocus}
+                    onCancel={() => cancelToken.current?.cancel()}
+                />
+            ) : null}
+
             <div className="mission-viewport" ref={viewport}>
                 {lessons.length > 0 ? (
                     <div
@@ -96,8 +173,12 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                                             <Link
                                                 href={lessonShow.url(lesson.id)}
                                                 className={`mission-node${poppingId === lesson.id ? ' is-popping' : ''}`}
-                                                onClick={() =>
-                                                    setPoppingId(lesson.id)
+                                                onClick={(event) =>
+                                                    openLesson(
+                                                        event,
+                                                        lesson,
+                                                        icon,
+                                                    )
                                                 }
                                                 onAnimationEnd={() =>
                                                     setPoppingId((current) =>
