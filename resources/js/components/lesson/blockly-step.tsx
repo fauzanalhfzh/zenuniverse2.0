@@ -12,21 +12,21 @@ import type { BlocklyCommand, BlocklyStep } from '@/types/lesson';
 const blockDefinitions = [
     {
         type: 'zen_move_forward',
-        message0: 'MOVE FORWARD',
+        message0: 'MAJU',
         previousStatement: null,
         nextStatement: null,
         colour: 210,
     },
     {
         type: 'zen_turn_right',
-        message0: 'TURN RIGHT',
+        message0: 'BELOK KANAN',
         previousStatement: null,
         nextStatement: null,
         colour: 210,
     },
     {
         type: 'zen_repeat',
-        message0: 'REPEAT %1 TIMES %2',
+        message0: 'ULANGI %1 × %2',
         args0: [
             { type: 'field_number', name: 'TIMES', value: 3, min: 1, max: 5 },
             { type: 'input_statement', name: 'DO' },
@@ -70,6 +70,22 @@ export function BlocklyStepView({
     const [running, setRunning] = useState(false);
     const runRef = useRef<AbortController | null>(null);
     const challenge = step.challenge;
+    const [mobile, setMobile] = useState(
+        () =>
+            typeof window !== 'undefined' &&
+            window.matchMedia('(max-width: 560px)').matches,
+    );
+    const savedWorkspaceRef = useRef<{
+        stepId: string;
+        state: ReturnType<typeof Blockly.serialization.workspaces.save>;
+    } | null>(null);
+
+    useEffect(() => {
+        const media = window.matchMedia('(max-width: 560px)');
+        const update = () => setMobile(media.matches);
+        media.addEventListener('change', update);
+        return () => media.removeEventListener('change', update);
+    }, []);
 
     useEffect(() => () => runRef.current?.abort(), []);
 
@@ -94,6 +110,8 @@ export function BlocklyStepView({
                     type: blockTypeByCommand[command],
                 })),
             },
+            horizontalLayout: mobile,
+            toolboxPosition: 'start',
             renderer: 'zelos',
             maxBlocks: challenge.maxBlocks,
             grid: {
@@ -104,12 +122,28 @@ export function BlocklyStepView({
             },
             trashcan: true,
             scrollbars: true,
-            zoom: { controls: true, wheel: true, startScale: 0.9 },
+            zoom: {
+                controls: !mobile,
+                wheel: true,
+                startScale: mobile ? 0.7 : 0.9,
+            },
         });
+
+        // The closed trash flyout's scrollbar starts without a display attribute.
+        // Synchronize its container state; CSS also preserves this SVG attribute
+        // against the reset's display:block rule. show() restores it on opening.
+        workspace.trashcan?.flyout
+            ?.getWorkspace()
+            .scrollbar?.setContainerVisible(false);
 
         workspaceRef.current = workspace;
 
-        if (challenge.starterProgram?.length) {
+        if (savedWorkspaceRef.current?.stepId === step.id) {
+            Blockly.serialization.workspaces.load(
+                savedWorkspaceRef.current.state,
+                workspace,
+            );
+        } else if (challenge.starterProgram?.length) {
             Blockly.serialization.workspaces.load(
                 commandsToWorkspaceState(challenge.starterProgram),
                 workspace,
@@ -130,11 +164,15 @@ export function BlocklyStepView({
         return () => {
             resizeObserver.disconnect();
             workspace.removeChangeListener(updateBlockCount);
+            savedWorkspaceRef.current = {
+                stepId: step.id,
+                state: Blockly.serialization.workspaces.save(workspace),
+            };
             workspace.dispose();
             workspaceRef.current = null;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [step.id]);
+    }, [step.id, mobile]);
 
     function reset(): void {
         const workspace = workspaceRef.current;

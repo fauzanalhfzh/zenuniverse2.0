@@ -2237,6 +2237,12 @@ body {
     background: #fbfcfe;
 }
 
+/* Preserve Blockly's SVG visibility attributes against the CSS reset's
+   svg { display: block }, so hidden flyout scrollbars cannot intercept input. */
+.blockly-lesson__canvas svg[display='none'] {
+    display: none;
+}
+
 .blocklyWidgetDiv .blocklyHtmlInput,
 .blockly-lesson__canvas .blocklyHtmlInput {
     min-height: 0;
@@ -2432,6 +2438,64 @@ body {
 }
 
 @media (max-width: 560px) {
+    .lesson-player__body:has(.blockly-lesson) {
+        padding: 12px 10px 20px;
+    }
+
+    .lesson-player:has(.blockly-lesson) {
+        padding-bottom: calc(78px + env(safe-area-inset-bottom));
+    }
+
+    .lesson-player__step-card:has(.blockly-lesson) {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .blockly-lesson {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        gap: 10px;
+    }
+
+    .blockly-lesson__workspace,
+    .blockly-lesson__side {
+        display: contents;
+    }
+
+    .blockly-lesson__mission {
+        order: 1;
+        padding: 12px;
+        gap: 6px;
+    }
+    .blockly-lesson__stage {
+        order: 2;
+    }
+    .blockly-lesson__toolbar {
+        order: 3;
+        border: 1px solid #bbc7d9;
+        border-radius: 10px;
+    }
+    .blockly-lesson__editor {
+        order: 4;
+    }
+
+    .blockly-lesson__hint {
+        padding-top: 6px;
+        font-size: 11px;
+    }
+
+    .blockly-lesson__editor,
+    .blockly-lesson__stage {
+        grid-template-rows: 36px minmax(0, 1fr);
+    }
+
+    .blockly-lesson__stage-body .challenge-board {
+        width: min(100%, 210px);
+    }
+
     .blockly-lesson__toolbar {
         align-items: stretch;
         flex-direction: column;
@@ -2446,13 +2510,20 @@ body {
 
     .blockly-lesson__toolbar-actions {
         display: grid;
+        position: fixed;
+        z-index: 30;
+        inset: auto 0 0;
         grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-        padding: 8px;
+        padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+        border-top: 1px solid #cad4e4;
+        background: #ffffff;
+        box-shadow: 0 -4px 16px rgb(49 65 89 / 8%);
     }
 
     .lesson-player__step-card .blockly-lesson__reset,
     .lesson-player__step-card .blockly-lesson__run {
         min-width: 0;
+        min-height: 48px;
         padding-inline: 9px;
         white-space: normal;
     }
@@ -2462,12 +2533,12 @@ body {
     }
 
     .blockly-lesson__canvas {
-        height: 360px;
+        height: 340px;
     }
 
     .blockly-lesson__stage-body {
-        min-height: 250px;
-        padding: 16px;
+        min-height: 0;
+        padding: 10px;
     }
 }
 
@@ -2861,7 +2932,10 @@ body {
 
 .real-code__workspace {
     display: grid;
-    grid-template-columns: minmax(200px, 0.85fr) minmax(0, 2fr) minmax(220px, 0.95fr);
+    grid-template-columns: minmax(200px, 0.85fr) minmax(0, 2fr) minmax(
+            220px,
+            0.95fr
+        );
     gap: 12px;
     height: calc(100dvh - 270px);
     min-height: 240px;
