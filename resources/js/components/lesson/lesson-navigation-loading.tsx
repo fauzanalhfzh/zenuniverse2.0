@@ -1,91 +1,101 @@
 import { Dialog } from '@base-ui/react/dialog';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { useRef } from 'react';
-import type { RefObject } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import type { ReactNode, RefObject } from 'react';
+import './lesson-navigation-loading.css';
 
-gsap.registerPlugin(useGSAP);
-
-export default function LessonNavigationLoading({
-    title,
-    icon,
-    onCancel,
-    returnFocus,
-}: {
-    title: string;
-    icon: string;
+type Loading = {
     onCancel: () => void;
     returnFocus: RefObject<HTMLElement | null>;
+};
+
+const LoadingContext = createContext({
+    start: (_loading: Loading) => {},
+    finish: (_cancelled = false) => {},
+});
+
+export const useLessonNavigationLoading = () => useContext(LoadingContext);
+
+export default function LessonNavigationLoading({
+    children,
+}: {
+    children: ReactNode;
 }) {
+    const [loading, setLoading] = useState<Loading | null>(null);
+    const startedAt = useRef(0);
+    const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const cancelButton = useRef<HTMLButtonElement>(null);
 
-    return (
-        <Dialog.Root open onOpenChange={(open) => !open && onCancel()}>
-            <Dialog.Portal>
-                <Dialog.Backdrop className="fixed inset-0 z-50 bg-[#172033]/60" />
-                <Dialog.Popup
-                    initialFocus={cancelButton}
-                    finalFocus={returnFocus}
-                    className="fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 overflow-y-auto rounded-[20px] bg-white px-6 py-8 text-center text-[#172033] sm:px-8 dark:bg-[#0e1931] dark:text-[#f4f6ff]"
-                >
-                    <LoadingOrbit icon={icon} />
-                    <div className="flex w-full min-w-0 flex-col gap-2">
-                        <Dialog.Title className="font-display text-2xl font-semibold">
-                            Menyiapkan misi...
-                        </Dialog.Title>
-                        <Dialog.Description className="text-sm leading-6 wrap-anywhere text-[#4a5a70] dark:text-[#b7c5df]">
-                            {title}
-                        </Dialog.Description>
-                    </div>
-                    <p
-                        role="status"
-                        className="text-sm text-[#4a5a70] dark:text-[#b7c5df]"
-                    >
-                        Memuat pelajaran
-                    </p>
-                    <Dialog.Close
-                        ref={cancelButton}
-                        className="min-h-11 rounded-xl border border-[#5f6f85] px-6 text-sm font-bold text-[#4a5a70] hover:bg-[#eef3fa] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#a6400a] dark:border-[#b7c5df] dark:text-[#b7c5df] dark:hover:bg-[#182b4b] dark:focus-visible:outline-[#ff8a3d]"
-                    >
-                        Batal
-                    </Dialog.Close>
-                </Dialog.Popup>
-            </Dialog.Portal>
-        </Dialog.Root>
+    useEffect(
+        () => () => {
+            if (timer.current) clearTimeout(timer.current);
+        },
+        [],
     );
-}
 
-function LoadingOrbit({ icon }: { icon: string }) {
-    const orbit = useRef<HTMLSpanElement>(null);
+    function start(next: Loading) {
+        if (timer.current) clearTimeout(timer.current);
+        startedAt.current = performance.now();
+        setLoading(next);
+    }
 
-    useGSAP(() => {
-        const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
-            gsap.to(orbit.current, {
-                rotation: 360,
-                duration: 1.4,
-                ease: 'none',
-                repeat: -1,
-            });
-        });
-        return () => media.revert();
-    });
+    function finish(cancelled = false) {
+        if (cancelled) startedAt.current = 0;
+        if (timer.current) clearTimeout(timer.current);
+        const remaining = cancelled
+            ? 0
+            : Math.max(0, 1000 - (performance.now() - startedAt.current));
+        timer.current = setTimeout(() => setLoading(null), remaining);
+    }
+
+    function cancel() {
+        loading?.onCancel();
+        finish(true);
+    }
 
     return (
-        <div
-            className="relative grid size-24 shrink-0 place-items-center"
-            aria-hidden="true"
-        >
-            <span
-                ref={orbit}
-                data-loading-orbit
-                className="absolute inset-0 rounded-full border-[3px] border-[#e3eaf2] border-t-[#a6400a] dark:border-[#334563] dark:border-t-[#ff8a3d]"
-            />
-            <img
-                src={`/images/path-node/${icon}.png`}
-                alt=""
-                className="size-12 object-contain"
-            />
-        </div>
+        <LoadingContext.Provider value={{ start, finish }}>
+            {children}
+            {loading && (
+                <Dialog.Root open onOpenChange={(open) => !open && cancel()}>
+                    <Dialog.Portal>
+                        <Dialog.Backdrop className="lesson-loading-backdrop" />
+                        <Dialog.Popup
+                            initialFocus={cancelButton}
+                            finalFocus={loading.returnFocus}
+                            className="lesson-loading-screen"
+                        >
+                            <div className="lesson-loading-content">
+                                <img
+                                    src="/images/loading.png"
+                                    alt=""
+                                    width={160}
+                                    height={160}
+                                    className="lesson-loading-character"
+                                />
+                                <Dialog.Title className="font-display lesson-loading-title">
+                                    Menyiapkan misimu...
+                                </Dialog.Title>
+                                <Dialog.Description className="lesson-loading-description">
+                                    Sebentar, pelajaranmu sedang dimuat.
+                                </Dialog.Description>
+                                <div
+                                    role="status"
+                                    aria-label="Memuat pelajaran"
+                                    className="lesson-loading-track"
+                                >
+                                    <span />
+                                </div>
+                            </div>
+                            <Dialog.Close
+                                ref={cancelButton}
+                                className="lesson-loading-cancel"
+                            >
+                                Batal
+                            </Dialog.Close>
+                        </Dialog.Popup>
+                    </Dialog.Portal>
+                </Dialog.Root>
+            )}
+        </LoadingContext.Provider>
     );
 }

@@ -11,17 +11,11 @@ for (const mobile of [false, true]) {
                 colorScheme: 'dark',
             });
         }
-
         const errors: string[] = [];
         page.on('pageerror', (error) => errors.push(error.message));
         await page.goto(
             `/e2e/login?email=e2e-loading-${mobile}@zenuniverse.test`,
         );
-        if (mobile) {
-            await page.evaluate(() =>
-                document.documentElement.classList.add('dark'),
-            );
-        }
         const lesson = page.locator('a[href^="/lesson/"]').first();
         await expect(lesson).toBeVisible();
         const lessonUrl = await lesson.getAttribute('href');
@@ -33,15 +27,15 @@ for (const mobile of [false, true]) {
             await pending;
             await route.continue();
         });
-
         await lesson.focus();
         await page.keyboard.press('Enter');
         const loading = page.getByRole('dialog', {
-            name: 'Menyiapkan misi...',
+            name: 'Menyiapkan misimu...',
         });
         try {
             await expect(loading).toBeVisible();
-            await expect(loading.getByRole('status')).toContainText(
+            await expect(loading.getByRole('status')).toHaveAttribute(
+                'aria-label',
                 'Memuat pelajaran',
             );
             await expect(
@@ -49,15 +43,17 @@ for (const mobile of [false, true]) {
             ).toBeFocused();
             await expect(loading).toHaveCSS(
                 'background-color',
-                mobile ? 'rgb(14, 25, 49)' : 'rgb(255, 255, 255)',
+                'rgb(255, 255, 255)',
+            );
+            await expect(loading.locator('img')).toHaveAttribute(
+                'src',
+                '/images/loading.png',
             );
             const bounds = await loading.boundingBox();
-            expect(bounds?.x).toBeGreaterThanOrEqual(0);
-            expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeLessThanOrEqual(
-                page.viewportSize()!.width,
-            );
+            expect(bounds?.x).toBe(0);
+            expect(bounds?.width).toBe(page.viewportSize()!.width);
             if (mobile) {
-                await expect(loading.locator('[data-loading-orbit]')).toHaveCSS(
+                await expect(loading.locator('img')).toHaveCSS(
                     'transform',
                     'none',
                 );
@@ -65,7 +61,7 @@ for (const mobile of [false, true]) {
                 await expect
                     .poll(() =>
                         loading
-                            .locator('[data-loading-orbit]')
+                            .locator('img')
                             .evaluate(
                                 (node) => getComputedStyle(node).transform,
                             ),
@@ -78,13 +74,24 @@ for (const mobile of [false, true]) {
         } finally {
             release();
         }
-
         await expect(page).toHaveURL(/\/lesson\//);
         await expect(loading).not.toBeVisible();
         await expect(page.getByTestId('player-continue-button')).toBeVisible();
         expect(errors).toEqual([]);
     });
 }
+
+test('loading cepat tetap terlihat minimal satu detik', async ({ page }) => {
+    await page.goto('/e2e/login?email=e2e-loading-minimum@zenuniverse.test');
+    const lesson = page.locator('a[href^="/lesson/"]').first();
+    const started = Date.now();
+    await lesson.click();
+    const loading = page.getByRole('dialog', { name: 'Menyiapkan misimu...' });
+    await expect(loading).toBeVisible();
+    await expect(loading).not.toBeVisible();
+    expect(Date.now() - started).toBeGreaterThanOrEqual(1000);
+    await expect(page).toHaveURL(/\/lesson\//);
+});
 
 test('Batal dan Escape membatalkan loading dan node misi bisa ditekan lagi', async ({
     page,
@@ -102,7 +109,7 @@ test('Batal dan Escape membatalkan loading dan node misi bisa ditekan lagi', asy
         await route.continue().catch(() => {});
     });
     await lesson.click();
-    const loading = page.getByRole('dialog', { name: 'Menyiapkan misi...' });
+    const loading = page.getByRole('dialog', { name: 'Menyiapkan misimu...' });
     try {
         await expect(loading).toBeVisible();
         await loading.getByRole('button', { name: 'Batal' }).click();

@@ -27,6 +27,7 @@
     align-items: center;
     gap: 10px;
     padding: 30px 24px;
+    color: var(--primary);
     font-family: var(--font-display);
     font-size: 21px;
     font-weight: 500;
@@ -56,6 +57,13 @@
     color: #4a5a70;
     font-size: 15px;
     font-weight: 500;
+}
+
+.dashboard-navigation-icon {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    object-fit: contain;
 }
 
 .dashboard-nav a svg,
@@ -555,7 +563,7 @@
     .dashboard-shell {
         position: relative;
         display: block;
-        background: #0a1730;
+        background: #f6f8fc;
     }
 
     .dashboard-shell.learner-page-shell {
@@ -590,7 +598,7 @@
         align-items: center;
         gap: 14px;
         padding: 12px 20px;
-        color: #fff;
+        color: #172033;
         font-size: 12px;
         font-weight: 600;
     }
@@ -618,7 +626,7 @@
         min-height: 0;
         border: 0;
         border-radius: 0;
-        background: #0a1730;
+        background: #f6f8fc;
     }
 
     .mission-header {
@@ -659,27 +667,16 @@
     .mission-section-divider {
         gap: 10px;
         padding: 24px 20px 18px;
-        color: #c9d4e3;
         font-size: 12px;
-    }
-
-    .mission-section-divider::before,
-    .mission-section-divider::after {
-        background: #344866;
     }
 
     .mission-viewport {
         position: relative;
-        background: #08162e;
         scroll-behavior: smooth;
     }
 
     .mission-journey {
         width: min(350px, calc(100vw - 20px));
-    }
-
-    .mission-node-label {
-        color: #aab8ca;
     }
 
     .dashboard-bottom-nav {
@@ -691,8 +688,8 @@
         display: grid;
         height: 80px;
         grid-template-columns: repeat(4, 1fr);
-        border-top: 1px solid #203759;
-        background: #0d1e3b;
+        border-top: 1px solid #d4deea;
+        background: #fff;
         padding: 8px 16px 10px;
     }
 
@@ -704,21 +701,22 @@
         justify-content: center;
         gap: 4px;
         border-radius: 10px;
-        color: #a9b8cd;
+        color: #4a5a70;
         font-size: 11px;
     }
 
     .dashboard-bottom-nav a[aria-current] {
-        background: #263450;
-        color: #69d5b3;
+        background: #fff0e5;
+        color: #b64e11;
+    }
+
+    .dashboard-bottom-nav .dashboard-navigation-icon {
+        width: 48px;
+        height: 48px;
     }
 
     .dashboard-bottom-nav svg {
         width: 27px;
         height: 27px;
-    }
-
-    .dashboard-empty {
-        color: #fff;
     }
 }

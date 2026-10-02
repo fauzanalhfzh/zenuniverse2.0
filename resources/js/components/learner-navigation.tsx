@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookCopy, BookOpen, LogOut, Trophy, UserRound } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { dashboard, home, leaderboard, logout } from '@/routes';
 import { index as learnIndex } from '@/routes/learn';
 import { show as profileShow } from '@/routes/profile';
@@ -13,35 +13,35 @@ const navigation = [
         label: 'Peta',
         mobileLabel: 'Peta',
         href: dashboard.url(),
-        icon: BookOpen,
+        icon: 'map',
     },
     {
         key: 'courses',
         label: 'Modul',
         mobileLabel: 'Modul',
         href: learnIndex.url(),
-        icon: BookCopy,
+        icon: 'module',
     },
     {
         key: 'leaderboard',
         label: 'Papan skor',
         mobileLabel: 'Papan skor',
         href: leaderboard.url(),
-        icon: Trophy,
+        icon: 'leaderboard',
     },
     {
         key: 'profile',
         label: 'Profil',
         mobileLabel: 'Profil',
         href: profileShow.url(),
-        icon: UserRound,
+        icon: 'profile',
     },
 ] satisfies Array<{
     key: NavigationKey;
     label: string;
     mobileLabel: string;
     href: string;
-    icon: typeof BookOpen;
+    icon: string;
 }>;
 
 export default function LearnerNavigation({
@@ -74,7 +74,11 @@ export default function LearnerNavigation({
                                         item.key === active ? 'page' : undefined
                                     }
                                 >
-                                    <Icon aria-hidden="true" />
+                                    <img
+                                        src={`/images/dashboard-sidebar/${Icon}.png`}
+                                        alt=""
+                                        className="dashboard-navigation-icon"
+                                    />
                                     <span>{item.label}</span>
                                 </Link>
                             );
@@ -102,12 +106,16 @@ export default function LearnerNavigation({
                         <Link
                             key={item.key}
                             href={item.href}
+                            aria-label={item.mobileLabel}
                             aria-current={
                                 item.key === active ? 'page' : undefined
                             }
                         >
-                            <Icon aria-hidden="true" />
-                            <span>{item.mobileLabel}</span>
+                            <img
+                                src={`/images/dashboard-sidebar/${Icon}.png`}
+                                alt=""
+                                className="dashboard-navigation-icon"
+                            />
                         </Link>
                     );
                 })}

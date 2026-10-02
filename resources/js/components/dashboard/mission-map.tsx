@@ -1,7 +1,7 @@
 import { Link, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
-import LessonNavigationLoading from '@/components/lesson/lesson-navigation-loading';
+import { useLessonNavigationLoading } from '@/components/lesson/lesson-navigation-loading';
 import { show as lessonShow } from '@/routes/lesson';
 import type { CourseDetail } from '@/types/lesson';
 import './mission-map.css';
@@ -13,10 +13,7 @@ const stepY = 106;
 export default function MissionMap({ course }: { course: CourseDetail }) {
     const viewport = useRef<HTMLDivElement>(null);
     const [poppingId, setPoppingId] = useState<string | null>(null);
-    const [loadingLesson, setLoadingLesson] = useState<{
-        title: string;
-        icon: string;
-    } | null>(null);
+    const loading = useLessonNavigationLoading();
     const [navigationError, setNavigationError] = useState<string | null>(null);
     const cancelToken = useRef<{ cancel: () => void } | null>(null);
     const returnFocus = useRef<HTMLElement | null>(null);
@@ -39,7 +36,6 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
     function openLesson(
         event: MouseEvent,
         lesson: CourseDetail['units'][number]['lessons'][number],
-        icon: string,
     ) {
         if (
             event.defaultPrevented ||
@@ -65,7 +61,10 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
             onStart: () => {
                 setPoppingId(lesson.id);
                 setNavigationError(null);
-                setLoadingLesson({ title: lesson.title, icon });
+                loading.start({
+                    onCancel: () => cancelToken.current?.cancel(),
+                    returnFocus,
+                });
             },
             onNetworkError: () => {
                 setNavigationError(
@@ -78,9 +77,10 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                     'Pelajaran belum bisa dimuat. Tekan misi lagi untuk mencoba.',
                 );
             },
+            onCancel: () => loading.finish(true),
             onFinish: () => {
                 cancelToken.current = null;
-                setLoadingLesson(null);
+                loading.finish();
                 setPoppingId(null);
             },
         });
@@ -131,15 +131,6 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                 </p>
             ) : null}
 
-            {loadingLesson ? (
-                <LessonNavigationLoading
-                    title={loadingLesson.title}
-                    icon={loadingLesson.icon}
-                    returnFocus={returnFocus}
-                    onCancel={() => cancelToken.current?.cancel()}
-                />
-            ) : null}
-
             <div className="mission-viewport" ref={viewport}>
                 {lessons.length > 0 ? (
                     <div
@@ -174,11 +165,7 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                                                 href={lessonShow.url(lesson.id)}
                                                 className={`mission-node${poppingId === lesson.id ? ' is-popping' : ''}`}
                                                 onClick={(event) =>
-                                                    openLesson(
-                                                        event,
-                                                        lesson,
-                                                        icon,
-                                                    )
+                                                    openLesson(event, lesson)
                                                 }
                                                 onAnimationEnd={() =>
                                                     setPoppingId((current) =>
