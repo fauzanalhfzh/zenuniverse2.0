@@ -287,21 +287,54 @@
 }
 
 .mission-node {
-    display: block;
-    width: 83px;
-    height: 85px;
+    display: grid;
+    width: 80px;
+    height: 80px;
+    place-items: center;
     border-radius: 50%;
+    background: #f58b3d;
+    box-shadow: 3px 5px 0 #ad592b;
 }
 
 .mission-node img {
     display: block;
-    width: 83px;
-    height: 85px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
 }
 
-.is-active .mission-node {
-    filter: drop-shadow(0 0 0.12rem #ff8a3d);
+.mission-node[href]:hover {
+    background: #fa964b;
+}
+
+.mission-node[href]:active {
+    transform: translate(3px, 5px);
+    box-shadow: none;
+}
+
+.mission-node.is-popping {
+    animation: mission-node-pop 280ms ease-out;
+}
+
+@keyframes mission-node-pop {
+    0% {
+        transform: translate(3px, 5px);
+        box-shadow: 0 0 0 #ad592b;
+    }
+    65% {
+        transform: translate(0, -2px);
+        box-shadow: 3px 7px 0 #ad592b;
+    }
+    100% {
+        transform: translate(0, 0);
+        box-shadow: 3px 5px 0 #ad592b;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mission-node.is-popping {
+        animation-duration: 1ms;
+    }
 }
 
 .is-locked .mission-node {

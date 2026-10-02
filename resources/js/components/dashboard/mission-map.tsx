@@ -1,15 +1,16 @@
 import { Link } from '@inertiajs/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { show as lessonShow } from '@/routes/lesson';
 import type { CourseDetail } from '@/types/lesson';
 import './mission-map.css';
 
 const nodeX = [39, 54, 63, 55, 46, 38];
-const missionIcons = ['Materi', 'Kuis', 'Materi', 'Code', 'Kuis', 'Kuis'];
+const missionIcons = ['Book', 'Quiz', 'Book', 'Code', 'Quiz', 'Quiz'];
 const stepY = 106;
 
 export default function MissionMap({ course }: { course: CourseDetail }) {
     const viewport = useRef<HTMLDivElement>(null);
+    const [poppingId, setPoppingId] = useState<string | null>(null);
     const lessons = course.units.flatMap((unit) => unit.lessons);
     const activeId = lessons.find(
         (lesson) => lesson.unlocked && !lesson.completed,
@@ -94,7 +95,17 @@ export default function MissionMap({ course }: { course: CourseDetail }) {
                                         {lesson.unlocked ? (
                                             <Link
                                                 href={lessonShow.url(lesson.id)}
-                                                className="mission-node"
+                                                className={`mission-node${poppingId === lesson.id ? ' is-popping' : ''}`}
+                                                onClick={() =>
+                                                    setPoppingId(lesson.id)
+                                                }
+                                                onAnimationEnd={() =>
+                                                    setPoppingId((current) =>
+                                                        current === lesson.id
+                                                            ? null
+                                                            : current,
+                                                    )
+                                                }
                                                 aria-label={`${lesson.title}, ${lesson.completed ? 'selesai, ulangi misi' : 'mulai misi'}`}
                                                 aria-current={
                                                     isActive

@@ -1,0 +1,87 @@
+.dev-preview {
+    min-height: 100svh;
+    padding: 48px 24px;
+    background: #f6f7fb;
+    color: #263348;
+    font-family: inherit;
+    text-align: center;
+}
+
+.dev-preview h1 {
+    margin: 0 0 12px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.dev-preview p {
+    margin: 12px 0;
+}
+
+.dev-preview-stage {
+    display: flex;
+    min-height: 240px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 32px 0;
+}
+
+.dev-lesson-button img {
+    object-fit: contain;
+}
+
+.dev-lesson-button {
+    display: grid;
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f58b3d;
+    box-shadow: 3px 5px 0 #ad592b;
+    color: #42220f;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.dev-lesson-button:hover {
+    background: #fa964b;
+}
+
+.dev-lesson-button:focus-visible {
+    outline: 3px solid #263348;
+    outline-offset: 7px;
+}
+
+.dev-lesson-button:active {
+    transform: translate(3px, 5px);
+    box-shadow: none;
+}
+
+.dev-lesson-button.is-popping {
+    animation: dev-button-pop 280ms ease-out;
+}
+
+@keyframes dev-button-pop {
+    0% {
+        transform: translate(3px, 5px);
+        box-shadow: 0 0 0 #ad592b;
+    }
+    65% {
+        transform: translate(0, -2px);
+        box-shadow: 3px 7px 0 #ad592b;
+    }
+    100% {
+        transform: translate(0, 0);
+        box-shadow: 3px 5px 0 #ad592b;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dev-lesson-button.is-popping {
+        animation-duration: 1ms;
+    }
+}

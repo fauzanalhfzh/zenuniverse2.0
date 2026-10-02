@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/dev', function (): \Inertia\Response {
+    abort_unless(app()->environment('local'), 404);
+
+    return \Inertia\Inertia::render('dev');
+})->name('dev');
+
 Route::get('/login', [GoogleAuthController::class, 'showLogin'])->name('login');
 
 // Test seam: controller mengembalikan 404 kecuali E2E_LOGIN_ENABLED + local/testing.
