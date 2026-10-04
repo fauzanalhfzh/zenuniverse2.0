@@ -36487,243 +36487,10 @@
       "context": "Full-content 390px mobile reflow of updated desktop lesson player. Light compact navigation; reference lesson metadata and four SVG hearts; stacked mission, 5 by 5 stage and two-block editor. Expanded artboard displays all content; implementation may scroll the content and pin the 76px action footer with reserved safe area. ENERGY 1 / RHYTHM 1 / MOTION 1. Static canvas prototype.",
       "clip": true,
       "width": 390,
-      "height": 980,
+      "height": 844,
       "fill": "#F6F8FC",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "K9hZIh",
-          "name": "Mobile lesson navigation",
-          "width": "fill_container",
-          "height": 132,
-          "fill": "#FFFFFF",
-          "stroke": "#D4DEEA",
-          "strokeWidth": {
-            "bottom": 1
-          },
-          "layout": "vertical",
-          "gap": 8,
-          "padding": [
-            10,
-            12
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "jjmmj",
-              "name": "Mobile lesson · Exit and identity",
-              "width": "fill_container",
-              "height": 44,
-              "gap": 10,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "YRUAZ",
-                  "name": "Close lesson",
-                  "width": 44,
-                  "height": 44,
-                  "fill": "#F9FBFE",
-                  "cornerRadius": 12,
-                  "stroke": "#D4DEEA",
-                  "strokeWidth": 1,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "V6j1ef",
-                      "name": "Close icon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "x",
-                      "library": "lucide",
-                      "fill": "#5F6F85"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "c26LKw",
-                  "name": "Lesson info",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 4,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "Vnilp",
-                      "name": "Lesson label",
-                      "fill": "#C45112",
-                      "content": "CODE BLOCK",
-                      "fontFamily": "Figtree",
-                      "fontSize": 10,
-                      "fontWeight": "700",
-                      "letterSpacing": 1
-                    },
-                    {
-                      "type": "text",
-                      "id": "FYTeC",
-                      "name": "Lesson name",
-                      "fill": "#172033",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Coding untuk Memecahkan Mas...",
-                      "fontFamily": "Fredoka",
-                      "fontSize": 16,
-                      "fontWeight": "600"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "S5IflG",
-              "name": "Mobile lesson · Contents XP and lives",
-              "width": "fill_container",
-              "height": 44,
-              "gap": 12,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "m2qE8",
-                  "name": "Mobile lesson contents button",
-                  "context": "Opens the lesson contents list. Reference sample: Materi 5 / 10.",
-                  "height": 44,
-                  "fill": "$dashboard-light-elevated",
-                  "cornerRadius": 11,
-                  "stroke": "$dashboard-light-border",
-                  "strokeWidth": 1,
-                  "gap": 8,
-                  "padding": [
-                    0,
-                    12
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "e6yecS",
-                      "name": "Lesson contents · List tree",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "list-tree",
-                      "library": "lucide",
-                      "fill": "$dashboard-light-text"
-                    },
-                    {
-                      "type": "text",
-                      "id": "y0VEbS",
-                      "name": "Step count",
-                      "fill": "$dashboard-light-text",
-                      "content": "Materi 5 / 10",
-                      "fontFamily": "Figtree",
-                      "fontSize": 12,
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "B8g43t",
-                  "name": "Mobile XP · Reference sample",
-                  "fill": "#445875",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "XP 150",
-                  "fontFamily": "$font-body",
-                  "fontSize": 12,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "T5yxj",
-                  "name": "Lives",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "id": "tYPf2",
-                      "type": "ref",
-                      "ref": "gqBOR",
-                      "name": "Life 1",
-                      "width": 28,
-                      "height": 28,
-                      "opacity": 1
-                    },
-                    {
-                      "id": "r4Aej",
-                      "type": "ref",
-                      "ref": "gqBOR",
-                      "name": "Life 2",
-                      "width": 28,
-                      "height": 28,
-                      "opacity": 1
-                    },
-                    {
-                      "id": "m30jYX",
-                      "type": "ref",
-                      "ref": "gqBOR",
-                      "name": "Life 3",
-                      "width": 28,
-                      "height": 28,
-                      "opacity": 1
-                    },
-                    {
-                      "id": "nHwkQ",
-                      "type": "ref",
-                      "ref": "gqBOR",
-                      "name": "Mobile life 4",
-                      "width": 28,
-                      "height": 28
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "V0kdl2",
-              "name": "Lesson progress",
-              "width": "fill_container",
-              "height": 6,
-              "layout": "vertical",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "dpdt9",
-                  "name": "Progress track",
-                  "clip": true,
-                  "width": "fill_container",
-                  "height": 6,
-                  "fill": "#E5ECF4",
-                  "cornerRadius": 4,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "M7zPGI",
-                      "name": "Progress completed",
-                      "width": "fill_container",
-                      "height": "fill_container",
-                      "fill": "#FF8A3D",
-                      "cornerRadius": 4
-                    },
-                    {
-                      "type": "frame",
-                      "id": "EmvUt",
-                      "name": "Mobile progress · Remaining half",
-                      "width": "fill_container",
-                      "height": "fill_container"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "q1HEpe",
@@ -36735,6 +36502,170 @@
           "gap": 10,
           "padding": 12,
           "children": [
+            {
+              "type": "frame",
+              "id": "kuZKg",
+              "name": "Mobile lesson header",
+              "width": "fill_container",
+              "fill": "$dashboard-light-navigation",
+              "stroke": "$dashboard-light-border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "layout": "vertical",
+              "gap": 9,
+              "padding": [
+                10,
+                20,
+                12,
+                20
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "c4ZAE",
+                  "name": "Lesson header row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "x8apuy",
+                      "name": "Close lesson button",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "$dashboard-light-elevated",
+                      "cornerRadius": 12,
+                      "stroke": "$dashboard-light-border",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "typyp",
+                          "name": "Close lesson icon",
+                          "width": 19,
+                          "height": 19,
+                          "icon": "x",
+                          "library": "lucide",
+                          "fill": "#52647C"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Z6O39e",
+                      "name": "Lesson identity",
+                      "width": 190,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i6E1w",
+                          "name": "Lesson eyebrow",
+                          "fill": "$primary",
+                          "content": "Codeblock",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "800",
+                          "letterSpacing": 1.1
+                        },
+                        {
+                          "type": "text",
+                          "id": "oK0NC",
+                          "name": "Lesson title",
+                          "fill": "$dashboard-light-heading",
+                          "content": "lorem ipsum",
+                          "fontFamily": "$font-display",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nX2da",
+                      "name": "Lesson lives",
+                      "gap": 3,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "ecsTb",
+                          "type": "ref",
+                          "ref": "gqBOR",
+                          "name": "Life 1",
+                          "width": 24,
+                          "height": 24,
+                          "opacity": 1
+                        },
+                        {
+                          "id": "EOvQO",
+                          "type": "ref",
+                          "ref": "gqBOR",
+                          "name": "Life 2",
+                          "width": 24,
+                          "height": 24,
+                          "opacity": 1
+                        },
+                        {
+                          "id": "t2abIl",
+                          "type": "ref",
+                          "ref": "gqBOR",
+                          "name": "Life 3",
+                          "width": 24,
+                          "height": 24,
+                          "opacity": 0.28
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VBrO9",
+                  "name": "Lesson progress row",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FguKM",
+                      "name": "Lesson progress track",
+                      "width": "fill_container",
+                      "height": 8,
+                      "fill": "$dashboard-light-soft",
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "coHZI",
+                          "name": "Lesson progress completed",
+                          "width": 240,
+                          "height": "fill_container",
+                          "fill": "$primary",
+                          "cornerRadius": 4
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "nuidL",
+                      "name": "Lesson step count",
+                      "fill": "$dashboard-light-text",
+                      "content": "4 / 6",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
             {
               "type": "frame",
               "id": "ove2m",
@@ -36770,53 +36701,10 @@
                   "fill": "#172B4D",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Gerakkan robot tiga petak ke utara.",
+                  "content": "Gerakkan robot tiga petak ke arah bintang.",
                   "fontFamily": "$font-body",
                   "fontSize": 14,
                   "fontWeight": "700"
-                },
-                {
-                  "type": "frame",
-                  "id": "SBNqe",
-                  "name": "Mission hint",
-                  "width": "fill_container",
-                  "stroke": "#DDE4F0",
-                  "strokeWidth": {
-                    "top": 1
-                  },
-                  "gap": 9,
-                  "padding": [
-                    10,
-                    0,
-                    0,
-                    0
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "rLxix",
-                      "name": "Mission hint lightbulb",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "lightbulb",
-                      "library": "lucide",
-                      "fill": "#9A7300"
-                    },
-                    {
-                      "type": "text",
-                      "id": "l4NkL",
-                      "name": "Mission hint copy",
-                      "fill": "#445875",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Perhatikan posisi awal, arah robot, dan jarak menuju bintang.",
-                      "lineHeight": 1.35,
-                      "fontFamily": "$font-body",
-                      "fontSize": 11,
-                      "fontWeight": "600"
-                    }
-                  ]
                 }
               ]
             },
@@ -36833,75 +36721,6 @@
               "strokeWidth": 1,
               "layout": "vertical",
               "children": [
-                {
-                  "type": "frame",
-                  "id": "sZECo",
-                  "name": "Stage panel header",
-                  "width": "fill_container",
-                  "height": 36,
-                  "fill": "#F8FAFE",
-                  "stroke": "#D1DBEC",
-                  "strokeWidth": {
-                    "bottom": 1
-                  },
-                  "gap": 8,
-                  "padding": [
-                    0,
-                    12
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "u0p45W",
-                      "name": "Stage flag symbol",
-                      "width": 17,
-                      "height": 17,
-                      "icon": "flag",
-                      "library": "lucide",
-                      "fill": "#445875"
-                    },
-                    {
-                      "type": "text",
-                      "id": "TkazL",
-                      "name": "Stage heading",
-                      "fill": "#445875",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Panggung",
-                      "fontFamily": "$font-body",
-                      "fontSize": 13,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "yTlDd",
-                      "name": "Stage ready status",
-                      "height": 26,
-                      "fill": "#EFFAF5",
-                      "cornerRadius": 13,
-                      "stroke": "#A8DFC6",
-                      "strokeWidth": 1,
-                      "padding": [
-                        0,
-                        8
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "LSnmG",
-                          "name": "Ready label",
-                          "fill": "#22664D",
-                          "content": "Siap",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "700"
-                        }
-                      ]
-                    }
-                  ]
-                },
                 {
                   "type": "frame",
                   "id": "QqNID",
@@ -37375,16 +37194,6 @@
                   ],
                   "alignItems": "center",
                   "children": [
-                    {
-                      "type": "icon",
-                      "id": "U9eBX",
-                      "name": "Code block tab symbol",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "blocks",
-                      "library": "lucide",
-                      "fill": "#6C3CE9"
-                    },
                     {
                       "type": "text",
                       "id": "NKsj8",
@@ -68767,31 +68576,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "uTv9S",
-          "name": "Loading identity",
-          "width": "fill_container",
-          "height": 96,
-          "padding": [
-            32,
-            48
-          ],
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "j3RWPS",
-              "name": "ZenUniverse wordmark",
-              "fill": "$dashboard-light-heading",
-              "content": "ZenUniverse",
-              "fontFamily": "$font-display",
-              "fontSize": 22,
-              "fontWeight": "500"
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "tK9Nh",
           "name": "Centered loading stage",
           "width": "fill_container",
@@ -68873,58 +68657,11 @@
                       "cornerRadius": 3,
                       "id": "J3Y02",
                       "name": "Segmen bergerak · Posisi contoh",
-                      "fill": "$dashboard-accent-dark",
+                      "fill": "$primary",
                       "width": 52,
                       "height": "fill_container"
                     }
                   ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Z4NdNM",
-          "name": "Cancel navigation area",
-          "width": "fill_container",
-          "height": 88,
-          "padding": 20,
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "lHsz0",
-              "name": "Kembali ke peta · Batalkan navigasi",
-              "height": 44,
-              "cornerRadius": 10,
-              "gap": 8,
-              "padding": [
-                0,
-                20
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "axYwW",
-                  "name": "Back to map icon",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "arrow-left",
-                  "library": "lucide",
-                  "fill": "$dashboard-light-text"
-                },
-                {
-                  "type": "text",
-                  "id": "O4A4e8",
-                  "name": "Kembali ke peta label",
-                  "fill": "$dashboard-light-text",
-                  "content": "Kembali ke peta",
-                  "fontFamily": "$font-body",
-                  "fontSize": 14,
-                  "fontWeight": "600"
                 }
               ]
             }
