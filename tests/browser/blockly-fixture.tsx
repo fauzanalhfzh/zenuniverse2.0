@@ -1,11 +1,24 @@
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import * as Blockly from 'blockly';
 import { BlocklyStepView } from '../../resources/js/components/lesson/blockly-step';
 import '../../resources/css/app.css';
 
 Object.assign(window, { Blockly });
-createRoot(document.getElementById('root')!).render(
-    <div className="lesson-player">
+function Fixture() {
+    const [stepId, setStepId] = useState('mobile-layout');
+    const [feedbackOpen, setFeedbackOpen] = useState(false);
+    useEffect(() => {
+        const change = (event: Event) => setFeedbackOpen((event as CustomEvent<boolean>).detail);
+        window.addEventListener('fixture:feedback', change);
+        return () => window.removeEventListener('fixture:feedback', change);
+    }, []);
+    useEffect(() => {
+        const change = (event: Event) => setStepId((event as CustomEvent<string>).detail);
+        window.addEventListener('fixture:challenge', change);
+        return () => window.removeEventListener('fixture:challenge', change);
+    }, []);
+    return <div className="lesson-player">
         <header className="lesson-player__header">
             <div className="lesson-player__header-inner">
                 <div className="lesson-player__brand">
@@ -28,8 +41,9 @@ createRoot(document.getElementById('root')!).render(
                 <div className="lesson-player__step-card">
                     <BlocklyStepView
                         pending={false}
+                        feedbackOpen={feedbackOpen}
                         step={{
-                            id: 'mobile-layout',
+                            id: stepId,
                             type: 'blockly',
                             reward: { xp: 10 },
                             content: {
@@ -58,6 +72,16 @@ createRoot(document.getElementById('root')!).render(
                 </div>
             </main>
         </div>
-        <output id="submitted" />
-    </div>,
-);
+        <footer className="lesson-player__footer">
+            <div className="lesson-player__footer-inner">
+                <div className="lesson-player__footer-actions">
+                    <button className="lesson-player__continue" disabled>
+                        Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </footer>
+        <output id="submitted" className="sr-only" />
+    </div>;
+}
+createRoot(document.getElementById('root')!).render(<Fixture />);

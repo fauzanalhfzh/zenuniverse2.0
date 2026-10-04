@@ -1,3 +1,4 @@
+import { Dialog } from '@base-ui/react/dialog';
 import * as Blockly from 'blockly';
 import { Blocks, Flag, Lightbulb, Play, RotateCcw } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -57,10 +58,12 @@ function ensureBlocks(): void {
 export function BlocklyStepView({
     step,
     pending,
+    feedbackOpen = false,
     onSubmit,
 }: {
     step: BlocklyStep;
     pending: boolean;
+    feedbackOpen?: boolean;
     onSubmit: (commands: BlocklyCommand[]) => void;
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -79,6 +82,29 @@ export function BlocklyStepView({
         stepId: string;
         state: ReturnType<typeof Blockly.serialization.workspaces.save>;
     } | null>(null);
+
+    const [missionOpen, setMissionOpen] = useState(false);
+    const [hintVisible, setHintVisible] = useState(false);
+    const missionButtonRef = useRef<HTMLButtonElement>(null);
+    const startCodingRef = useRef<HTMLButtonElement>(null);
+    const seenMissionsRef = useRef(new Set<string>());
+
+    useEffect(() => {
+        setHintVisible(false);
+        setMissionOpen(false);
+        if (!mobile || !challenge || pending || feedbackOpen) return;
+        const key = `zen:blockly:mission:${step.id}`;
+        if (seenMissionsRef.current.has(key)) return;
+        let seen = false;
+        try {
+            seen = window.sessionStorage.getItem(key) === 'seen';
+            window.sessionStorage.setItem(key, 'seen');
+        } catch {
+            // Restricted browsers still allow coding; retain a mount-local fallback.
+        }
+        seenMissionsRef.current.add(key);
+        if (!seen) setMissionOpen(true);
+    }, [step.id, mobile, Boolean(challenge), pending, feedbackOpen]);
 
     useEffect(() => {
         const media = window.matchMedia('(max-width: 560px)');
@@ -111,7 +137,7 @@ export function BlocklyStepView({
                 })),
             },
             horizontalLayout: mobile,
-            toolboxPosition: 'start',
+            toolboxPosition: mobile ? 'end' : 'start',
             renderer: 'zelos',
             maxBlocks: challenge.maxBlocks,
             grid: {
@@ -244,6 +270,19 @@ export function BlocklyStepView({
                     Kode block
                 </div>
                 <div className="blockly-lesson__toolbar-actions">
+                    {mobile && challenge ? (
+                        <button
+                            ref={missionButtonRef}
+                            type="button"
+                            className="blockly-lesson__reset"
+                            onClick={() => { setHintVisible(false); setMissionOpen(true); }}
+                            disabled={pending || running || feedbackOpen}
+                            aria-haspopup="dialog"
+                        >
+                            <Flag size={17} aria-hidden="true" />
+                            Misi
+                        </button>
+                    ) : null}
                     <button
                         type="button"
                         className="blockly-lesson__reset"
@@ -334,6 +373,27 @@ export function BlocklyStepView({
                     </section>
                 </aside>
             </div>
+            {mobile && challenge ? (
+                <Dialog.Root open={missionOpen && !pending && !running && !feedbackOpen} onOpenChange={setMissionOpen}>
+                    <Dialog.Portal>
+                        <Dialog.Backdrop className="blockly-mission-backdrop" />
+                        <Dialog.Popup className="blockly-mission-sheet" initialFocus={startCodingRef} finalFocus={missionButtonRef}>
+                            <Dialog.Title className="blockly-lesson__eyebrow">Misi</Dialog.Title>
+                            <Dialog.Description>{step.content.objective ?? 'Susun blok untuk menyelesaikan tantangan.'}</Dialog.Description>
+                            {challenge.hint ? (
+                                <div>
+                                    <button type="button" className="blockly-mission-sheet__hint-toggle" aria-expanded={hintVisible} onClick={() => setHintVisible(!hintVisible)}>
+                                        <Lightbulb size={17} aria-hidden="true" />
+                                        {hintVisible ? 'Sembunyikan petunjuk' : 'Lihat petunjuk'}
+                                    </button>
+                                    {hintVisible ? <p className="blockly-lesson__hint">{challenge.hint}</p> : null}
+                                </div>
+                            ) : null}
+                            <Dialog.Close ref={startCodingRef} className="blockly-mission-sheet__start">Mulai coding</Dialog.Close>
+                        </Dialog.Popup>
+                    </Dialog.Portal>
+                </Dialog.Root>
+            ) : null}
         </div>
     );
 }

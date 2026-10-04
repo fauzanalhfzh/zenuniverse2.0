@@ -1,28 +1,55 @@
 import { test, expect } from '@playwright/test';
 
-for (const width of [360, 390, 430]) {
-    test(`mobile ${width}: mission and stage above full-width workspace, sticky actions`, async ({
+for (const { width, height } of [
+    { width: 360, height: 800 },
+    { width: 390, height: 800 },
+    { width: 430, height: 800 },
+    { width: 360, height: 640 },
+]) {
+    test(`mobile ${width}x${height}: compact stage, largest workspace, bottom palette in one viewport`, async ({
         page,
     }) => {
-        await page.setViewportSize({ width, height: 800 });
+        await page.setViewportSize({ width, height });
         await page.goto('/tests/browser/blockly.html');
         await expect(page.locator('.blocklySvg').first()).toBeVisible();
-        const mission = await page
-            .locator('.blockly-lesson__mission')
-            .boundingBox();
+        await page.getByRole('button', { name: 'Mulai coding' }).click();
         const stage = await page
             .locator('.blockly-lesson__stage')
             .boundingBox();
         const editor = await page
             .locator('.blockly-lesson__editor')
             .boundingBox();
-        expect(mission!.y + mission!.height).toBeLessThanOrEqual(stage!.y);
+        expect(stage!.width).toBeGreaterThan(width - 20);
+        await expect(page.locator('.blockly-lesson__mission')).toBeHidden();
         expect(stage!.y + stage!.height).toBeLessThanOrEqual(editor!.y);
-        expect(stage!.y + stage!.height).toBeLessThan(600);
+        expect(stage!.height).toBeLessThanOrEqual(200);
+        const board = await page.locator('.challenge-board').boundingBox();
+        expect(board!.y + board!.height).toBeLessThanOrEqual(
+            stage!.y + stage!.height,
+        );
+        await expect(page.locator('.blockly-lesson__tab')).toBeHidden();
+        const labels = await page
+            .locator('.blocklyFlyout')
+            .first()
+            .locator('.blocklyText')
+            .allTextContents();
+        expect(labels.join(' ')).toContain('MAJU');
+        expect(labels.join(' ').replace(/\s+/g, ' ')).toContain('BELOK KANAN');
+        expect(labels.join(' ')).toContain('ULANGI');
         const metrics = await page.evaluate(() =>
             (window as any).Blockly.getMainWorkspace().getMetrics(),
         );
-        expect(metrics.toolboxPosition).toBe(0); // Blockly.TOOLBOX_AT_TOP
+        expect(metrics.toolboxPosition).toBe(1); // Blockly.TOOLBOX_AT_BOTTOM
+        expect(metrics.viewHeight).toBeGreaterThan(stage!.height);
+        const palette = await page
+            .locator('.blocklyFlyout')
+            .first()
+            .boundingBox();
+        expect(palette!.y).toBeGreaterThan(editor!.y + 100);
+        expect(palette!.y + palette!.height).toBeLessThanOrEqual(height);
+        expect(
+            await page.evaluate(() => document.documentElement.scrollHeight),
+        ).toBeLessThanOrEqual(height);
         expect(metrics.viewWidth).toBeGreaterThan(width - 60);
         expect(
             await page.evaluate(() => document.documentElement.scrollWidth),
@@ -32,10 +59,10 @@ for (const width of [360, 390, 430]) {
                 .getByRole('button', { name: label })
                 .boundingBox();
             expect(box!.height).toBeGreaterThanOrEqual(48);
-            expect(box!.y + box!.height).toBeLessThanOrEqual(800);
+            expect(box!.y + box!.height).toBeLessThanOrEqual(height);
         }
         await page.screenshot({
-            path: `/tmp/zen-blockly-${width}.png`,
+            path: `/tmp/zen-blockly-${width}x${height}.png`,
             fullPage: true,
         });
         await page.evaluate(() =>
@@ -44,7 +71,8 @@ for (const width of [360, 390, 430]) {
         const actions = await page
             .locator('.blockly-lesson__toolbar-actions')
             .boundingBox();
-        expect(actions!.y + actions!.height).toBeLessThanOrEqual(800);
+        expect(actions!.y + actions!.height).toBeLessThanOrEqual(height);
+        expect(await page.evaluate(() => window.scrollY)).toBe(0);
     });
 }
 
@@ -53,6 +81,7 @@ test('real flyout drag, robot execution, reset and desktop resize retain program
 }) => {
     await page.setViewportSize({ width: 390, height: 800 });
     await page.goto('/tests/browser/blockly.html');
+    await page.getByRole('button', { name: 'Mulai coding' }).click();
     await expect(
         page.locator('.blocklyFlyout .blocklyDraggable').first(),
     ).toBeVisible();
