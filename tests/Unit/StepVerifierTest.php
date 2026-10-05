@@ -260,6 +260,14 @@ class StepVerifierTest extends TestCase
         );
     }
 
+    public function test_blockly_rejects_unknown_and_unavailable_commands_before_execution(): void
+    {
+        $this->assertFalse(BlocklyVerifier::evaluate([['type' => 'evil'], ['type' => 'evil']], $this->challenge(), 15)['success']);
+        $this->assertFalse(BlocklyVerifier::evaluate([['type' => 'move_forward'], ['type' => 'move_forward'], ['type' => 'evil']], $this->challenge(), 15)['success']);
+        $step = $this->step(StepType::Blockly, 20, ['availableBlocks' => ['turn_right']], null, $this->challenge());
+        $this->assertFalse($this->verifier->verify($step, ['type' => 'blockly', 'commands' => [['type' => 'move_forward'], ['type' => 'move_forward']]])->correct);
+    }
+
     public function test_blockly_repeat_and_turn(): void
     {
         $repeat = BlocklyVerifier::evaluate(
