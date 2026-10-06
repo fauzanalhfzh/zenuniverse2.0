@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \Laravel\Sanctum\HasApiTokens;
 
     public function canAccessPanel(Panel $panel): bool
     {

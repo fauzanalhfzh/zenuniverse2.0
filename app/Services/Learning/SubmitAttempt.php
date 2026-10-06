@@ -12,6 +12,7 @@ use App\Models\LessonStep;
 use App\Models\StepCompletion;
 use App\Models\User;
 use App\Models\UserGamification;
+use App\Services\Content\LessonAccess;
 use App\Services\Content\PublicId;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,8 @@ class SubmitAttempt
         if ($course->status !== 'published') {
             throw new LearningException('not_found', 'Pelajaran tidak tersedia.', 404);
         }
+
+        app(LessonAccess::class)->ensure($user, $lesson);
 
         if ($contentRevision !== (int) $course->content_revision) {
             throw LearningException::contentChanged();
@@ -153,6 +156,8 @@ class SubmitAttempt
             throw new LearningException('not_found', 'Pelajaran tidak tersedia.', 404);
         }
 
+        app(LessonAccess::class)->ensure($user, $lesson);
+
         if ($contentRevision !== (int) $course->content_revision) {
             throw LearningException::contentChanged();
         }
@@ -177,7 +182,7 @@ class SubmitAttempt
 
     /**
      * Public option/token IDs are opaque; map them back to the private IDs the
-     * verifier understands. Unknown IDs are left untouched and fail verification.
+     * verifier understands. Unknown IDs are discarded and fail verification.
      *
      * @param  array<string, mixed>  $answer
      * @return array<string, mixed>
@@ -193,7 +198,7 @@ class SubmitAttempt
                 $map[PublicId::option($revision, $step->id, (string) $option['id'])] = $option['id'];
             }
 
-            $answer['optionId'] = $map[$answer['optionId']] ?? $answer['optionId'];
+            $answer['optionId'] = $map[$answer['optionId']] ?? null;
         }
 
         return $answer;

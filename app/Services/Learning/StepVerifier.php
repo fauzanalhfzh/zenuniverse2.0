@@ -61,6 +61,7 @@ class StepVerifier
         }
 
         $commands = is_array($answer['commands'] ?? null) ? $answer['commands'] : [];
+        $challenge['availableBlocks'] = is_array($step->content['availableBlocks'] ?? null) ? $step->content['availableBlocks'] : [];
         $result = BlocklyVerifier::evaluate($commands, $challenge, (int) $step->reward_xp);
 
         return $result['success']

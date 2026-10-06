@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "Zenuniverse Mobile API v1",
+    "description": "Handoff source lokal, bukan run live. Google native Android/iOS dan staging belum diverifikasi. Base URL lokal hanya contoh. Semua protected request memakai Sanctum learner token, bukan Google ID token. Tidak ada refresh/avatar API. Jangan export token nyata. Pilih ID/revisi dari respons API; answer concept hanya contoh. attempt_id harus UUID baru untuk submission baru, tetap sama dengan payload identik untuk retry.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{api_token}}", "type": "string"}]},
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000/api/v1", "type": "string"},
+    {"key": "google_id_token", "value": "", "type": "string"},
+    {"key": "api_token", "value": "", "type": "string"},
+    {"key": "expires_at", "value": "", "type": "string"},
+    {"key": "device_name", "value": "Postman local handoff", "type": "string"},
+    {"key": "course_id", "value": "REPLACE_FROM_API", "type": "string"},
+    {"key": "lesson_id", "value": "REPLACE_FROM_API", "type": "string"},
+    {"key": "step_id", "value": "REPLACE_FROM_API", "type": "string"},
+    {"key": "content_revision", "value": "1", "type": "string"},
+    {"key": "attempt_id", "value": "REPLACE_WITH_UUID", "type": "string"},
+    {"key": "page", "value": "1", "type": "string"},
+    {"key": "per_page", "value": "25", "type": "string"}
+  ],
+  "item": [
+    {
+      "name": "Google native login",
+      "request": {
+        "method": "POST", "auth": {"type": "noauth"},
+        "header": [{"key": "Accept", "value": "application/json"}, {"key": "Content-Type", "value": "application/json"}],
+        "url": "{{base_url}}/auth/google",
+        "description": "Google ID token native valid, aud masuk GOOGLE_MOBILE_AUDIENCES. 10/menit. Token Sanctum 30 hari, bukan refresh token. Variabel rahasia sengaja kosong.",
+        "body": {"mode": "raw", "raw": "{\n  \"id_token\": \"{{google_id_token}}\",\n  \"device_name\": \"{{device_name}}\"\n}", "options": {"raw": {"language": "json"}}}
+      },
+      "event": [{"listen": "test", "script": {"type": "text/javascript", "exec": ["if (pm.response.code === 200) {", "  const body = pm.response.json();", "  pm.test('Token learner dan requestId tersedia', () => {", "    pm.expect(body.data.token).to.be.a('string');", "    pm.expect(body.data.tokenType).to.eql('Bearer');", "    pm.expect(body.meta.requestId).to.be.a('string');", "  });", "  pm.collectionVariables.set('api_token', body.data.token);", "  pm.collectionVariables.set('expires_at', body.data.expiresAt);", "  pm.collectionVariables.unset('google_id_token');", "}"]}}],
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/me", "description": "data: id integer, displayName, email. Tidak ada avatar profile API."},
+      "response": []
+    },
+    {
+      "name": "Courses published",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/courses?page={{page}}&per_page={{per_page}}", "description": "data array, meta.pagination: total/perPage/currentPage/lastPage. per_page 1–100; page 1–100000."},
+      "response": []
+    },
+    {
+      "name": "Course detail",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/courses/{{course_id}}", "description": "Ambil ID/revisi dari API; unit dan lesson memuat unlocked/completed. Draft 404."},
+      "response": []
+    },
+    {
+      "name": "Lesson detail",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/lessons/{{lesson_id}}", "description": "Published/unlocked; simpan contentRevision dan public option IDs, jangan hardcode nilai contoh."},
+      "response": []
+    },
+    {
+      "name": "Progress snapshot",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/me/progress", "description": "Snapshot authoritative, updatedAt epoch milliseconds dan nextHeartInMs nullable."},
+      "response": []
+    },
+    {
+      "name": "Leaderboard",
+      "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/leaderboard?page={{page}}&per_page={{per_page}}", "description": "rank, displayName, avatarUrl nullable, totalXp. Tidak ada upload avatar API."},
+      "response": []
+    },
+    {
+      "name": "Submit concept attempt (replace answer for other types)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Accept", "value": "application/json"}, {"key": "Content-Type", "value": "application/json"}],
+        "url": "{{base_url}}/learning/attempts",
+        "description": "60/menit. Isi attempt_id UUID; retry UUID/payload identik. Ganti answer untuk quiz/blockly/code-fill/code sesuai mobile-integration.md. Jawaban salah HTTP 200. Replay xpAwarded historis bukan XP baru; gunakan progress.",
+        "body": {"mode": "raw", "raw": "{\n  \"lesson_id\": \"{{lesson_id}}\",\n  \"step_id\": \"{{step_id}}\",\n  \"attempt_id\": \"{{attempt_id}}\",\n  \"content_revision\": {{content_revision}},\n  \"answer\": {\"type\": \"concept\", \"acknowledged\": true}\n}", "options": {"raw": {"language": "json"}}}
+      },
+      "response": []
+    },
+    {
+      "name": "Reconcile lesson completion",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Accept", "value": "application/json"}, {"key": "Content-Type", "value": "application/json"}],
+        "url": "{{base_url}}/learning/lessons/{{lesson_id}}/complete",
+        "description": "60/menit. Tidak memakai attempt_id. Belum semua langkah selesai: 200 completed=false, xpAwarded=0. Tidak bisa bypass prasyarat.",
+        "body": {"mode": "raw", "raw": "{\n  \"content_revision\": {{content_revision}}\n}", "options": {"raw": {"language": "json"}}}
+      },
+      "response": []
+    },
+    {
+      "name": "Logout current token",
+      "request": {"method": "POST", "header": [{"key": "Accept", "value": "application/json"}], "url": "{{base_url}}/auth/logout", "description": "Hanya mencabut token saat ini; 200 data.loggedOut=true. Logout Google SDK terpisah."},
+      "event": [{"listen": "test", "script": {"type": "text/javascript", "exec": ["if (pm.response.code === 200) {", "  pm.collectionVariables.set('api_token', '');", "  pm.collectionVariables.set('expires_at', '');", "}"]}}],
+      "response": []
+    }
+  ]
+}

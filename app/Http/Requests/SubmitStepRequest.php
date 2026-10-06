@@ -2,13 +2,25 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Learning\BlocklyVerifier;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class SubmitStepRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return $this->user() !== null;
+    }
+
+    public function after(): array
+    {
+        return [function (Validator $validator): void {
+            $commands = $this->input('answer.commands');
+            if (is_array($commands) && BlocklyVerifier::programError($commands) !== null) {
+                $validator->errors()->add('answer.commands', 'Program Blockly tidak valid.');
+            }
+        }];
     }
 
     /**

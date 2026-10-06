@@ -438,6 +438,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                 key={step.id}
                                 step={step}
                                 pending={state.pending}
+                                feedbackOpen={Boolean(resultOutcome)}
                                 selected={selected[step.id]}
                                 onAnswer={(payload) => {
                                     answerTriggerRef.current =
@@ -644,12 +645,14 @@ function nextStepLabel(step?: LessonStep): string {
 function StepView({
     step,
     pending,
+    feedbackOpen,
     selected,
     onAnswer,
     onSelect,
 }: {
     step: LessonStep;
     pending: boolean;
+    feedbackOpen: boolean;
     selected?: string;
     onAnswer: (answer: StepAnswer) => void;
     onSelect: (optionId: string) => void;
@@ -682,6 +685,7 @@ function StepView({
                     <BlocklyStepView
                         step={step}
                         pending={pending}
+                        feedbackOpen={feedbackOpen}
                         onSubmit={(commands) =>
                             onAnswer({ type: 'blockly', commands })
                         }

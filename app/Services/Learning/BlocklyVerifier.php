@@ -20,6 +20,40 @@ class BlocklyVerifier
 
     private const MAX_EXECUTION_STEPS = 10_000;
 
+    /** Validate the entire tree before simulation, including unreachable commands. */
+    public static function programError(array $commands, ?array $availableBlocks = null): ?string
+    {
+        $pending = [[$commands, 0]];
+        $blocks = 0;
+        while ($pending !== []) {
+            [$list, $depth] = array_pop($pending);
+            if (! array_is_list($list) || $depth > self::MAX_DEPTH) {
+                return 'invalid_program';
+            }
+            foreach ($list as $command) {
+                if (++$blocks > self::MAX_BLOCKS) {
+                    return 'too_many_blocks';
+                }
+                if (! is_array($command) || ! in_array($command['type'] ?? null, ['move_forward', 'turn_right', 'repeat'], true)) {
+                    return 'invalid_command';
+                }
+                if ($availableBlocks !== null && ! in_array($command['type'], $availableBlocks, true)) {
+                    return 'invalid_command';
+                }
+                if ($command['type'] === 'repeat') {
+                    if (! is_int($command['count'] ?? null) || $command['count'] < 1 || $command['count'] > self::MAX_REPEAT || ! is_array($command['children'] ?? null)) {
+                        return 'invalid_program';
+                    }
+                    $pending[] = [$command['children'], $depth + 1];
+                } elseif (array_key_exists('children', $command) || array_key_exists('count', $command)) {
+                    return 'invalid_program';
+                }
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @param  array<int, array<string, mixed>>  $commands
      * @param  array<string, mixed>  $challenge
@@ -55,6 +89,10 @@ class BlocklyVerifier
 
         if ($commands === []) {
             return $fail('empty_program');
+        }
+
+        if (($error = self::programError($commands, $challenge['availableBlocks'] ?? null)) !== null) {
+            return $fail($error);
         }
 
         $maxBlocks = min((int) ($challenge['maxBlocks'] ?? self::MAX_BLOCKS), self::MAX_BLOCKS);
@@ -140,6 +178,12 @@ class BlocklyVerifier
             $index = array_search($state['current']['direction'], self::DIRECTIONS, true);
             $index = $index === false ? -1 : (int) $index;
             $state['current']['direction'] = self::DIRECTIONS[($index + 1) % 4];
+
+            return;
+        }
+
+        if ($type !== 'move_forward') {
+            $state['failure'] = 'invalid_command';
 
             return;
         }
