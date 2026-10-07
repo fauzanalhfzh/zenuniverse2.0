@@ -23144,7 +23144,7 @@
       "context": "Blog listing page design for the ZenUniverse landing site. No blog feature exists in the app yet, so this is a design proposal: header, hero, category filters, one featured article, a six-card grid, a course CTA band and the landing footer. Article titles and excerpts are example topics and are visibly labeled as design preview; there are no fabricated authors, dates or statistics. Canvas prototype, not live functionality.",
       "clip": true,
       "width": 1440,
-      "height": 2072,
+      "height": 3063,
       "fill": "$white",
       "layout": "vertical",
       "children": [
@@ -23163,8 +23163,9 @@
           "effect": [],
           "descendants": {
             "Iw6ix": {
-              "fill": "$primary-dark",
-              "fontSize": 30
+              "fill": "$primary",
+              "fontSize": 30,
+              "content": "Zenuniverse"
             },
             "FcQcP": {
               "gap": 28
@@ -23312,7 +23313,7 @@
                       "type": "text",
                       "id": "mSrP4",
                       "name": "Semua filter label",
-                      "fill": "$slate-900",
+                      "fill": "$white",
                       "content": "Semua",
                       "fontFamily": "$font-body",
                       "fontSize": 13,
@@ -24350,11 +24351,379 @@
           ]
         },
         {
-          "id": "v2YwrW",
-          "type": "ref",
-          "ref": "nAQyt",
-          "name": "Blog footer",
-          "width": 1440
+          "type": "frame",
+          "id": "y1Dwne",
+          "name": "Footer / Coding universe",
+          "width": "fill_container",
+          "fill": "$white",
+          "stroke": "$slate-200",
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "sUYuu",
+              "name": "Footer invitation",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "padding": [
+                64,
+                64,
+                48,
+                64
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YIlLE",
+                  "name": "Footer headline",
+                  "fill": "$primary-dark",
+                  "content": "Belajar coding,\nbersama ZenUniverse",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
+                  "fontFamily": "$font-display",
+                  "fontSize": 50,
+                  "fontWeight": "500"
+                },
+                {
+                  "id": "wjo0x",
+                  "type": "ref",
+                  "ref": "wh2Wr",
+                  "x": 484,
+                  "y": 206,
+                  "width": 472,
+                  "height": 49,
+                  "flipX": false,
+                  "flipY": false,
+                  "descendants": {
+                    "X1XdZ": {
+                      "content": "Mulai Belajar"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "v2i3X",
+              "type": "ref",
+              "ref": "dDtUS"
+            },
+            {
+              "type": "frame",
+              "id": "qa2uL",
+              "name": "Footer navigation and legal",
+              "width": "fill_container",
+              "fill": "$primary",
+              "layout": "vertical",
+              "gap": 40,
+              "padding": [
+                40,
+                120,
+                28,
+                120
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f6nZPz",
+                  "name": "Footer navigation columns",
+                  "width": "fill_container",
+                  "gap": 56,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Xr7Eq",
+                      "name": "Brand and mission",
+                      "width": 340,
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "C0vJqf",
+                          "name": "Brand",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "HIFJB",
+                              "name": "LogoBox",
+                              "width": 32,
+                              "height": 32,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "zenuniverse-assets/logo.jpeg",
+                                "mode": "contain"
+                              },
+                              "cornerRadius": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center"
+                            },
+                            {
+                              "type": "text",
+                              "id": "F3Izq",
+                              "name": "BrandName",
+                              "fill": "$slate-900",
+                              "content": "ZenUniverse",
+                              "fontFamily": "$font-display",
+                              "fontSize": 28,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "FCNoU",
+                          "name": "Brand message",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Belajar lewat misi kecil.\nTumbuh bersama rasa penasaran.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bhiza",
+                          "name": "Socials",
+                          "gap": 20,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "k0D5D",
+                              "name": "instagram",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "instagram",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "GsghP",
+                              "name": "youtube",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "youtube",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "pj5bu",
+                              "name": "music_note",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "audio-lines",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HBaC5",
+                      "name": "Footer links / Mulai belajar",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DiEWB",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "Mulai belajar",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "n6iZ5l",
+                          "name": "Link / Alur belajar",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Alur belajar",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t6fSg",
+                          "name": "Link / Mulai misi pertama",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Mulai misi pertama",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Ivu0T",
+                          "name": "Link / Masuk dengan Google",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Masuk dengan Google",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bSwtL",
+                      "name": "Footer links / ZenUniverse",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jZH0U",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "ZenUniverse",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "d96TTs",
+                          "name": "Link / Beranda",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Beranda",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PHF0z",
+                          "name": "Link / Tentang kami",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Tentang kami",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YTeUl",
+                      "name": "Footer links / Untuk orang tua",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "N6Re9",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "Untuk orang tua",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "apyJX",
+                          "name": "Link / Panduan pendampingan",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Panduan pendampingan",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "CoS69",
+                          "name": "Link / Kenali cara belajarnya",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Kenali cara belajarnya",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q9aVdx",
+                  "name": "Copyright row",
+                  "width": "fill_container",
+                  "stroke": "#1E293B33",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "padding": [
+                    20,
+                    0,
+                    0,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KxV0w",
+                      "name": "Copyright",
+                      "fill": "$slate-800",
+                      "content": "© 2026 ZenUniverse. Belajar asik, bersama.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "z5yVj",
+                      "name": "Site language",
+                      "fill": "$slate-800",
+                      "content": "Bahasa Indonesia",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -29138,8 +29507,8 @@
                   "type": "text",
                   "id": "JP3sL",
                   "name": "Mobile brand name",
-                  "fill": "$primary-dark",
-                  "content": "ZenUniverse",
+                  "fill": "$primary",
+                  "content": "Zenuniverse",
                   "fontFamily": "$font-display",
                   "fontSize": 21,
                   "fontWeight": "700"
@@ -69569,6 +69938,1779 @@
           "height": 0.16
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "q4Ozz",
+      "x": 35367,
+      "y": -4322,
+      "name": "Pricing · Desktop",
+      "context": "Static pricing design. Source: user prices Free Rp0/month, Plus Rp35000/month or Rp300000/year. ENERGY 2 / RHYTHM 2 / MOTION 1. Orange and Fredoka preserve the existing brand; grouped Plus periods avoid implying different paid feature tiers. Annual emphasis is based on verified arithmetic, not popularity. Feature entitlements and checkout behavior are not specified or implemented.",
+      "clip": true,
+      "width": 1440,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "lyXfW",
+          "type": "ref",
+          "ref": "dbBHg",
+          "name": "Pricing header",
+          "width": "fill_container",
+          "padding": [
+            24,
+            120
+          ],
+          "stroke": "$slate-200",
+          "strokeWidth": 0,
+          "effect": [],
+          "descendants": {
+            "Iw6ix": {
+              "fill": "$primary",
+              "fontSize": 30,
+              "content": "Zenuniverse"
+            },
+            "FcQcP": {
+              "type": "frame",
+              "id": "TsrPE",
+              "name": "Pricing navigation",
+              "gap": 28,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "acf0O",
+                  "name": "Beranda",
+                  "fill": "$slate-700",
+                  "content": "Beranda",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "jaFth",
+                  "name": "Blog",
+                  "fill": "$slate-700",
+                  "content": "Blog",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "V01Mq1",
+                  "name": "Harga",
+                  "fill": "$primary",
+                  "content": "Harga",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            "LjQW1": {
+              "type": "frame",
+              "id": "qbmVe",
+              "x": 0,
+              "y": 0,
+              "name": "Unused account actions",
+              "enabled": false,
+              "width": 0,
+              "height": 0
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "zFHIn",
+          "name": "Pricing introduction",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            64,
+            120,
+            48,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "x70ayg",
+              "name": "Eyebrow",
+              "fill": "$primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Harga paket",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "rjxeA",
+              "name": "Pricing headline",
+              "fill": "$slate-900",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Mulai gratis.\nLanjutkan dengan Plus.",
+              "lineHeight": 1.08,
+              "textAlign": "center",
+              "fontFamily": "$font-display",
+              "fontSize": 52,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "VfEzY",
+              "name": "Pricing subtitle",
+              "fill": "$slate-600",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Pilih Free atau Plus, dengan pilihan bayar bulanan dan tahunan.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "$font-body",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vb1xp",
+          "name": "Pricing content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            0,
+            120,
+            56,
+            120
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "t822bV",
+              "name": "Free and Plus comparison",
+              "width": "fill_container",
+              "height": 476,
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ikw1Z",
+                  "name": "Free plan",
+                  "width": 344,
+                  "height": "fill_container",
+                  "fill": "$slate-50",
+                  "cornerRadius": 20,
+                  "stroke": "$slate-200",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ULuFZ",
+                      "name": "Free title",
+                      "fill": "$slate-900",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Free",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-display",
+                      "fontSize": 30,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "i5hmLq",
+                      "name": "Free description",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Mulai belajar tanpa biaya berlangganan.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z3GYk5",
+                      "name": "Free price block",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "padding": [
+                        12,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "I7d11",
+                          "name": "Free amount",
+                          "fill": "$slate-900",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Rp0",
+                          "lineHeight": 1.1,
+                          "fontFamily": "$font-body",
+                          "fontSize": 46,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "MO7Ri",
+                          "name": "Free period",
+                          "fill": "$slate-600",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "per bulan",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "abJwZ",
+                      "name": "Free flexible space",
+                      "width": "fill_container",
+                      "height": "fill_container"
+                    },
+                    {
+                      "id": "CKrLr",
+                      "type": "ref",
+                      "ref": "p7CEA",
+                      "name": "Choose Free",
+                      "width": "fill_container",
+                      "height": 52,
+                      "effect": [],
+                      "stroke": "$slate-300",
+                      "descendants": {
+                        "ntZgm": {
+                          "content": "Pilih Free",
+                          "fontSize": 16,
+                          "fill": "$slate-800"
+                        }
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "xzSDN",
+                      "name": "Free payment note",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Rp0 biaya langganan",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NlBcw",
+                  "name": "Plus plan · Two billing periods",
+                  "width": "fill_container",
+                  "fill": "#FFFAF5",
+                  "cornerRadius": 20,
+                  "stroke": "#F1C7A9",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 24,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VmPjy",
+                      "name": "Plus heading",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "zurd4",
+                          "name": "Plus title",
+                          "fill": "$slate-900",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "ZenUniverse Plus",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-display",
+                          "fontSize": 30,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "O1AwQ",
+                          "name": "Plus description",
+                          "fill": "$slate-600",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Satu paket Plus. Pilih periode yang cocok buatmu.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C83zQq",
+                      "name": "Plus billing options",
+                      "width": "fill_container",
+                      "gap": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "LKJcH",
+                          "name": "Plus · Bulanan",
+                          "width": "fill_container",
+                          "fill": "$white",
+                          "cornerRadius": 12,
+                          "stroke": "$slate-200",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": 24,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kuLRC",
+                              "name": "Billing period",
+                              "fill": "$slate-900",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Bulanan",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 19,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "A35k7o",
+                              "name": "Price and cadence",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 6,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Fy6KM",
+                                  "name": "Amount",
+                                  "fill": "$slate-900",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Rp35.000",
+                                  "lineHeight": 1.15,
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 36,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bebV4",
+                                  "name": "Cadence",
+                                  "fill": "$slate-600",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "per bulan",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "g0cZwP",
+                              "name": "Billing explanation",
+                              "fill": "$slate-700",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Bayar untuk 1 bulan Plus.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "id": "tkUwG",
+                              "type": "ref",
+                              "ref": "p7CEA",
+                              "name": "Choose Plus monthly",
+                              "width": "fill_container",
+                              "height": 52,
+                              "effect": [],
+                              "stroke": "$slate-300",
+                              "strokeWidth": 1,
+                              "padding": [
+                                14,
+                                12
+                              ],
+                              "descendants": {
+                                "ntZgm": {
+                                  "content": "Pilih Plus Bulanan",
+                                  "fontSize": 15,
+                                  "fill": "$slate-800"
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "id": "cOAK3",
+                              "name": "Period cost note",
+                              "fill": "$slate-600",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Rp35.000 untuk 1 bulan",
+                              "lineHeight": 1.5,
+                              "textAlign": "center",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QVHmF",
+                          "name": "Plus · Tahunan",
+                          "width": "fill_container",
+                          "fill": "$orange-100",
+                          "cornerRadius": 12,
+                          "stroke": "$primary",
+                          "strokeWidth": 2,
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": 24,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "PPp3O",
+                              "name": "Billing period",
+                              "fill": "$slate-900",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Tahunan",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 19,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "nNa0t",
+                              "name": "Price and cadence",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 6,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "dsBMB",
+                                  "name": "Amount",
+                                  "fill": "$slate-900",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Rp300.000",
+                                  "lineHeight": 1.15,
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 36,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "tyJ6N",
+                                  "name": "Cadence",
+                                  "fill": "$slate-600",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "per tahun",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "A29hR",
+                              "name": "Billing explanation",
+                              "fill": "$slate-700",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Setara Rp25.000 per bulan.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "id": "lu9xp",
+                              "type": "ref",
+                              "ref": "wh2Wr",
+                              "x": 24,
+                              "y": 194,
+                              "width": 328,
+                              "height": 49,
+                              "flipX": false,
+                              "flipY": false,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#9c4913",
+                                "offset": {
+                                  "x": 3,
+                                  "y": 10
+                                }
+                              },
+                              "descendants": {
+                                "X1XdZ": {
+                                  "content": "Pilih Plus Tahunan"
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "id": "cUX79",
+                              "name": "Period cost note",
+                              "fill": "$slate-600",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Rp300.000 untuk 12 bulan",
+                              "lineHeight": 1.5,
+                              "textAlign": "center",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e3SjE",
+              "name": "Annual savings explanation",
+              "width": "fill_container",
+              "stroke": "$slate-200",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "gap": 32,
+              "padding": [
+                28,
+                32
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "H63Lq",
+                  "name": "Savings copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "U18VQz",
+                      "name": "Savings title",
+                      "fill": "$slate-900",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Setahun belajar, lebih hemat Rp120.000.",
+                      "lineHeight": 1.2,
+                      "fontFamily": "$font-display",
+                      "fontSize": 26,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PlGOQ",
+                      "name": "Savings comparison",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Dibandingkan membayar Plus bulanan selama 12 bulan.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CthI8",
+                  "name": "Annual calculation",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IoYWI",
+                      "name": "Twelve monthly payments",
+                      "fill": "$slate-600",
+                      "content": "12 × Rp35.000 = Rp420.000",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hyrmZ",
+                      "name": "Annual actual price",
+                      "fill": "$primary",
+                      "content": "Plus Tahunan Rp300.000",
+                      "fontFamily": "$font-body",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kEz3k",
+          "name": "Footer / Coding universe",
+          "width": "fill_container",
+          "fill": "$white",
+          "stroke": "$slate-200",
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "CTwZg",
+              "name": "Footer invitation",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "padding": [
+                64,
+                64,
+                48,
+                64
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "I4gvzw",
+                  "name": "Footer headline",
+                  "fill": "$primary-dark",
+                  "content": "Belajar coding,\nbersama ZenUniverse",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
+                  "fontFamily": "$font-display",
+                  "fontSize": 50,
+                  "fontWeight": "500"
+                },
+                {
+                  "id": "LfMAz",
+                  "type": "ref",
+                  "ref": "wh2Wr",
+                  "x": 484,
+                  "y": 206,
+                  "width": 472,
+                  "height": 49,
+                  "flipX": false,
+                  "flipY": false,
+                  "descendants": {
+                    "X1XdZ": {
+                      "content": "Mulai Belajar"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "t2XGz2",
+              "type": "ref",
+              "ref": "dDtUS"
+            },
+            {
+              "type": "frame",
+              "id": "OqCtV",
+              "name": "Footer navigation and legal",
+              "width": "fill_container",
+              "fill": "$primary",
+              "layout": "vertical",
+              "gap": 40,
+              "padding": [
+                40,
+                120,
+                28,
+                120
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uNWLR",
+                  "name": "Footer navigation columns",
+                  "width": "fill_container",
+                  "gap": 56,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X1wuE",
+                      "name": "Brand and mission",
+                      "width": 340,
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "zsoEB",
+                          "name": "Brand",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Xv4Rd",
+                              "name": "LogoBox",
+                              "width": 32,
+                              "height": 32,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "zenuniverse-assets/logo.jpeg",
+                                "mode": "contain"
+                              },
+                              "cornerRadius": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center"
+                            },
+                            {
+                              "type": "text",
+                              "id": "nIwFR",
+                              "name": "BrandName",
+                              "fill": "$slate-900",
+                              "content": "ZenUniverse",
+                              "fontFamily": "$font-display",
+                              "fontSize": 28,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "C9kWkL",
+                          "name": "Brand message",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Belajar lewat misi kecil.\nTumbuh bersama rasa penasaran.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tNE4s",
+                          "name": "Socials",
+                          "gap": 20,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "BMJ9u",
+                              "name": "instagram",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "instagram",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "Pc9JH",
+                              "name": "youtube",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "youtube",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "X9H0R",
+                              "name": "music_note",
+                              "width": 22,
+                              "height": 22,
+                              "icon": "audio-lines",
+                              "library": "lucide",
+                              "fill": "$slate-800"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KTfp0",
+                      "name": "Footer links / Mulai belajar",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "T9Q71",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "Mulai belajar",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "tUSqn",
+                          "name": "Link / Alur belajar",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Alur belajar",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UnlWC",
+                          "name": "Link / Mulai misi pertama",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Mulai misi pertama",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OrxpO",
+                          "name": "Link / Masuk dengan Google",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Masuk dengan Google",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jLQNg",
+                      "name": "Footer links / ZenUniverse",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Vfnl0",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "ZenUniverse",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aUsR5",
+                          "name": "Link / Beranda",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Beranda",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BVI0e",
+                          "name": "Link / Tentang kami",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Tentang kami",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N0Zfy",
+                      "name": "Footer links / Untuk orang tua",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RWd7x",
+                          "name": "Column heading",
+                          "fill": "$slate-900",
+                          "content": "Untuk orang tua",
+                          "fontFamily": "$font-body",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "L0yE2",
+                          "name": "Link / Panduan pendampingan",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Panduan pendampingan",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "cxFWO",
+                          "name": "Link / Kenali cara belajarnya",
+                          "fill": "$slate-800",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Kenali cara belajarnya",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CWvVM",
+                  "name": "Copyright row",
+                  "width": "fill_container",
+                  "stroke": "#1E293B33",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "padding": [
+                    20,
+                    0,
+                    0,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "l2MaAX",
+                      "name": "Copyright",
+                      "fill": "$slate-800",
+                      "content": "© 2026 ZenUniverse. Belajar asik, bersama.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Xd3h8",
+                      "name": "Site language",
+                      "fill": "$slate-800",
+                      "content": "Bahasa Indonesia",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "J3Bc3",
+      "x": 36907,
+      "y": -4322,
+      "name": "Pricing · Mobile",
+      "context": "Static mobile pricing mockup. Reflowed billing options, minimum 44px controls. Same source prices as desktop. No checkout implementation or invented feature entitlements.",
+      "clip": true,
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Ct1gL",
+          "name": "Mobile pricing header",
+          "width": "fill_container",
+          "height": 72,
+          "fill": "$white",
+          "stroke": "$slate-200",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            12,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "xD2C2",
+              "name": "Mobile brand",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SrA4f",
+                  "name": "Mobile logo",
+                  "width": 36,
+                  "height": 36,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "zenuniverse-assets/logo.jpeg",
+                    "mode": "contain"
+                  },
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "YeYxw",
+                  "name": "Mobile brand name",
+                  "fill": "$primary",
+                  "content": "ZenUniverse",
+                  "fontFamily": "$font-display",
+                  "fontSize": 21,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kgMMv",
+              "name": "Menu button",
+              "height": 44,
+              "fill": "$white",
+              "cornerRadius": 8,
+              "stroke": "$slate-200",
+              "strokeWidth": 1,
+              "gap": 7,
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gOLuv",
+                  "name": "Menu label",
+                  "fill": "$slate-800",
+                  "content": "Beranda",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "icon",
+                  "id": "mPs67",
+                  "x": 55,
+                  "y": 13,
+                  "name": "Menu icon",
+                  "enabled": false,
+                  "width": 18,
+                  "height": 18,
+                  "icon": "menu",
+                  "library": "lucide",
+                  "fill": "$slate-800"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "E1X2wb",
+          "name": "Mobile pricing introduction",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            36,
+            20,
+            28,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "lEkpw",
+              "name": "Eyebrow",
+              "fill": "$primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Harga paket",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "$font-body",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "XoF4f",
+              "name": "Pricing headline",
+              "fill": "$slate-900",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Mulai gratis.\nLanjutkan dengan Plus.",
+              "lineHeight": 1.08,
+              "textAlign": "center",
+              "fontFamily": "$font-display",
+              "fontSize": 36,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "BLC7Z",
+              "name": "Pricing subtitle",
+              "fill": "$slate-600",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Pilih Free atau Plus, dengan pilihan bayar bulanan dan tahunan.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "c0MLbE",
+          "name": "Mobile pricing content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            0,
+            20,
+            32,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "c68z4",
+              "name": "Mobile Free plan",
+              "width": "fill_container",
+              "fill": "$slate-50",
+              "cornerRadius": 20,
+              "stroke": "$slate-200",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "usRsd",
+                  "name": "Free title",
+                  "fill": "$slate-900",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Free",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-display",
+                  "fontSize": 26,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "YI3HJ",
+                  "name": "Free description",
+                  "fill": "$slate-600",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Mulai belajar tanpa biaya berlangganan.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "rmaqF",
+                  "name": "Free price block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "M5l6l",
+                      "name": "Free amount",
+                      "fill": "$slate-900",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Rp0",
+                      "lineHeight": 1.1,
+                      "fontFamily": "$font-body",
+                      "fontSize": 40,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wQc7t",
+                      "name": "Free period",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "per bulan",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "eWRH0",
+                  "type": "ref",
+                  "ref": "p7CEA",
+                  "name": "Choose Free",
+                  "width": "fill_container",
+                  "height": 52,
+                  "effect": [],
+                  "stroke": "$slate-300",
+                  "descendants": {
+                    "ntZgm": {
+                      "content": "Pilih Free",
+                      "fontSize": 16,
+                      "fill": "$slate-800"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "Ig3MB",
+                  "name": "Free payment note",
+                  "fill": "$slate-600",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Rp0 biaya langganan",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "X9u0TB",
+              "name": "Mobile Plus plan",
+              "width": "fill_container",
+              "fill": "#FFFAF5",
+              "cornerRadius": 20,
+              "stroke": "#F1C7A9",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G8Ut6K",
+                  "name": "Plus heading",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N9qK6",
+                      "name": "Plus title",
+                      "fill": "$slate-900",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "ZenUniverse Plus",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-display",
+                      "fontSize": 26,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AZ2l4",
+                      "name": "Plus description",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Satu paket Plus. Pilih periode yang cocok buatmu.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UnZlj",
+                  "name": "Plus billing options",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VTukj",
+                      "name": "Plus · Bulanan",
+                      "width": "fill_container",
+                      "fill": "$white",
+                      "cornerRadius": 12,
+                      "stroke": "$slate-200",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 16,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p1O1x",
+                          "name": "Billing period",
+                          "fill": "$slate-900",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Bulanan",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 19,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "oC4Gk",
+                          "name": "Price and cadence",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hWrdG",
+                              "name": "Amount",
+                              "fill": "$slate-900",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Rp35.000",
+                              "lineHeight": 1.15,
+                              "fontFamily": "$font-body",
+                              "fontSize": 34,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "AVdYp",
+                              "name": "Cadence",
+                              "fill": "$slate-600",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "per bulan",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "RSCM0",
+                          "name": "Billing explanation",
+                          "fill": "$slate-700",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Bayar untuk 1 bulan Plus.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "id": "P1wqkl",
+                          "type": "ref",
+                          "ref": "p7CEA",
+                          "name": "Choose Plus monthly",
+                          "width": "fill_container",
+                          "height": 52,
+                          "effect": [],
+                          "stroke": "$slate-300",
+                          "strokeWidth": 1,
+                          "padding": [
+                            14,
+                            12
+                          ],
+                          "descendants": {
+                            "ntZgm": {
+                              "content": "Pilih Plus Bulanan",
+                              "fontSize": 15,
+                              "fill": "$slate-800"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "CDvcj",
+                          "name": "Period cost note",
+                          "fill": "$slate-600",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Rp35.000 untuk 1 bulan",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "msS3T",
+                      "name": "Plus · Tahunan",
+                      "width": "fill_container",
+                      "fill": "$orange-100",
+                      "cornerRadius": 12,
+                      "stroke": "$primary",
+                      "strokeWidth": 2,
+                      "layout": "vertical",
+                      "gap": 16,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dsL6v",
+                          "name": "Billing period",
+                          "fill": "$slate-900",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Tahunan",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 19,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cxKjg",
+                          "name": "Price and cadence",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "k1BNC",
+                              "name": "Amount",
+                              "fill": "$slate-900",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Rp300.000",
+                              "lineHeight": 1.15,
+                              "fontFamily": "$font-body",
+                              "fontSize": 34,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "f6GgS",
+                              "name": "Cadence",
+                              "fill": "$slate-600",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "per tahun",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "R1D95",
+                          "name": "Billing explanation",
+                          "fill": "$slate-700",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Setara Rp25.000 per bulan.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "id": "jgXLf",
+                          "type": "ref",
+                          "ref": "wh2Wr",
+                          "name": "Choose Plus yearly",
+                          "width": "fill_container",
+                          "height": 52,
+                          "effect": [],
+                          "stroke": "$primary",
+                          "strokeWidth": 1,
+                          "padding": [
+                            14,
+                            12
+                          ],
+                          "descendants": {
+                            "X1XdZ": {
+                              "content": "Pilih Plus Tahunan",
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fill": "$slate-900",
+                              "rotation": 0
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "msblS",
+                          "name": "Period cost note",
+                          "fill": "$slate-600",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Rp300.000 untuk 12 bulan",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "q6p1d",
+              "name": "Mobile annual savings",
+              "width": "fill_container",
+              "stroke": "$slate-200",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                12,
+                4,
+                24,
+                4
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "O5wWtN",
+                  "name": "Savings copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "aqQKP",
+                      "name": "Savings title",
+                      "fill": "$slate-900",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Setahun belajar, lebih hemat Rp120.000.",
+                      "lineHeight": 1.2,
+                      "fontFamily": "$font-display",
+                      "fontSize": 25,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Z4TVsB",
+                      "name": "Savings comparison",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Dibandingkan membayar Plus bulanan selama 12 bulan.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Y2avlV",
+                  "name": "Annual calculation",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FlLvE",
+                      "name": "Twelve monthly payments",
+                      "fill": "$slate-600",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "12 × Rp35.000 = Rp420.000",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nkQXo",
+                      "name": "Annual actual price",
+                      "fill": "$primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Plus Tahunan Rp300.000",
+                      "fontFamily": "$font-body",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ftXrf",
+          "name": "Mobile pricing footer",
+          "width": "fill_container",
+          "stroke": "$slate-200",
+          "strokeWidth": {
+            "top": 1
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            24,
+            20
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "Yg1XU",
+              "name": "Footer brand",
+              "fill": "$primary",
+              "content": "ZenUniverse",
+              "fontFamily": "$font-display",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "wHuOA",
+              "name": "Footer signoff",
+              "fill": "$slate-600",
+              "content": "Belajar asik, bersama.",
+              "fontFamily": "$font-body",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "rectangle",
+      "id": "JKbF6",
+      "x": 33342,
+      "y": 5030,
+      "fill": "#CCCCCC",
+      "width": 461,
+      "height": 667
+    },
+    {
+      "type": "rectangle",
+      "id": "J1rxkX",
+      "x": 34011,
+      "y": 5030,
+      "fill": "#CCCCCC",
+      "width": 461,
+      "height": 667
+    },
+    {
+      "type": "rectangle",
+      "id": "GJ9I2",
+      "x": 33624,
+      "y": 5030,
+      "fill": "#aba4a4ff",
+      "width": 461,
+      "height": 667
     }
   ],
   "variables": {
