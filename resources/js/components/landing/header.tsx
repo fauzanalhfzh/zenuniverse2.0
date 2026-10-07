@@ -1,7 +1,9 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { home } from '@/routes';
 
 export function Header() {
+    const { url } = usePage();
+    const isBlog = url.split('?')[0] === '/blog' || url.startsWith('/blog/');
     return (
         <header className="border-b border-[#e2e8f0] bg-white dark:border-[#334563] dark:bg-[#0e1931]">
             <div className="mx-auto flex w-full max-w-300 flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4 sm:px-10 lg:px-[120px]">
@@ -32,12 +34,10 @@ export function Header() {
                     >
                         Beranda
                     </Link>
-                    <span className="flex items-center gap-2 text-[15px] font-bold text-[#475569] dark:text-[#afc1dc]">
+                    <Link href="/blog" aria-current={isBlog ? 'page' : undefined} className={`min-h-11 inline-flex items-center rounded text-[15px] font-bold hover:text-[#ea6a12] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#4338ca] ${isBlog ? 'text-[#b64d08]' : 'text-[#475569] dark:text-[#afc1dc]'}`}>
                         Blog
-                        <span className="rounded-full bg-[#fff7ed] px-2 py-0.5 text-[11px] font-semibold text-[#ea6a12] dark:bg-[#162440] dark:text-[#ff8a3d]">
-                            Segera hadir
-                        </span>
-                    </span>
+                    </Link>
+                    <Link href="/price" className="text-[15px] font-bold text-[#ea6a12] focus-visible:ring-2 focus-visible:ring-[#4338ca]">Harga</Link>
                 </nav>
             </div>
         </header>

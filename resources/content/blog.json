@@ -1,0 +1,68 @@
+[
+  {
+    "slug": "kapan-anak-siap-coding",
+    "title": "Kapan anak siap mulai coding?",
+    "category": "Orang tua",
+    "image": "/illustrations/hero-coding-explorers.svg",
+    "excerpt": "Kenali rasa ingin tahu dan kesiapan anak, tanpa harus menjadi programmer.",
+    "status": "Draf editorial · demo",
+    "sections": [
+      {
+        "title": "Mulai dari rasa ingin tahu",
+        "body": "Tidak ada satu usia yang cocok untuk semua anak. Perhatikan apakah anak senang menyusun langkah, bertanya bagaimana sesuatu bekerja, atau mencoba lagi setelah sebuah permainan gagal. Minat itu bisa menjadi pintu masuk, bukan syarat yang harus dipenuhi."
+      },
+      {
+        "title": "Coba kegiatan tanpa layar",
+        "body": "Ajak anak memberi instruksi untuk membuat sandwich atau mencari jalan di peta kertas. Jalankan instruksi sesuai urutannya, lalu bicarakan bagian yang belum jelas. Kegiatan sederhana ini mengenalkan urutan dan ketelitian tanpa menuntut kemampuan mengetik."
+      },
+      {
+        "title": "Ikuti ritme anak",
+        "body": "Saat mencoba coding, pilih tugas kecil dan dampingi seperlunya. Beri pilihan untuk berhenti jika lelah. Tanyakan apa yang ingin dibuat, bukan hanya apakah jawabannya benar. Kesiapan tumbuh lewat pengalaman yang aman dan menyenangkan, bukan perbandingan dengan anak lain."
+      }
+    ]
+  },
+  {
+    "slug": "website-pertama",
+    "title": "Membangun website pertama dengan HTML dan CSS",
+    "category": "Coding untuk anak",
+    "image": "/images/course-icon/html.png",
+    "excerpt": "Dari satu judul sederhana menjadi halaman kecil yang punya warna sendiri.",
+    "status": "Draf editorial · demo",
+    "sections": [
+      {
+        "title": "Kenali dua peran",
+        "body": "HTML menyusun isi halaman, sedangkan CSS mengatur tampilannya. Bayangkan HTML sebagai susunan buku dan CSS sebagai warna raknya. Mulailah dengan judul dan satu paragraf; belum perlu membuat seluruh website."
+      },
+      {
+        "title": "Eksperimen kecil",
+        "body": "Di editor latihan, coba menulis <h1>Planetku</h1> dan <p>Aku suka menjelajah.</p>. Lalu ubah warna judul melalui aturan h1 { color: orange; }. Amati apa yang berubah setiap kali satu bagian diedit."
+      },
+      {
+        "title": "Buat aman untuk dibagikan",
+        "body": "Tambahkan cerita tentang hobi atau planet imajiner. Hindari menulis alamat rumah, nomor telepon, sekolah, atau foto pribadi. Simpan karya secara lokal terlebih dahulu dan minta pendamping memeriksanya sebelum membagikannya secara publik."
+      }
+    ]
+  },
+  {
+    "slug": "logika-puzzle",
+    "title": "Belajar logika lewat teka-teki dan puzzle",
+    "category": "Logika",
+    "image": "/images/languages/code-block.png",
+    "excerpt": "Latihan mengurutkan langkah dan mencari pola bisa dimulai dari meja bermain.",
+    "status": "Draf editorial · demo",
+    "sections": [
+      {
+        "title": "Susun tantangan sederhana",
+        "body": "Gambar petak di kertas dan letakkan penanda awal serta tujuan. Minta anak menyusun instruksi maju, belok kiri, atau belok kanan. Gunakan penanda yang bisa digeser agar hasil tiap langkah terlihat."
+      },
+      {
+        "title": "Uji, jangan tebak",
+        "body": "Jalankan instruksi satu per satu. Jika penanda keluar jalur, berhenti pada langkah tersebut dan cari penyebabnya bersama. Memeriksa urutan membantu anak memahami bahwa kesalahan dapat ditemukan, bukan sekadar ditebak."
+      },
+      {
+        "title": "Bandingkan cara",
+        "body": "Setelah menemukan satu jalan, coba cari jalan lain. Apakah ada langkah yang berulang dan bisa diringkas? Tidak harus memilih yang paling cepat. Mampu menjelaskan alasan di balik pilihan adalah bagian penting dari latihan logika."
+      }
+    ]
+  }
+]

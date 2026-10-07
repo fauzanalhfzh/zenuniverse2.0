@@ -34,10 +34,10 @@ function ColumnHeading({ children }: { children: string }) {
     );
 }
 
-export function Footer() {
+export function Footer({ showCta = true }: { showCta?: boolean }) {
     return (
         <footer className="bg-white dark:bg-[#0b1429]">
-            <CTA />
+            {showCta && <CTA />}
             <div className="w-full overflow-hidden">
                 <img
                     src="/illustrations/valley-explorers.svg"
