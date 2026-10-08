@@ -15,7 +15,8 @@ use App\Http\Controllers\ProgressController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/price', fn (): \Inertia\Response => \Inertia\Inertia::render('price'))->name('price');
+Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
+Route::get('/price', fn (): \Inertia\Response => \Inertia\Inertia::render('price', ['seo' => \App\Support\PublicSeo::page('price')]))->name('price');
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.article');
 

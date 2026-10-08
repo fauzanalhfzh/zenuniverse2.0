@@ -12,7 +12,14 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
             refresh: true,
         }),
-        inertia(),
+        inertia({
+            ssr: {
+                entry: 'resources/js/ssr.tsx',
+                host: '127.0.0.1',
+                port: 13714,
+                cluster: false,
+            },
+        }),
         react(),
         babel({
             presets: [reactCompilerPreset()],
