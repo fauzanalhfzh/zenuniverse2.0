@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(\Inertia\Ssr\Gateway::class, \App\Support\PublicSsrGateway::class);
         $this->app->singleton(\Google\AccessToken\Verify::class, fn () => new \Google\AccessToken\Verify(
             new \GuzzleHttp\Client(['timeout' => 10, 'connect_timeout' => 3]),
             new \Symfony\Component\Cache\Adapter\FilesystemAdapter('google-id-keys', 3600, storage_path('framework/cache/google')),

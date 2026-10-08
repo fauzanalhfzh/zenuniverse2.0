@@ -16,7 +16,18 @@
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         <x-inertia::head>
-            <title>ZenUniverse Academy</title>
+            @if(in_array($page['component'], ['home', 'price', 'blog', 'blog-article'], true) && isset($page['props']['seo']))
+                <title data-inertia="">{{ $page['props']['seo']['title'] }}</title>
+                <meta name="description" content="{{ $page['props']['seo']['description'] }}" data-inertia="description">
+                <link rel="canonical" href="{{ $page['props']['seo']['canonical'] }}" data-inertia="canonical">
+                @foreach(['title', 'description', 'url', 'type', 'image'] as $property)
+                    <meta property="og:{{ $property }}" content="{{ $page['props']['seo'][$property === 'url' ? 'canonical' : $property] }}" data-inertia="og:{{ $property }}">
+                @endforeach
+                <meta name="twitter:card" content="summary_large_image" data-inertia="twitter:card">
+                <script type="application/ld+json" data-inertia="structured-data">{!! $page['props']['seo']['jsonLd'] !!}</script>
+            @else
+                <title>ZenUniverse Academy</title>
+            @endif
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">

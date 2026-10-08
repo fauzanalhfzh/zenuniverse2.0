@@ -18,6 +18,7 @@ class BlogController extends Controller
             ->paginate(12)->withQueryString();
 
         return Inertia::render('blog', [
+            'seo' => \App\Support\PublicSeo::page('blog'),
             'articles' => $articles->getCollection()->map(fn (BlogArticle $article) => $article->publicData()),
             'category' => $category,
             'pagination' => ['previous' => $articles->previousPageUrl(), 'next' => $articles->nextPageUrl()],
@@ -28,6 +29,6 @@ class BlogController extends Controller
     {
         $article = BlogArticle::published()->where('slug', $slug)->firstOrFail();
 
-        return Inertia::render('blog-article', ['article' => $article->publicData()]);
+        return Inertia::render('blog-article', ['article' => $article->publicData(), 'seo' => \App\Support\PublicSeo::article($article)]);
     }
 }

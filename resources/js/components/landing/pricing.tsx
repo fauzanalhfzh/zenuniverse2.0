@@ -9,9 +9,9 @@ export function Pricing() {
             <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-10 lg:py-24">
                 <div className="mx-auto mb-10 max-w-[680px] text-center sm:mb-12">
                     <p className="mb-4 text-sm font-bold text-[#ea6a12]">Harga paket</p>
-                    <h2 id="harga-judul" className="font-display text-[36px] leading-[1.15] font-medium sm:text-[48px]">
+                    <h1 id="harga-judul" className="font-display text-[36px] leading-[1.15] font-medium sm:text-[48px]">
                         Mulai gratis. <span className="block">Lanjutkan dengan Plus.</span>
-                    </h2>
+                    </h1>
                     <p className="mt-5 text-[16px] leading-relaxed text-[#475569]">
                         Pilih Free atau Plus, dengan periode bulanan atau tahunan.
                     </p>
