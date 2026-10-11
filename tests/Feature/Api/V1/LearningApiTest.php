@@ -54,7 +54,9 @@ class LearningApiTest extends TestCase
         foreach (['validation', 'correctOptionId', 'expectedCode', 'acceptedAnswers'] as $private) {
             $this->assertStringNotContainsString('"'.$private.'"', $response->getContent());
         }
-        $this->getJson('/api/v1/me/progress')->assertOk()->assertJsonPath('data.completedStepIds', []);
+        $this->getJson('/api/v1/me/progress')->assertOk()
+            ->assertJsonPath('data.completedStepIds', [])
+            ->assertJsonPath('data.heartsUnlimited', false);
         $course->update(['status' => 'draft']);
         $this->getJson('/api/v1/courses/'.$course->id)->assertNotFound();
         $this->getJson('/api/v1/lessons/'.$lesson->id)->assertNotFound();

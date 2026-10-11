@@ -13,13 +13,15 @@ class PublicSeoTest extends TestCase
     public function test_sitemap_contains_only_public_due_articles_and_robots_declares_it(): void
     {
         foreach (['live', 'draft', 'future', 'undated'] as $slug) {
-            BlogArticle::create(['title' => $slug, 'slug' => $slug, 'category' => 'Logika', 'excerpt' => 'Excerpt', 'body' => 'Body', 'status' => $slug === 'draft' ? 'draft' : 'published', 'published_at' => match ($slug) { 'future' => now()->addDay(), 'undated' => null, default => now()->subDay() }]);
+            BlogArticle::create(['title' => $slug, 'slug' => $slug, 'category' => 'Logika', 'excerpt' => 'Excerpt', 'body' => 'Body', 'status' => $slug === 'draft' ? 'draft' : 'published', 'published_at' => match ($slug) {
+                'future' => now()->addDay(), 'undated' => null, default => now()->subDay()
+            }]);
         }
         $response = $this->get('/sitemap.xml')->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
         $xml = simplexml_load_string($response->getContent());
         $this->assertNotFalse($xml);
         $this->assertSame('http://www.sitemaps.org/schemas/sitemap/0.9', $xml->getDocNamespaces()['']);
-        $this->assertSame(['https://zenuniverse.id/', 'https://zenuniverse.id/price', 'https://zenuniverse.id/blog', 'https://zenuniverse.id/blog/live'], array_map(fn ($url) => (string) $url->loc, iterator_to_array($xml->url, false)));
+        $this->assertSame(['https://zenuniverse.id/', 'https://zenuniverse.id/modul', 'https://zenuniverse.id/price', 'https://zenuniverse.id/blog', 'https://zenuniverse.id/blog/live'], array_map(fn ($url) => (string) $url->loc, iterator_to_array($xml->url, false)));
         foreach (['draft', 'future', 'undated'] as $slug) {
             $this->get('/blog/'.$slug)->assertNotFound();
         }
@@ -33,7 +35,7 @@ class PublicSeoTest extends TestCase
         config(['inertia.ssr.enabled' => false]);
         $this->withoutVite();
         BlogArticle::create(['title' => 'Logika <script>alert("x")</script> & anak', 'slug' => 'logika-anak', 'category' => 'Logika', 'excerpt' => 'Belajar "aman" <b>bersama</b> & bermain.', 'body' => 'Body', 'status' => 'published', 'published_at' => now()->subDay()]);
-        foreach (['/' => 'Belajar Coding untuk Anak | ZenUniverse', '/price' => 'Harga Paket Belajar Coding | ZenUniverse', '/blog' => 'Cerita dari Bumi Zen | ZenUniverse', '/blog/logika-anak' => 'Logika <script>alert("x")</script> & anak | ZenUniverse'] as $path => $title) {
+        foreach (['/' => 'Belajar Coding untuk Anak | ZenUniverse', '/modul' => 'Modul Coding | ZenUniverse', '/price' => 'Harga Paket Belajar Coding | ZenUniverse', '/blog' => 'Cerita dari Bumi Zen | ZenUniverse', '/blog/logika-anak' => 'Logika <script>alert("x")</script> & anak | ZenUniverse'] as $path => $title) {
             $html = $this->get($path.'?utm_source=test')->assertOk()->getContent();
             $dom = new \DOMDocument;
             @$dom->loadHTML($html);

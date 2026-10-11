@@ -9,6 +9,10 @@ import {
     useState,
     type ReactNode,
 } from 'react';
+import { useSubscription } from '@/lib/subscription/session';
+import { store as attemptStore } from '@/routes/learning/attempts';
+import { complete as lessonComplete } from '@/routes/learning/lessons';
+import { show as progressShow } from '@/routes/progress';
 import { ApiClient, ApiError } from './client';
 import { ProgressOutbox, type OutboxJob, type SendResult } from './outbox';
 import {
@@ -40,6 +44,7 @@ interface ProgressSessionValue {
     ) => Promise<void>;
     flush: () => Promise<void>;
     pendingCount: number;
+    rejectionNotice: string | null;
 }
 
 const ProgressSessionContext = createContext<ProgressSessionValue | null>(null);
@@ -55,7 +60,48 @@ export function ProgressSessionProvider({
 }) {
     const page = usePage<AuthPageProps>();
     const userId = page.props.auth?.user?.id ?? null;
-    const pollMs = page.props.progressPollMs ?? DEFAULT_POLL_MS;
+    const owner = useRef(userId);
+    owner.current = userId;
+    return (
+        <AccountProgressSession
+            key={userId ?? 'guest'}
+            userId={userId}
+            owner={owner}
+            pollMs={page.props.progressPollMs ?? DEFAULT_POLL_MS}
+            initialProgress={initialProgress}
+        >
+            {children}
+        </AccountProgressSession>
+    );
+}
+
+function AccountProgressSession({
+    children,
+    userId,
+    owner,
+    pollMs,
+    initialProgress,
+}: {
+    children: ReactNode;
+    userId: number | null;
+    owner: { current: number | null };
+    pollMs: number;
+    initialProgress: ProgressSnapshot | null;
+}) {
+    const { refresh: refreshSubscription } = useSubscription();
+    const [rejectionNotice, setRejectionNotice] = useState<string | null>(null);
+    const generation = useRef(0);
+    const isCurrent = useCallback(
+        (expected: number) =>
+            owner.current === userId && generation.current === expected,
+        [owner, userId],
+    );
+    useEffect(
+        () => () => {
+            generation.current++;
+        },
+        [],
+    );
     const api = useRef(new ApiClient());
     const inFlight = useRef(false);
     const channel = useRef<BroadcastChannel | null>(null);
@@ -81,64 +127,89 @@ export function ProgressSessionProvider({
         }
 
         inFlight.current = true;
+        const expected = generation.current;
 
         try {
-            applySnapshot(
-                await api.current.get<ProgressSnapshot>('/me/progress'),
+            const snapshot = await api.current.get<ProgressSnapshot>(
+                progressShow.url(),
             );
+            if (isCurrent(expected)) applySnapshot(snapshot);
         } catch {
             // Snapshot terakhir tetap dipakai; polling berikutnya mencoba lagi.
         } finally {
             inFlight.current = false;
         }
-    }, [applySnapshot]);
+    }, [applySnapshot, isCurrent]);
 
     const flush = useCallback(async () => {
         if (!outbox) {
             return;
         }
 
+        const expected = generation.current;
+        if (!isCurrent(expected)) return;
         setPendingCount(outbox.size());
 
-        await outbox.flush(async (job: OutboxJob): Promise<SendResult> => {
-            try {
-                await api.current.post(job.url, job.body);
+        await outbox.flush(
+            async (job: OutboxJob): Promise<SendResult> => {
+                try {
+                    await api.current.post(job.url, job.body);
 
-                return 'ok';
-            } catch (error) {
-                if (error instanceof ApiError) {
-                    if (
-                        error.status === 419 ||
-                        error.status === 429 ||
-                        error.status >= 500
-                    ) {
-                        return 'retry';
+                    return 'ok';
+                } catch (error) {
+                    if (error instanceof ApiError) {
+                        if (error.code === 'plus_required') {
+                            if (isCurrent(expected)) {
+                                setRejectionNotice(
+                                    'Jawaban offline belum diterima karena pelajaran memerlukan Plus aktif. Periksa status Plus, lalu kirim ulang jawaban.',
+                                );
+                                void refreshSubscription();
+                            }
+                            return 'drop';
+                        }
+                        if (
+                            error.status === 419 ||
+                            error.status === 429 ||
+                            error.status >= 500
+                        ) {
+                            return 'retry';
+                        }
+
+                        return 'drop';
                     }
 
-                    return 'drop';
+                    return 'retry';
                 }
+            },
+            () => isCurrent(expected),
+        );
 
-                return 'retry';
-            }
-        });
-
-        setPendingCount(outbox.size());
-    }, [outbox]);
+        if (isCurrent(expected)) setPendingCount(outbox.size());
+    }, [outbox, isCurrent, refreshSubscription]);
 
     const submit = useCallback(
         async (input: StepAttemptInput): Promise<AttemptResult> => {
+            const expected = generation.current;
+            if (!isCurrent(expected)) throw new Error('Account changed');
             try {
                 const result = await api.current.post<AttemptResult>(
-                    '/learning/attempts',
+                    attemptStore.url(),
                     input,
                 );
+                if (!isCurrent(expected)) throw new Error('Account changed');
                 applySnapshot(result.progress);
+                setRejectionNotice(null);
                 notifyProgress(channel.current, result.progress.updatedAt ?? 0);
 
                 return result;
             } catch (error) {
                 if (
+                    isCurrent(expected) &&
                     outbox &&
+                    !(
+                        error instanceof ApiError &&
+                        error.code === 'plus_required'
+                    ) &&
                     (!(error instanceof ApiError) ||
                         error.status === 419 ||
                         error.status === 429 ||
@@ -146,7 +217,7 @@ export function ProgressSessionProvider({
                 ) {
                     outbox.enqueue({
                         id: input.attempt_id,
-                        url: '/learning/attempts',
+                        url: attemptStore.url(),
                         body: input,
                     });
                     setPendingCount(outbox.size());
@@ -155,20 +226,23 @@ export function ProgressSessionProvider({
                 throw error;
             }
         },
-        [outbox, applySnapshot],
+        [outbox, applySnapshot, isCurrent],
     );
 
     const completeLesson = useCallback(
         async (lessonId: string, contentRevision: number) => {
+            const expected = generation.current;
+            if (!isCurrent(expected)) throw new Error('Account changed');
             const result = await api.current.post<{
                 progress: ProgressSnapshot;
-            }>(`/learning/lessons/${lessonId}/complete`, {
+            }>(lessonComplete.url(lessonId), {
                 content_revision: contentRevision,
             });
+            if (!isCurrent(expected)) throw new Error('Account changed');
             applySnapshot(result.progress);
             notifyProgress(channel.current, result.progress.updatedAt ?? 0);
         },
-        [applySnapshot],
+        [applySnapshot, isCurrent],
     );
 
     // Initial load + cross-tab invalidation via BroadcastChannel.
@@ -246,8 +320,17 @@ export function ProgressSessionProvider({
             completeLesson,
             flush,
             pendingCount,
+            rejectionNotice,
         }),
-        [progress, refresh, submit, completeLesson, flush, pendingCount],
+        [
+            progress,
+            refresh,
+            submit,
+            completeLesson,
+            flush,
+            pendingCount,
+            rejectionNotice,
+        ],
     );
 
     return (

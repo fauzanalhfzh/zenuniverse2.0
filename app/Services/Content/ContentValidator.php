@@ -10,7 +10,22 @@ use App\Enums\StepType;
  */
 class ContentValidator
 {
-    private const STEP_TYPES = ['concept', 'quiz', 'blockly', 'code-fill', 'code'];
+    private const STEP_TYPES = ['concept', 'quiz', 'blockly', 'code-fill', 'code', 'unjumble', 'matching', 'flashcard'];
+
+    /**
+     * Missing accessTier is legacy free; explicit values must be free or plus.
+     *
+     * @param  array<string, mixed>  $document
+     * @return array<int, array{path: string, message: string}>
+     */
+    public function validateAccessTier(array $document): array
+    {
+        if (array_key_exists('accessTier', $document) && ! in_array($document['accessTier'], ['free', 'plus'], true)) {
+            return [['path' => 'course.accessTier', 'message' => 'Access tier harus free atau plus.']];
+        }
+
+        return [];
+    }
 
     /**
      * @param  array<string, mixed>  $document
@@ -18,7 +33,7 @@ class ContentValidator
      */
     public function validate(array $document): array
     {
-        $issues = [];
+        $issues = $this->validateAccessTier($document);
 
         $required = function (string $value, string $path) use (&$issues): void {
             if (trim($value) === '') {
@@ -78,6 +93,7 @@ class ContentValidator
                     if (! is_array($step['reward'] ?? null)) {
                         $issues[] = ['path' => "{$stepPath}.reward", 'message' => 'Reward XP wajib berupa objek.'];
                     }
+                    $issues = array_merge($issues, $this->activityIssues($step, $stepPath));
                 }
 
                 $this->assertUnique($localStepIds, "{$lessonPath}.steps", $issues, 'ID step tidak boleh berulang.');
@@ -86,6 +102,63 @@ class ContentValidator
 
         $this->assertUnique(array_filter($lessonIds), 'course.units', $issues, 'ID lesson tidak boleh berulang.');
         $this->assertUnique(array_filter($stepIds), 'course.units', $issues, 'ID step tidak boleh berulang.');
+
+        return $issues;
+    }
+
+    /**
+     * @param  array<string, mixed>  $step
+     * @return array<int, array{path: string, message: string}>
+     */
+    private function activityIssues(array $step, string $path): array
+    {
+        $type = $step['type'] ?? '';
+        if (! in_array($type, ['unjumble', 'matching', 'flashcard'], true)) {
+            return [];
+        }
+        $content = is_array($step['content'] ?? null) ? $step['content'] : [];
+        $validation = is_array($step['validation'] ?? null) ? $step['validation'] : [];
+        $issues = [];
+        $groups = match ($type) {
+            'unjumble' => ['tokens'],
+            'matching' => ['left', 'right'],
+            default => ['cards'],
+        };
+        $ids = ['tokens' => [], 'left' => [], 'right' => [], 'cards' => []];
+        foreach (['title', 'instructions'] as $field) {
+            if (trim($this->string($content, $field)) === '') {
+                $issues[] = ['path' => "{$path}.content.{$field}", 'message' => 'Wajib diisi.'];
+            }
+        }
+        foreach ($groups as $group) {
+            $items = $this->list($content[$group] ?? null);
+            $ids[$group] = array_map(fn (array $item): string => $this->string($item, 'id'), $items);
+            if (! is_array($content[$group] ?? null) || ! array_is_list($content[$group]) || count($items) !== count($content[$group]) || $items === [] || count($items) > 50 || count(array_unique($ids[$group])) !== count($items)) {
+                $issues[] = ['path' => "{$path}.content.{$group}", 'message' => 'Isi 1–50 item dengan ID unik.'];
+            }
+            foreach ($items as $item) {
+                foreach ($type === 'flashcard' ? ['id', 'front', 'back'] : ['id', 'label'] as $field) {
+                    if (trim($this->string($item, $field)) === '') {
+                        $issues[] = ['path' => "{$path}.content.{$group}", 'message' => 'ID dan teks setiap item wajib diisi.'];
+                    }
+                }
+            }
+        }
+        if ($type === 'unjumble') {
+            $order = $validation['correctOrder'] ?? [];
+            if (! is_array($order) || count($order) !== count($ids['tokens']) || array_filter($order, 'is_string') !== $order
+                || array_diff($ids['tokens'], $order) !== [] || count(array_unique($order)) !== count($order)) {
+                $issues[] = ['path' => "{$path}.validation.correctOrder", 'message' => 'Urutan harus memuat setiap ID token tepat satu kali.'];
+            }
+        }
+        if ($type === 'matching') {
+            $pairs = $validation['pairs'] ?? [];
+            if (! is_array($pairs) || count($ids['left']) !== count($ids['right']) || count($pairs) !== count($ids['left'])
+                || array_filter($pairs, 'is_string') !== $pairs || array_diff($ids['left'], array_keys($pairs)) !== []
+                || array_diff($ids['right'], array_values($pairs)) !== [] || count(array_unique($pairs)) !== count($pairs)) {
+                $issues[] = ['path' => "{$path}.validation.pairs", 'message' => 'Setiap item kiri dan kanan harus berpasangan tepat satu kali.'];
+            }
+        }
 
         return $issues;
     }

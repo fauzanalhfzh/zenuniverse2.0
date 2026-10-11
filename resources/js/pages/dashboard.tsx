@@ -1,13 +1,35 @@
-import { Head, Link } from '@inertiajs/react';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { useLayoutEffect } from 'react';
 import MissionMap from '@/components/dashboard/mission-map';
 import LearnerNavigation from '@/components/learner-navigation';
-import { ApiClient } from '@/lib/progress/client';
+import { MotionAsset } from '@/components/motion/motion-asset';
+import type { MotionAssetKind } from '@/components/motion/motion-asset';
+import { useDashboardProgress } from '@/lib/progress/use-dashboard-progress';
+import {
+    SubscriptionProvider,
+    useSubscription,
+} from '@/lib/subscription/session';
 import { leaderboard } from '@/routes';
 import { index as learnIndex } from '@/routes/learn';
-import type { CourseDetail, ProgressSnapshot } from '@/types/lesson';
+import type { CourseDetail } from '@/types/lesson';
 
 export default function Dashboard({ active }: { active: CourseDetail | null }) {
+    return (
+        <SubscriptionProvider>
+            <DashboardContent active={active} />
+        </SubscriptionProvider>
+    );
+}
+
+function DashboardContent({ active }: { active: CourseDetail | null }) {
+    const subscription = useSubscription();
+    const { progressPollMs } = usePage<{ progressPollMs?: number }>().props;
+    const {
+        progress,
+        loading: progressLoading,
+        error: progressError,
+        refresh: loadProgress,
+    } = useDashboardProgress(progressPollMs);
     useLayoutEffect(() => {
         const root = document.documentElement;
         const wasDark = root.classList.contains('dark');
@@ -21,27 +43,6 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
         };
     }, []);
 
-    const [progress, setProgress] = useState<ProgressSnapshot | null>(null);
-    const [progressLoading, setProgressLoading] = useState(true);
-    const [progressError, setProgressError] = useState(false);
-    const loadProgress = useCallback(async () => {
-        setProgressLoading(true);
-        setProgressError(false);
-        try {
-            setProgress(
-                await new ApiClient().get<ProgressSnapshot>('/me/progress'),
-            );
-        } catch {
-            setProgressError(true);
-        } finally {
-            setProgressLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        void loadProgress();
-    }, [loadProgress]);
-
     return (
         <>
             <Head title="Peta misi | ZenUniverse" />
@@ -53,23 +54,48 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                         {progress ? (
                             <>
                                 <span>
-                                    <img
-                                        src="/images/stats/star-xp.png"
-                                        alt=""
+                                    <MotionAsset
+                                        kind="star"
+                                        size={24}
+                                        value={progress.totalXp}
                                     />
                                     {progress.totalXp.toLocaleString('id-ID')}{' '}
                                     XP
                                 </span>
                                 <span>
-                                    <img
-                                        src="/images/stats/streak.png"
-                                        alt=""
+                                    <MotionAsset
+                                        kind="streak"
+                                        size={24}
+                                        value={progress.currentStreak}
+                                        active={progress.currentStreak > 0}
                                     />
                                     {progress.currentStreak}
                                 </span>
                                 <span>
-                                    <img src="/images/stats/heart.png" alt="" />
-                                    {progress.hearts}
+                                    <MotionAsset
+                                        kind={
+                                            subscription.plusActive
+                                                ? 'unlimited-heart'
+                                                : 'heart'
+                                        }
+                                        size={24}
+                                        value={progress.hearts}
+                                        filled={
+                                            subscription.plusActive ||
+                                            progress.hearts > 0
+                                        }
+                                    />
+                                    <span
+                                        aria-label={
+                                            subscription.plusActive
+                                                ? 'Nyawa tanpa batas'
+                                                : `Nyawa: ${progress.hearts}`
+                                        }
+                                    >
+                                        {subscription.plusActive
+                                            ? '∞'
+                                            : progress.hearts}
+                                    </span>
                                 </span>
                             </>
                         ) : (
@@ -100,11 +126,11 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                             className="dashboard-stats"
                             aria-label="Statistik belajar"
                         >
-                            {progressLoading ? (
+                            {progressLoading && !progress ? (
                                 <p role="status">
                                     Memuat statistik belajarmu...
                                 </p>
-                            ) : progressError ? (
+                            ) : progressError && !progress ? (
                                 <section className="dashboard-stat-card">
                                     <p role="alert">
                                         Statistik belum bisa dimuat.
@@ -123,6 +149,8 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                                         {[
                                             {
                                                 image: 'star-xp',
+                                                kind: 'star',
+                                                amount: progress.totalXp,
                                                 label: 'XP',
                                                 value: progress.totalXp.toLocaleString(
                                                     'id-ID',
@@ -130,19 +158,42 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                                             },
                                             {
                                                 image: 'streak',
+                                                kind: 'streak',
+                                                amount: progress.currentStreak,
                                                 label: 'Hari streak',
                                                 value: `${progress.currentStreak}`,
                                             },
                                             {
                                                 image: 'heart',
-                                                label: 'Nyawa',
-                                                value: `${progress.hearts}`,
+                                                kind: subscription.plusActive
+                                                    ? 'unlimited-heart'
+                                                    : 'heart',
+                                                amount: progress.hearts,
+                                                label: subscription.plusActive
+                                                    ? 'Nyawa tanpa batas'
+                                                    : 'Nyawa',
+                                                value: subscription.plusActive
+                                                    ? '∞'
+                                                    : `${progress.hearts}`,
                                             },
                                         ].map((stat) => (
                                             <div key={stat.image}>
-                                                <img
-                                                    src={`/images/stats/${stat.image}.png`}
-                                                    alt=""
+                                                <MotionAsset
+                                                    kind={
+                                                        stat.kind as MotionAssetKind
+                                                    }
+                                                    size={44}
+                                                    value={stat.amount}
+                                                    filled={
+                                                        stat.kind ===
+                                                            'unlimited-heart' ||
+                                                        stat.amount > 0
+                                                    }
+                                                    active={
+                                                        stat.kind !==
+                                                            'streak' ||
+                                                        stat.amount > 0
+                                                    }
                                                 />
                                                 <strong>{stat.value}</strong>
                                                 <span>{stat.label}</span>
@@ -153,9 +204,12 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                                     <section className="dashboard-stat-card dashboard-daily">
                                         <h2>Misi harian</h2>
                                         <div className="dashboard-quest">
-                                            <img
-                                                src="/images/stats/star-xp.png"
-                                                alt=""
+                                            <MotionAsset
+                                                kind="star"
+                                                size={44}
+                                                value={
+                                                    progress.dailyGoal.progress
+                                                }
                                             />
                                             <div>
                                                 <p>Kumpulkan XP</p>
@@ -209,11 +263,18 @@ export default function Dashboard({ active }: { active: CourseDetail | null }) {
                             </section>
 
                             <section className="dashboard-stat-card dashboard-unlock">
-                                <h2>Cara membuka misi</h2>
-                                <p>
-                                    Selesaikan misi aktif untuk membuka misi
-                                    berikutnya.
-                                </p>
+                                <MotionAsset
+                                    kind="mascot"
+                                    size={76}
+                                    playOnMount
+                                />
+                                <div>
+                                    <h2>Cara membuka misi</h2>
+                                    <p>
+                                        Selesaikan misi aktif untuk membuka misi
+                                        berikutnya.
+                                    </p>
+                                </div>
                             </section>
                         </aside>
                     </div>

@@ -14,7 +14,7 @@ class SitemapController extends Controller
         $xml->openMemory();
         $xml->startDocument('1.0', 'UTF-8');
         $xml->startElementNS(null, 'urlset', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-        foreach (['home', 'price', 'blog'] as $page) {
+        foreach (['home', 'modul', 'price', 'blog'] as $page) {
             $xml->startElement('url');
             $xml->writeElement('loc', PublicSeo::page($page)['canonical']);
             $xml->endElement();

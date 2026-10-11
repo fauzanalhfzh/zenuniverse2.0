@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { home, login } from '@/routes';
+import { blog, home, login, modul } from '@/routes';
 import { CTA } from './cta';
 
 const comingSoonLinks = ['Alur belajar', 'Mulai misi pertama'] as const;
@@ -34,7 +34,49 @@ function ColumnHeading({ children }: { children: string }) {
     );
 }
 
-export function Footer({ showCta = true }: { showCta?: boolean }) {
+export function Footer({
+    showCta = true,
+    compact = false,
+}: {
+    showCta?: boolean;
+    compact?: boolean;
+}) {
+    if (compact) {
+        return (
+            <footer className="bg-white text-[#0f172a] dark:bg-[#0b1429] dark:text-[#f4f6ff]">
+                <div className="mx-auto flex max-w-300 flex-col justify-between gap-6 px-5 py-10 sm:flex-row sm:items-center sm:px-10">
+                    <div>
+                        <p className="font-display text-[28px] font-bold">
+                            Zenuniverse
+                        </p>
+                        <p className="mt-2 text-sm text-[#475569] dark:text-[#afc1dc]">
+                            Belajar lewat misi kecil.
+                        </p>
+                    </div>
+                    <nav
+                        aria-label="Navigasi footer"
+                        className="flex flex-wrap gap-5"
+                    >
+                        {[
+                            ['Beranda', home.url()],
+                            ['Modul', modul.url()],
+                            ['Roadmap', `${modul.url()}#roadmap`],
+                            ['Blog', blog.url()],
+                        ].map(([label, href]) => (
+                            <Link
+                                key={label}
+                                href={href}
+                                className="inline-flex min-h-11 items-center rounded text-sm font-bold focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#4338ca]"
+                            >
+                                {label}
+                            </Link>
+                        ))}
+                    </nav>
+                </div>
+            </footer>
+        );
+    }
+
     return (
         <footer className="bg-white dark:bg-[#0b1429]">
             {showCta && <CTA />}

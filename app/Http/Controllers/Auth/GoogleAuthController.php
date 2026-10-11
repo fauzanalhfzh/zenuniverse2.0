@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\LearningException;
 use App\Http\Controllers\Controller;
-use App\Models\OauthAccount;
 use App\Models\User;
+use App\Services\Auth\ResolveGoogleAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,48 +39,33 @@ class GoogleAuthController extends Controller
         return $this->provider()->redirect();
     }
 
-    public function callback(Request $request): RedirectResponse
+    public function callback(Request $request, ResolveGoogleAccount $accounts): RedirectResponse
     {
         $googleUser = $this->provider()->user();
 
         $subject = $googleUser->getId();
         $email = $googleUser->getEmail();
 
-        if (blank($subject) || blank($email)) {
+        if (blank($subject) || strlen($subject) > 255
+            || ! is_string($email) || ! filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255) {
             return redirect('/login')->with('error', 'Akun Google tidak memiliki identitas yang lengkap.');
         }
 
-        $account = OauthAccount::query()
-            ->where('provider', 'google')
-            ->where('provider_subject', $subject)
-            ->first();
+        try {
+            $user = $accounts->resolve([
+                'sub' => $subject,
+                'email' => $email,
+                'name' => $googleUser->getName() ?? $email,
+            ]);
+        } catch (LearningException $exception) {
+            if ($exception->errorCode !== 'account_link_required') {
+                throw $exception;
+            }
 
-        if ($account !== null) {
-            $this->syncProviderAvatar($account->user, $googleUser->getAvatar());
-            $this->login($request, $account->user);
-
-            return redirect($this->nextPath($request));
-        }
-
-        if (User::query()->where('email', $email)->exists()) {
             return redirect('/login')->with('error', 'Email ini sudah terdaftar. Masuk dengan metode sebelumnya.');
         }
 
-        $user = User::create([
-            'name' => $googleUser->getName() ?? $email,
-            'email' => $email,
-            'password' => null,
-        ]);
-        $user->forceFill([
-            'email_verified_at' => now(),
-            'provider_avatar_url' => $googleUser->getAvatar(),
-        ])->save();
-
-        $user->oauthAccounts()->create([
-            'provider' => 'google',
-            'provider_subject' => $subject,
-        ]);
-
+        $this->syncProviderAvatar($user, $googleUser->getAvatar());
         $this->login($request, $user);
 
         return redirect($this->nextPath($request));

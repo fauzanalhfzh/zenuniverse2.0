@@ -31,10 +31,10 @@ test.describe('offline replay', () => {
         context,
         page,
     }) => {
-        const stepId = 'blockly-basics-lesson-01-step-1';
+        const stepId = 'blockly-intro-lesson-01-step-1';
 
         await page.goto('/e2e/login?email=e2e-offline@zenuniverse.test');
-        await page.goto('/lesson/blockly-basics-lesson-01');
+        await page.goto('/lesson/blockly-intro-lesson-01');
 
         await expect(page.getByTestId('player-xp')).toBeVisible();
 

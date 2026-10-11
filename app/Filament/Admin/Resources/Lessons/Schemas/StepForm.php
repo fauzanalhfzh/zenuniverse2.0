@@ -70,6 +70,8 @@ class StepForm
                 ->visible(fn (Get $get): bool => $get('type') === 'quiz')
                 ->schema([
                     Textarea::make('content.question')->label('Pertanyaan')->required()->columnSpanFull(),
+                    Select::make('content.language')->label('Bahasa kode')->options(self::LANGUAGES),
+                    Textarea::make('content.code')->label('Potongan kode soal (opsional)')->rows(8)->columnSpanFull(),
                     Repeater::make('content.options')
                         ->label('Opsi')
                         ->schema([
@@ -95,6 +97,25 @@ class StepForm
                         ->label('Penjelasan (ditampilkan setelah menjawab)')
                         ->required()
                         ->columnSpanFull(),
+                ]),
+
+            Section::make('Latihan interaktif')
+                ->visible(fn (Get $get): bool => in_array($get('type'), ['unjumble', 'matching', 'flashcard'], true))
+                ->schema([
+                    TextInput::make('content.title')->label('Judul')->required(),
+                    Textarea::make('content.instructions')->label('Instruksi')->required(),
+                    self::jsonField('content.tokens', 'Token: array objek id dan label')
+                        ->visible(fn (Get $get): bool => $get('type') === 'unjumble'),
+                    self::jsonField('validation.correctOrder', 'Urutan benar: array ID token (privat)')
+                        ->visible(fn (Get $get): bool => $get('type') === 'unjumble'),
+                    self::jsonField('content.left', 'Istilah kiri: array objek id dan label')
+                        ->visible(fn (Get $get): bool => $get('type') === 'matching'),
+                    self::jsonField('content.right', 'Arti kanan: array objek id dan label')
+                        ->visible(fn (Get $get): bool => $get('type') === 'matching'),
+                    self::jsonField('validation.pairs', 'Pasangan benar: objek ID kiri ke ID kanan (privat)')
+                        ->visible(fn (Get $get): bool => $get('type') === 'matching'),
+                    self::jsonField('content.cards', 'Kartu: array objek id, front, dan back')
+                        ->visible(fn (Get $get): bool => $get('type') === 'flashcard'),
                 ]),
 
             Section::make('Blockly')
@@ -179,5 +200,13 @@ class StepForm
                     TextInput::make('content.hint')->label('Hint'),
                 ])->columns(2),
         ];
+    }
+
+    private static function jsonField(string $path, string $label): Textarea
+    {
+        return Textarea::make($path)->label($label)->rows(6)
+            ->formatStateUsing(fn ($state): string => is_array($state) ? (string) json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : (string) $state)
+            ->dehydrateStateUsing(fn ($state): array => is_array($state) ? $state : (array) json_decode((string) $state, true))
+            ->rules(['required', 'json'])->columnSpanFull();
     }
 }

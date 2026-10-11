@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LessonStep;
+use App\Models\Subscription;
+use App\Models\Unit;
 use App\Models\User;
 use App\Services\Content\PublicId;
 use App\Services\Learning\GamificationService;
-use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,7 +21,16 @@ class ProgressTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(ContentSeeder::class);
+        Course::create(['id' => 'course', 'title' => 'Course', 'description' => '', 'level' => 'beginner', 'status' => 'published', 'content_revision' => 1, 'sort_order' => 0]);
+        Unit::create(['id' => 'unit', 'course_id' => 'course', 'title' => 'Unit', 'description' => '', 'sort_order' => 0]);
+        foreach (['lesson', 'other-lesson'] as $index => $id) {
+            Lesson::create(['id' => $id, 'unit_id' => 'unit', 'title' => 'Lesson', 'description' => '', 'completion_reward_xp' => 10, 'sort_order' => $index]);
+        }
+        LessonStep::create(['id' => 'quiz', 'lesson_id' => 'lesson', 'type' => 'quiz', 'reward_xp' => 5, 'sort_order' => 0,
+            'content' => ['question' => 'Pick yes', 'options' => [['id' => 'yes', 'text' => 'Yes'], ['id' => 'no', 'text' => 'No']]],
+            'validation' => ['correctOptionId' => 'yes'],
+        ]);
+        LessonStep::create(['id' => 'concept', 'lesson_id' => 'lesson', 'type' => 'concept', 'reward_xp' => 5, 'sort_order' => 1, 'content' => ['text' => 'Read']]);
     }
 
     private function publishedQuiz(): LessonStep
@@ -37,10 +48,7 @@ class ProgressTest extends TestCase
 
     private function publicWrongOptionId(LessonStep $quiz, int $revision = 1): string
     {
-        $raw = collect($quiz->content['options'])->pluck('id')
-            ->first(fn ($id) => $id !== $quiz->validation['correctOptionId']);
-
-        return $this->publicOptionId($quiz, (string) $raw, $revision);
+        return $this->publicOptionId($quiz, 'no', $revision);
     }
 
     /**
@@ -222,6 +230,83 @@ class ProgressTest extends TestCase
                 'completedStepIds',
                 'courseProgress' => [['courseId', 'title', 'completed', 'total', 'percent']],
             ]);
+    }
+
+    private function plus(User $user): Subscription
+    {
+        $subscription = new Subscription;
+        $subscription->forceFill([
+            'user_id' => $user->id, 'provider' => 'mayar', 'provider_subscription_id' => 'member-'.$user->id,
+            'plan' => 'monthly', 'status' => 'active', 'starts_at' => now()->subDay(),
+            'ends_at' => now()->addMinute(), 'verified_at' => now()->subDay(),
+        ])->save();
+
+        return $subscription;
+    }
+
+    public function test_plus_correct_and_wrong_answers_at_zero_hearts(): void
+    {
+        $this->travelTo(now()->startOfSecond());
+        $user = User::factory()->create();
+        $this->plus($user);
+        $state = app(GamificationService::class)->current($user);
+        $state->forceFill(['hearts' => 0, 'hearts_updated_at' => now()])->save();
+        $quiz = $this->publishedQuiz();
+
+        $this->actingAs($user)->postJson('/learning/attempts', $this->payload($quiz,
+            ['type' => 'quiz', 'optionId' => $this->publicWrongOptionId($quiz)],
+            '88888888-8888-4888-8888-888888888888',
+        ))->assertOk()->assertJsonPath('result.correct', false)->assertJsonPath('result.consumeHeart', false)
+            ->assertJsonPath('xpAwarded', 0)->assertJsonPath('progress.hearts', 0)->assertJsonPath('progress.heartsUnlimited', true);
+        $this->assertDatabaseCount('step_completions', 0);
+
+        $this->postJson('/learning/attempts', $this->payload($quiz,
+            ['type' => 'quiz', 'optionId' => $this->publicOptionId($quiz, 'yes')],
+            '99999999-9999-4999-8999-999999999999',
+        ))->assertOk()->assertJsonPath('result.correct', true)->assertJsonPath('result.consumeHeart', false)
+            ->assertJsonPath('xpAwarded', 5)->assertJsonPath('progress.hearts', 0);
+        $this->assertDatabaseCount('heart_events', 0);
+        $this->assertDatabaseCount('xp_transactions', 1);
+        $this->assertSame(0, $state->fresh()->hearts);
+        $this->assertTrue($state->fresh()->hearts_updated_at->equalTo(now()));
+    }
+
+    public function test_free_mistake_replay_after_upgrade_keeps_original_deduction(): void
+    {
+        $this->travelTo(now()->startOfSecond());
+        $user = User::factory()->create();
+        $quiz = $this->publishedQuiz();
+        $payload = $this->payload($quiz, ['type' => 'quiz', 'optionId' => $this->publicWrongOptionId($quiz)], 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa');
+        $this->actingAs($user)->postJson('/learning/attempts', $payload)->assertOk()->assertJsonPath('result.consumeHeart', true);
+        $this->plus($user);
+        $this->postJson('/learning/attempts', $payload)->assertOk()->assertJsonPath('result.consumeHeart', true)
+            ->assertJsonPath('progress.hearts', 4)->assertJsonPath('progress.heartsUnlimited', true);
+        $this->assertDatabaseCount('heart_events', 1);
+        $this->assertDatabaseCount('lesson_attempts', 1);
+        $this->assertDatabaseCount('xp_transactions', 0);
+    }
+
+    public function test_plus_mistake_replay_after_expiry_keeps_original_result_and_conflict_check(): void
+    {
+        $this->travelTo(now()->startOfSecond());
+        $user = User::factory()->create();
+        $this->plus($user);
+        $state = app(GamificationService::class)->current($user);
+        $state->forceFill(['hearts' => 0, 'hearts_updated_at' => now()])->save();
+        $quiz = $this->publishedQuiz();
+        $payload = $this->payload($quiz, ['type' => 'quiz', 'optionId' => $this->publicWrongOptionId($quiz)], 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb');
+        $this->actingAs($user)->postJson('/learning/attempts', $payload)->assertOk()->assertJsonPath('result.consumeHeart', false);
+        $this->travel(1)->minutes();
+        $this->postJson('/learning/attempts', $payload)->assertOk()->assertJsonPath('result.consumeHeart', false)
+            ->assertJsonPath('progress.hearts', 0)->assertJsonPath('progress.heartsUnlimited', false);
+        $conflict = $payload;
+        $conflict['answer']['optionId'] = $this->publicOptionId($quiz, 'yes');
+        $this->postJson('/learning/attempts', $conflict)->assertStatus(409)->assertJsonPath('error.code', 'attempt_conflict');
+        $payload['attempt_id'] = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+        $this->postJson('/learning/attempts', $payload)->assertStatus(409)->assertJsonPath('error.code', 'no_hearts');
+        $this->assertDatabaseCount('heart_events', 0);
+        $this->assertDatabaseCount('lesson_attempts', 1);
+        $this->assertDatabaseCount('xp_transactions', 0);
     }
 
     public function test_guest_cannot_submit_or_read_progress(): void

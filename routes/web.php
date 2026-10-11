@@ -5,25 +5,33 @@ use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\HeartSettingsController as AdminHeartSettingsController;
 use App\Http\Controllers\Admin\PlayerHeartsController as AdminPlayerHeartsController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\E2eLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\LearnController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\SubscriptionController;
+use App\Support\PublicSeo;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use Inertia\Response;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
-Route::get('/price', fn (): \Inertia\Response => \Inertia\Inertia::render('price', ['seo' => \App\Support\PublicSeo::page('price')]))->name('price');
-Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog');
-Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.article');
+Route::get('/modul', [ModuleController::class, 'index'])->name('modul');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/price', fn (): Response => Inertia::render('price', ['seo' => PublicSeo::page('price')]))->name('price');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.article');
 
-Route::get('/dev', function (): \Inertia\Response {
+Route::get('/dev', function (): Response {
     abort_unless(app()->environment('local'), 404);
 
-    return \Inertia\Inertia::render('dev');
+    return Inertia::render('dev');
 })->name('dev');
 
 Route::get('/login', [GoogleAuthController::class, 'showLogin'])->name('login');
@@ -42,6 +50,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
     Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
 
+    Route::get('/me/subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
     Route::get('/me/progress', [ProgressController::class, 'show'])->name('progress.show');
     Route::post('/learning/attempts', [ProgressController::class, 'attempt'])
         ->middleware('throttle:120,1')

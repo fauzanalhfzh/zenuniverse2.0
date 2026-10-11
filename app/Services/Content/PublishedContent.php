@@ -33,6 +33,7 @@ class PublishedContent
                     'title' => $course->title,
                     'description' => $course->description,
                     'level' => $course->level,
+                    'accessTier' => $course->access_tier,
                     'lessonCount' => $lessonCount,
                 ];
             })
@@ -69,6 +70,7 @@ class PublishedContent
             'title' => $course->title,
             'description' => $course->description,
             'level' => $course->level,
+            'accessTier' => $course->access_tier,
             'contentRevision' => (int) $course->content_revision,
             'units' => $units,
         ];
@@ -130,7 +132,7 @@ class PublishedContent
             StepType::Quiz => [
                 ...$payload,
                 'content' => [
-                    ...$this->pick($content, ['question']),
+                    ...$this->pick($content, ['question', 'code', 'language']),
                     'options' => $this->shuffle(
                         array_map(fn (array $option): array => [
                             'id' => PublicId::option($revision, $step->id, (string) $option['id']),
@@ -157,7 +159,44 @@ class PublishedContent
                 ...$payload,
                 'content' => $this->pick($content, ['title', 'prompt', 'language', 'starterCode', 'mockOutput', 'sampleInput', 'hint']),
             ],
+            StepType::Unjumble => [
+                ...$payload,
+                'content' => [
+                    ...$this->pick($content, ['title', 'instructions']),
+                    'tokens' => $this->publicActivityItems($content['tokens'] ?? [], $step, $revision, 'token'),
+                ],
+            ],
+            StepType::Matching => [
+                ...$payload,
+                'content' => [
+                    ...$this->pick($content, ['title', 'instructions']),
+                    'left' => $this->publicActivityItems($content['left'] ?? [], $step, $revision, 'left'),
+                    'right' => $this->publicActivityItems($content['right'] ?? [], $step, $revision, 'right'),
+                ],
+            ],
+            StepType::Flashcard => [
+                ...$payload,
+                'content' => [
+                    ...$this->pick($content, ['title', 'instructions']),
+                    'cards' => array_map(fn (array $card): array => $this->pick($card, ['id', 'front', 'back']), $this->list($content['cards'] ?? [])),
+                ],
+            ],
         };
+    }
+
+    /**
+     * @return array<int, array{id: string, label: string}>
+     */
+    private function publicActivityItems(mixed $items, LessonStep $step, int $revision, string $kind): array
+    {
+        return $this->shuffle(
+            array_map(fn (array $item): array => [
+                'id' => PublicId::for($kind, $revision, $step->id, (string) $item['id']),
+                'label' => (string) $item['label'],
+            ], $this->list($items)),
+            fn (array $item): string => $item['id'],
+            "{$kind}|{$revision}|{$step->id}",
+        );
     }
 
     /**
@@ -212,9 +251,11 @@ class PublishedContent
     }
 
     /**
-     * @param  array<int, array<string, mixed>>  $items
-     * @param  callable(array<string, mixed>): string  $key
-     * @return array<int, array<string, mixed>>
+     * @template T of array<string, mixed>
+     *
+     * @param  array<int, T>  $items
+     * @param  callable(T): string  $key
+     * @return array<int, T>
      */
     private function shuffle(array $items, callable $key, string $seed): array
     {

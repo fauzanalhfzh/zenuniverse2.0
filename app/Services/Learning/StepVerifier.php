@@ -27,7 +27,52 @@ class StepVerifier
             StepType::Blockly => $this->verifyBlockly($step, $answer),
             StepType::CodeFill => $this->verifyFill($step, $answer),
             StepType::Code => $this->verifyCode($step, $answer),
+            StepType::Unjumble => $this->verifyUnjumble($step, $answer),
+            StepType::Matching => $this->verifyMatching($step, $answer),
+            StepType::Flashcard => $this->verifyFlashcard($step, $answer),
         };
+    }
+
+    /** @param array<string, mixed> $answer */
+    private function verifyUnjumble(LessonStep $step, array $answer): StepVerificationResult
+    {
+        $expected = $step->validation['correctOrder'] ?? [];
+        $order = $answer['order'] ?? [];
+        if (! is_array($expected) || $expected === [] || ! is_array($order) || count($order) !== count($expected)) {
+            return StepVerificationResult::incorrect(false, 'Susun semua token sebelum memeriksa jawaban.');
+        }
+
+        return array_values($order) === array_values($expected)
+            ? StepVerificationResult::correct((int) $step->reward_xp, 'Urutan sudah tepat.')
+            : StepVerificationResult::incorrect(true, 'Urutan belum tepat. Baca kembali hubungan antarkata.');
+    }
+
+    /** @param array<string, mixed> $answer */
+    private function verifyMatching(LessonStep $step, array $answer): StepVerificationResult
+    {
+        $expected = $step->validation['pairs'] ?? [];
+        $pairs = $answer['pairs'] ?? [];
+        if (! is_array($expected) || $expected === [] || ! is_array($pairs) || count($pairs) !== count($expected)) {
+            return StepVerificationResult::incorrect(false, 'Lengkapi semua pasangan terlebih dahulu.');
+        }
+        ksort($expected);
+        ksort($pairs);
+
+        return $pairs === $expected
+            ? StepVerificationResult::correct((int) $step->reward_xp, 'Semua pasangan sudah tepat.')
+            : StepVerificationResult::incorrect(true, 'Ada pasangan yang belum sesuai. Periksa kembali sebelum mencoba lagi.');
+    }
+
+    /** @param array<string, mixed> $answer */
+    private function verifyFlashcard(LessonStep $step, array $answer): StepVerificationResult
+    {
+        $expected = array_column($step->content['cards'] ?? [], 'id');
+        $reviewed = $answer['reviewedIds'] ?? [];
+        if (! is_array($reviewed) || $expected === [] || count($reviewed) !== count($expected) || array_diff($expected, $reviewed) !== [] || array_diff($reviewed, $expected) !== []) {
+            return StepVerificationResult::incorrect(false, 'Buka jawaban pada semua kartu sebelum menyelesaikan ulasan.');
+        }
+
+        return StepVerificationResult::correct((int) $step->reward_xp, 'Semua kartu sudah diulas.');
     }
 
     private function verifyConcept(LessonStep $step): StepVerificationResult

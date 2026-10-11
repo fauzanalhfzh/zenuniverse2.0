@@ -9,4 +9,7 @@ enum StepType: string
     case Blockly = 'blockly';
     case CodeFill = 'code-fill';
     case Code = 'code';
+    case Unjumble = 'unjumble';
+    case Matching = 'matching';
+    case Flashcard = 'flashcard';
 }

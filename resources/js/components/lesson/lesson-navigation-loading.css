@@ -29,8 +29,6 @@
     width: 160px;
     height: 160px;
     margin-bottom: 20px;
-    object-fit: contain;
-    animation: lesson-loading-float 1.2s ease-in-out infinite alternate;
 }
 
 .lesson-loading-title {
@@ -80,15 +78,6 @@
     outline-offset: 3px;
 }
 
-@keyframes lesson-loading-float {
-    from {
-        transform: translateY(4px) rotate(-2deg);
-    }
-    to {
-        transform: translateY(-6px) rotate(2deg);
-    }
-}
-
 @keyframes lesson-loading-slide {
     from {
         transform: translateX(0);
@@ -99,7 +88,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .lesson-loading-character,
     .lesson-loading-track span {
         animation: none;
     }

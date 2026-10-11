@@ -27,7 +27,14 @@ class CoursePublisher
      */
     public function saveDraft(Course $course, array $document, User $actor, ?int $expectedRevision): CourseDraft
     {
+        $issues = $this->validator->validateAccessTier($document);
+
+        if ($issues !== []) {
+            throw LearningException::invalidContent($issues);
+        }
+
         return DB::transaction(function () use ($course, $document, $actor, $expectedRevision): CourseDraft {
+            $course = Course::query()->whereKey($course->id)->lockForUpdate()->firstOrFail();
             $draft = CourseDraft::query()->where('course_id', $course->id)->lockForUpdate()->first();
 
             if ($draft === null) {
@@ -38,6 +45,7 @@ class CoursePublisher
                 $draft = CourseDraft::create([
                     'course_id' => $course->id,
                     'document' => $document,
+                    'projection_hash' => $this->projectionHash($course),
                     'revision' => 1,
                     'updated_by' => $actor->id,
                 ]);
@@ -48,6 +56,7 @@ class CoursePublisher
 
                 $draft->forceFill([
                     'document' => $document,
+                    'projection_hash' => $draft->projection_hash ?? $this->projectionHash($course),
                     'revision' => (int) $draft->revision + 1,
                     'updated_by' => $actor->id,
                 ])->save();
@@ -59,9 +68,22 @@ class CoursePublisher
         }, 3);
     }
 
+    public function saveAccessTier(User $actor, Course $course, string $tier, ?int $expectedRevision = null): CourseDraft
+    {
+        return DB::transaction(function () use ($actor, $course, $tier, $expectedRevision): CourseDraft {
+            $course = Course::query()->whereKey($course->id)->lockForUpdate()->firstOrFail();
+            $draft = CourseDraft::query()->where('course_id', $course->id)->lockForUpdate()->first();
+            $document = $draft->document ?? $this->projectionDocument($course);
+            $document['accessTier'] = $tier;
+
+            return $this->saveDraft($course, $document, $actor, $expectedRevision);
+        }, 3);
+    }
+
     public function publish(Course $course, User $actor, int $expectedRevision): CourseRelease
     {
         return DB::transaction(function () use ($course, $actor, $expectedRevision): CourseRelease {
+            $course = Course::query()->whereKey($course->id)->lockForUpdate()->firstOrFail();
             $draft = CourseDraft::query()->where('course_id', $course->id)->lockForUpdate()->first();
 
             if ($draft === null) {
@@ -73,10 +95,19 @@ class CoursePublisher
             }
 
             $document = $draft->document;
+            if (! array_key_exists('accessTier', $document)) {
+                $document['accessTier'] = 'free';
+            }
             $issues = $this->validator->validate($document);
 
             if ($issues !== []) {
                 throw LearningException::invalidContent($issues);
+            }
+
+            $projectionHash = $this->projectionHash($course);
+
+            if ($draft->projection_hash !== null && $draft->projection_hash !== $projectionHash) {
+                throw LearningException::revisionConflict();
             }
 
             $this->assertStructureUnchanged($course, $document);
@@ -87,15 +118,20 @@ class CoursePublisher
             $existing = CourseRelease::query()
                 ->where('course_id', $course->id)
                 ->where('hash', $hash)
+                ->where('revision', $course->content_revision)
                 ->first();
 
-            if ($existing !== null) {
+            if ($existing !== null && $course->status === 'published') {
+                $draft->forceFill(['projection_hash' => $projectionHash])->save();
+
                 return $existing;
             }
 
             $revision = (int) $course->content_revision + 1;
 
+            $this->reserveIds($course, $this->projectionDocument($course));
             $this->applyProjection($course, $document, $revision);
+            $draft->forceFill(['projection_hash' => $this->projectionHash($course)])->save();
             $this->reserveIds($course, $document);
 
             $release = CourseRelease::create([
@@ -120,6 +156,7 @@ class CoursePublisher
     public function publishProjection(Course $course, User $actor): CourseRelease
     {
         return DB::transaction(function () use ($course, $actor): CourseRelease {
+            $course = Course::query()->whereKey($course->id)->lockForUpdate()->firstOrFail();
             $document = $this->projectionDocument($course);
             $issues = $this->validator->validate($document);
 
@@ -132,9 +169,10 @@ class CoursePublisher
             $existing = CourseRelease::query()
                 ->where('course_id', $course->id)
                 ->where('hash', $hash)
+                ->where('revision', $course->content_revision)
                 ->first();
 
-            if ($existing !== null) {
+            if ($existing !== null && $course->status === 'published') {
                 return $existing;
             }
 
@@ -189,6 +227,12 @@ class CoursePublisher
 
             $draft = CourseDraft::query()->where('course_id', $source->id)->first();
             $document = $draft instanceof CourseDraft ? $draft->document : $this->projectionDocument($source);
+            $issues = $this->validator->validateAccessTier($document);
+
+            if ($issues !== []) {
+                throw LearningException::invalidContent($issues);
+            }
+
             $document = $this->remapDocument($document, $newId);
 
             if ($title !== null && trim($title) !== '') {
@@ -200,6 +244,7 @@ class CoursePublisher
                 'title' => (string) $document['title'],
                 'description' => (string) $document['description'],
                 'level' => (string) $document['level'],
+                'access_tier' => $document['accessTier'] ?? 'free',
                 'status' => 'draft',
                 'content_revision' => 1,
                 'planned_lesson_ids' => $document['plannedLessonIds'] ?? null,
@@ -209,6 +254,7 @@ class CoursePublisher
             CourseDraft::create([
                 'course_id' => $newId,
                 'document' => $document,
+                'projection_hash' => $this->projectionHash($course),
                 'revision' => 1,
                 'updated_by' => $actor->id,
             ]);
@@ -315,6 +361,7 @@ class CoursePublisher
             'title' => (string) $document['title'],
             'description' => (string) $document['description'],
             'level' => (string) $document['level'],
+            'access_tier' => $document['accessTier'],
             'status' => 'published',
             'content_revision' => $revision,
             'planned_lesson_ids' => $document['plannedLessonIds'] ?? null,
@@ -350,6 +397,10 @@ class CoursePublisher
                 }
             }
         }
+
+        Unit::query()->where('course_id', $course->id)
+            ->whereNotIn('id', array_column($this->units($document), 'id'))
+            ->whereDoesntHave('lessons')->delete();
     }
 
     /**
@@ -379,18 +430,24 @@ class CoursePublisher
         }
     }
 
+    private function projectionHash(Course $course): string
+    {
+        return hash('sha256', json_encode($this->projectionDocument($course), JSON_THROW_ON_ERROR));
+    }
+
     /**
      * @return array<string, mixed>
      */
-    private function projectionDocument(Course $course): array
+    public function projectionDocument(Course $course): array
     {
-        $course->loadMissing('units.lessons.steps');
+        $course->load('units.lessons.steps');
 
         return [
             'id' => $course->id,
             'title' => $course->title,
             'description' => $course->description,
             'level' => $course->level,
+            'accessTier' => $course->access_tier,
             'plannedLessonIds' => $course->planned_lesson_ids,
             'units' => $course->units->map(fn (Unit $unit): array => [
                 'id' => $unit->id,

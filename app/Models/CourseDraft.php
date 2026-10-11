@@ -11,11 +11,12 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $course_id
  * @property array<string, mixed> $document
+ * @property string|null $projection_hash
  * @property int $revision
  * @property int|null $updated_by
  * @property Carbon|null $updated_at
  */
-#[Fillable(['course_id', 'document', 'revision', 'updated_by'])]
+#[Fillable(['course_id', 'document', 'projection_hash', 'revision', 'updated_by'])]
 class CourseDraft extends Model
 {
     /**

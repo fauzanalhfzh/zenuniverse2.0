@@ -66,7 +66,8 @@ class PublishedContentTest extends TestCase
     {
         $catalog = $this->content()->catalog();
 
-        $this->assertSame(5, count($catalog));
+        $this->assertSame(6, count($catalog));
+        $this->assertContains('ai-fundamentals', array_column($catalog, 'id'));
         $this->assertSame('blockly-basics', $catalog[0]['id']);
         $this->assertNotContains('cpp-fundamentals', array_column($catalog, 'id'));
     }

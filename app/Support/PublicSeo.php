@@ -12,6 +12,7 @@ final class PublicSeo
     {
         [$path, $title, $description] = match ($page) {
             'home' => ['/', 'Belajar Coding untuk Anak | ZenUniverse', 'Belajar coding untuk anak lewat misi interaktif di ZenUniverse. Jelajahi logika, kreativitas, dan pemrograman sambil bermain.'],
+            'modul' => ['/modul', 'Modul Coding | ZenUniverse', 'Pilih modul coding dan ikuti jalur belajar dari blok visual sampai membuat website di ZenUniverse.'],
             'price' => ['/price', 'Harga Paket Belajar Coding | ZenUniverse', 'Temukan paket belajar coding ZenUniverse untuk anak. Bandingkan pilihan dan mulai petualangan belajar sesuai kebutuhan keluarga.'],
             'blog' => ['/blog', 'Cerita dari Bumi Zen | ZenUniverse', 'Baca cerita, tips belajar coding untuk anak, dan panduan orang tua dari Bumi Zen. Temukan ide belajar logika bersama ZenUniverse.'],
         };

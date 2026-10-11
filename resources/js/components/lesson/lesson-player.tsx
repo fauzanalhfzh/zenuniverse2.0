@@ -1,7 +1,6 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { Link } from '@inertiajs/react';
 import {
-    ArrowRight,
     BookOpen,
     Check,
     Code2,
@@ -13,12 +12,20 @@ import {
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import { CodeFillStepView } from '@/components/lesson/code-fill-step';
+import {
+    FlashcardStepView,
+    MatchingStepView,
+    UnjumbleStepView,
+} from '@/components/lesson/activity-steps';
 import { ConceptStepView } from '@/components/lesson/concept-step';
 import { LessonCompletion } from '@/components/lesson/lesson-completion';
 import { QuizStepView } from '@/components/lesson/quiz-step';
+import { HeartMeter, MotionAsset } from '@/components/motion/motion-asset';
 import { Button } from '@/components/ui/button';
 import { ApiError } from '@/lib/progress/client';
+import { quizPresentation } from '@/lib/lesson/quiz-presentation';
 import { useProgressSession } from '@/lib/progress/session';
+import { useSubscription } from '@/lib/subscription/session';
 import { dashboard } from '@/routes';
 import { createLessonStore } from '@/stores/lesson-store';
 import type { LessonPayload, LessonStep, StepAnswer } from '@/types/lesson';
@@ -35,10 +42,16 @@ const CodeEditorStepView = lazy(() =>
 );
 
 export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
+    const language = lesson.courseId.startsWith('python-')
+        ? 'python'
+        : undefined;
     const store = useMemo(() => createLessonStore(), []);
     const state = useStore(store);
-    const { submit, completeLesson, progress } = useProgressSession();
+    const { submit, completeLesson, progress, rejectionNotice } =
+        useProgressSession();
+    const subscription = useSubscription();
     const [error, setError] = useState<string | null>(null);
+    const [plusRequired, setPlusRequired] = useState(false);
     const [selected, setSelected] = useState<Record<string, string>>({});
     const [outlineOpen, setOutlineOpen] = useState(false);
     const [resultStepId, setResultStepId] = useState<string | null>(null);
@@ -86,6 +99,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
         }
 
         setError(null);
+        setPlusRequired(false);
         store.getState().setPending(true);
 
         try {
@@ -111,6 +125,10 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
             return result.result.correct;
         } catch (caught) {
+            if (caught instanceof ApiError && caught.code === 'plus_required') {
+                setPlusRequired(true);
+                void subscription.refresh();
+            }
             setError(
                 caught instanceof ApiError
                     ? caught.message
@@ -171,11 +189,17 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
         store.getState().setPending(true);
 
+        setPlusRequired(false);
+        setError(null);
         try {
             await completeLesson(lesson.id, lesson.contentRevision);
             store.getState().setCompleted(true);
             playSound('finish');
         } catch (caught) {
+            if (caught instanceof ApiError && caught.code === 'plus_required') {
+                setPlusRequired(true);
+                void subscription.refresh();
+            }
             setError(
                 caught instanceof ApiError
                     ? caught.message
@@ -273,25 +297,45 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                             data-testid="player-xp"
                             className="lesson-player__xp"
                         >
+                            {progress && (
+                                <MotionAsset
+                                    kind="star"
+                                    size={22}
+                                    value={progress.totalXp}
+                                />
+                            )}{' '}
                             XP {progress?.totalXp ?? '-'}
                         </span>
+                        {progress && (
+                            <span
+                                className="lesson-player__streak"
+                                aria-label={`Streak ${progress.currentStreak} hari`}
+                            >
+                                <MotionAsset
+                                    kind="streak"
+                                    size={22}
+                                    value={progress.currentStreak}
+                                    active={progress.currentStreak > 0}
+                                />
+                                {progress.currentStreak}
+                            </span>
+                        )}
                         <span className="lesson-player__stats-divider" />
                         <span
                             className="lesson-player__hearts"
                             data-testid="player-hearts"
-                            aria-label={`Hati tersisa: ${progress?.hearts ?? 'Belum tersedia'}`}
+                            aria-label={
+                                subscription.plusActive
+                                    ? 'Nyawa tanpa batas'
+                                    : `Hati tersisa: ${progress?.hearts ?? 'Belum tersedia'}`
+                            }
                         >
-                            {progress ? (
-                                Array.from({ length: progress.hearts }).map(
-                                    (_, index) => (
-                                        <img
-                                            key={index}
-                                            src="/images/stats/heart.png"
-                                            alt=""
-                                            className="lesson-player__heart-icon"
-                                        />
-                                    ),
-                                )
+                            {subscription.plusActive || progress ? (
+                                <HeartMeter
+                                    hearts={progress?.hearts ?? 0}
+                                    capacity={progress?.heartsCapacity ?? 0}
+                                    unlimited={subscription.plusActive}
+                                />
                             ) : (
                                 <span className="lesson-player__hearts-empty">
                                     -
@@ -370,7 +414,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                                         )}
                                     </span>
                                     <span className="lesson-player__step-copy">
-                                        <strong>{stepLabel(item)}</strong>
+                                        <strong>
+                                            {stepLabel(item, language)}
+                                        </strong>
                                         <small>
                                             {isComplete
                                                 ? 'Selesai'
@@ -387,7 +433,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
 
                 <main className="lesson-player__main">
                     {step?.type === 'blockly' || step?.type === 'code' ? (
-                        <h1 className="sr-only">{stepLabel(step)}</h1>
+                        <h1 className="sr-only">{stepLabel(step, language)}</h1>
                     ) : (
                         <div className="lesson-player__main-heading">
                             <div className="lesson-player__context">
@@ -410,7 +456,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                             {step?.type !== 'concept' ? (
                                 <>
                                     <h1 className="lesson-player__heading">
-                                        {step ? stepLabel(step) : lesson.title}
+                                        {step
+                                            ? stepLabel(step, language)
+                                            : lesson.title}
                                     </h1>
                                     <p className="lesson-player__description">
                                         {lesson.description}
@@ -420,9 +468,26 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                         </div>
                     )}
 
+                    {rejectionNotice ? (
+                        <div role="alert" className="lesson-player__error">
+                            {rejectionNotice}
+                        </div>
+                    ) : null}
                     {error ? (
                         <div role="alert" className="lesson-player__error">
-                            {error}
+                            {plusRequired
+                                ? 'Pelajaran ini memerlukan Plus aktif. Pembelian belum tersedia.'
+                                : error}
+                            {plusRequired ? (
+                                <button
+                                    type="button"
+                                    className="min-h-11 px-3 underline"
+                                    disabled={subscription.status === 'loading'}
+                                    onClick={() => void subscription.refresh()}
+                                >
+                                    Perbarui status Plus
+                                </button>
+                            ) : null}
                         </div>
                     ) : null}
 
@@ -435,6 +500,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
                             }`}
                         >
                             <StepView
+                                language={language}
                                 key={step.id}
                                 step={step}
                                 pending={state.pending}
@@ -582,18 +648,26 @@ export function LessonPlayer({ lesson }: { lesson: LessonPayload }) {
     );
 }
 
-function stepLabel(step: LessonStep): string {
+function stepLabel(step: LessonStep, language?: string): string {
     switch (step.type) {
         case 'concept':
             return step.content.title ?? 'Pengenalan';
         case 'quiz':
-            return step.content.question ?? 'Cek pemahaman';
+            return quizPresentation(
+                step.content.question,
+                step.content.language ?? language,
+                step.content.code,
+            ).question;
         case 'blockly':
             return step.content.title ?? 'Susun algoritma';
         case 'code-fill':
             return step.content.title ?? 'Lengkapi kode';
         case 'code':
             return step.content.title ?? 'Tulis program';
+        case 'unjumble':
+        case 'matching':
+        case 'flashcard':
+            return step.content.title;
     }
 }
 
@@ -609,15 +683,25 @@ function stepTypeLabel(step: LessonStep): string {
             return 'Lengkapi kode';
         case 'code':
             return 'Tulis kode';
+        case 'unjumble':
+            return 'Susun jawaban';
+        case 'matching':
+            return 'Cocokkan pasangan';
+        case 'flashcard':
+            return 'Flash card';
     }
 }
 
 function stepIcon(step: LessonStep) {
     switch (step.type) {
         case 'concept':
+        case 'flashcard':
             return BookOpen;
         case 'quiz':
+        case 'matching':
             return HelpCircle;
+        case 'unjumble':
+            return ListTree;
         case 'blockly':
         case 'code-fill':
         case 'code':
@@ -639,10 +723,17 @@ function nextStepLabel(step?: LessonStep): string {
         case 'code-fill':
         case 'code':
             return 'Lanjut ke latihan';
+        case 'unjumble':
+            return 'Lanjut ke susun jawaban';
+        case 'matching':
+            return 'Lanjut ke cocokkan pasangan';
+        case 'flashcard':
+            return 'Lanjut ke flash card';
     }
 }
 
 function StepView({
+    language,
     step,
     pending,
     feedbackOpen,
@@ -650,6 +741,7 @@ function StepView({
     onAnswer,
     onSelect,
 }: {
+    language?: string;
     step: LessonStep;
     pending: boolean;
     feedbackOpen: boolean;
@@ -660,9 +752,36 @@ function StepView({
     switch (step.type) {
         case 'concept':
             return <ConceptStepView step={step} />;
+        case 'unjumble':
+            return (
+                <UnjumbleStepView
+                    step={step}
+                    disabled={pending}
+                    onSubmit={(order) => onAnswer({ type: 'unjumble', order })}
+                />
+            );
+        case 'matching':
+            return (
+                <MatchingStepView
+                    step={step}
+                    disabled={pending}
+                    onSubmit={(pairs) => onAnswer({ type: 'matching', pairs })}
+                />
+            );
+        case 'flashcard':
+            return (
+                <FlashcardStepView
+                    step={step}
+                    disabled={pending}
+                    onSubmit={(reviewedIds) =>
+                        onAnswer({ type: 'flashcard', reviewedIds })
+                    }
+                />
+            );
         case 'quiz':
             return (
                 <QuizStepView
+                    language={language}
                     step={step}
                     selectedId={selected}
                     disabled={pending}

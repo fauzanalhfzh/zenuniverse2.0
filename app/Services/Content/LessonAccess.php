@@ -6,6 +6,7 @@ use App\Exceptions\LearningException;
 use App\Models\Lesson;
 use App\Models\LessonCompletion;
 use App\Models\User;
+use App\Services\Billing\Entitlement;
 
 class LessonAccess
 {
@@ -17,6 +18,9 @@ class LessonAccess
         $course = $lesson->unit->course;
         if ($course->status !== 'published') {
             throw new LearningException('not_found', 'Pelajaran tidak tersedia.', 404);
+        }
+        if ($course->access_tier === 'plus' && ! app(Entitlement::class)->forUser($user)['plusActive']) {
+            throw new LearningException('plus_required', 'Pelajaran ini memerlukan ZenPlus aktif.', 403);
         }
         $ids = LessonCompletion::query()->where('user_id', $user->id)->pluck('lesson_id')->all();
         if (! $this->content->isUnlocked($course, $lesson->id, $ids)) {

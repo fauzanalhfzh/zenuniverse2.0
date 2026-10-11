@@ -24,6 +24,7 @@ class LearningController
     private function pageSize(Request $request): int
     {
         $data = $request->validate(['per_page' => ['sometimes', 'integer', 'min:1', 'max:100'], 'page' => ['sometimes', 'integer', 'min:1', 'max:100000']]);
+
         return (int) ($data['per_page'] ?? 25);
     }
 
@@ -35,7 +36,8 @@ class LearningController
     public function courses(Request $request): ApiResource
     {
         $page = Course::query()->where('status', 'published')->with('units.lessons')->orderBy('sort_order')->orderBy('id')->paginate($this->pageSize($request));
-        $items = $page->getCollection()->map(fn (Course $course) => ['id' => $course->id, 'title' => $course->title, 'description' => $course->description, 'level' => $course->level, 'lessonCount' => $course->units->sum(fn ($unit) => $unit->lessons->count())])->all();
+        $items = $page->getCollection()->map(fn (Course $course) => ['id' => $course->id, 'title' => $course->title, 'description' => $course->description, 'level' => $course->level, 'accessTier' => $course->access_tier, 'lessonCount' => $course->units->sum(fn ($unit) => $unit->lessons->count())])->all();
+
         return $this->page($page, $items);
     }
 
@@ -43,6 +45,7 @@ class LearningController
     {
         abort_unless($course->status === 'published', 404);
         $ids = LessonCompletion::where('user_id', $request->user()->id)->pluck('lesson_id')->all();
+
         return new ApiResource($this->content->course($course, $ids));
     }
 
@@ -51,6 +54,7 @@ class LearningController
         $access->ensure($request->user(), $lesson);
         $lessons = LessonCompletion::where('user_id', $request->user()->id)->pluck('lesson_id')->all();
         $steps = StepCompletion::where('user_id', $request->user()->id)->pluck('step_id')->all();
+
         return new ApiResource($this->content->lessonPayload($lesson, $lessons, $steps));
     }
 
@@ -64,6 +68,7 @@ class LearningController
         $data = $request->validated();
         $step = LessonStep::findOrFail($data['step_id']);
         $outcome = $submit->handle($request->user(), $step, $data['lesson_id'], (int) $data['content_revision'], $data['attempt_id'], $data['answer']);
+
         return new ApiResource(['result' => ['correct' => $outcome['correct'], 'consumeHeart' => $outcome['consumeHeart'], 'feedback' => $outcome['feedback']], 'xpAwarded' => $outcome['xpAwarded'], 'completed' => $outcome['completed'], 'progress' => $this->progress->forUser($request->user())]);
     }
 
@@ -71,6 +76,7 @@ class LearningController
     {
         $data = $request->validate(['content_revision' => ['required', 'integer', 'min:1']]);
         $outcome = $submit->completeLesson($request->user(), $lesson, (int) $data['content_revision']);
+
         return new ApiResource([...$outcome, 'progress' => $this->progress->forUser($request->user())]);
     }
 
@@ -80,6 +86,7 @@ class LearningController
             ->select('users.name', 'users.avatar_path', 'users.provider_avatar_url', 'user_gamification.total_xp')
             ->orderByDesc('user_gamification.total_xp')->orderBy('users.created_at')->orderBy('users.id')->paginate($this->pageSize($request));
         $items = $page->getCollection()->values()->map(fn ($row, $index) => ['rank' => ($page->currentPage() - 1) * $page->perPage() + $index + 1, 'displayName' => $row->name, 'avatarUrl' => $row->avatar_path ? url(Storage::disk('public')->url($row->avatar_path)) : $row->provider_avatar_url, 'totalXp' => (int) $row->total_xp])->all();
+
         return $this->page($page, $items);
     }
 }

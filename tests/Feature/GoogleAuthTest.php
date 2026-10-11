@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\OauthAccount;
 use App\Models\User;
+use App\Services\Auth\ResolveGoogleAccount;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
@@ -119,6 +120,44 @@ class GoogleAuthTest extends TestCase
         $response->assertRedirect('/login');
         $this->assertGuest();
         $this->assertSame(1, User::count());
+    }
+
+    public function test_callback_reuses_identity_created_by_mobile_resolver(): void
+    {
+        $user = app(ResolveGoogleAccount::class)->resolve([
+            'sub' => 'shared-google-subject',
+            'email' => 'mobile@zen.id',
+            'name' => 'Mobile Learner',
+        ]);
+        $this->fakeProvider($this->fakeGoogleUser('shared-google-subject', 'mobile@zen.id', 'Web Learner'));
+
+        $this->get('/auth/google/callback')->assertRedirect('/dashboard');
+
+        $this->assertAuthenticatedAs($user);
+        $this->assertSame(1, User::count());
+        $this->assertSame(1, OauthAccount::count());
+    }
+
+    public function test_callback_does_not_link_case_variant_email(): void
+    {
+        User::factory()->create(['email' => 'Budi@zen.id']);
+        $this->fakeProvider($this->fakeGoogleUser('unlinked-subject', 'budi@zen.id', 'Budi'));
+
+        $this->get('/auth/google/callback')->assertRedirect('/login');
+
+        $this->assertGuest();
+        $this->assertSame(1, User::count());
+        $this->assertSame(0, OauthAccount::count());
+    }
+
+    public function test_callback_rejects_invalid_provider_email(): void
+    {
+        $this->fakeProvider($this->fakeGoogleUser('google-123', 'invalid-email', 'Budi'));
+
+        $this->get('/auth/google/callback')->assertRedirect('/login');
+
+        $this->assertGuest();
+        $this->assertSame(0, User::count());
     }
 
     public function test_logout_invalidates_session(): void

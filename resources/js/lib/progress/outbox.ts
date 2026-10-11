@@ -124,6 +124,7 @@ export class ProgressOutbox {
 
     async flush(
         send: SendFunction,
+        isCurrent: () => boolean = () => true,
     ): Promise<{ sent: number; retried: number; dropped: number }> {
         const jobs = this.all();
         const remaining: OutboxJob[] = [];
@@ -132,12 +133,20 @@ export class ProgressOutbox {
         let dropped = 0;
 
         for (const job of jobs) {
+            if (!isCurrent()) {
+                remaining.push(job);
+                continue;
+            }
             if (job.notBefore !== undefined && job.notBefore > this.now()) {
                 remaining.push(job);
                 continue;
             }
 
             const result = await send(job);
+            if (!isCurrent()) {
+                remaining.push(job);
+                continue;
+            }
 
             if (result === 'ok') {
                 sent += 1;

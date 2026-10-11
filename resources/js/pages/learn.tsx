@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { LockKeyhole } from 'lucide-react';
+import { BrainCircuit, LockKeyhole } from 'lucide-react';
 import LearnerNavigation from '@/components/learner-navigation';
 import { dashboard } from '@/routes';
 import type { CourseCatalogItem } from '@/types/lesson';
@@ -49,13 +49,24 @@ export default function Learn({ courses }: { courses: CourseCatalogItem[] }) {
                                             className="group flex min-h-[280px] min-w-0 flex-col rounded-[20px] border border-[#d4deea] bg-white p-6 transition-colors hover:border-[#ff8a3d] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#a6400a]"
                                         >
                                             <div className="flex items-start justify-between gap-4">
-                                                <img
-                                                    src={`/images/course-icon/${icon}.png`}
-                                                    alt=""
-                                                    className="size-16 rounded-xl object-cover"
-                                                />
+                                                {course.id ===
+                                                'ai-fundamentals' ? (
+                                                    <BrainCircuit
+                                                        className="size-13 text-[#243552]"
+                                                        aria-hidden="true"
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={`/images/course-icon/${icon}.png`}
+                                                        alt=""
+                                                        className="size-16 rounded-xl object-cover"
+                                                    />
+                                                )}
                                                 <span className="rounded-full bg-[#e3f6ef] px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-[#087a4f] uppercase">
-                                                    Terbuka
+                                                    {course.accessTier ===
+                                                    'plus'
+                                                        ? 'Plus'
+                                                        : 'Gratis'}
                                                 </span>
                                             </div>
                                             <h2 className="font-display mt-4 text-[22px] font-medium">
@@ -70,7 +81,10 @@ export default function Learn({ courses }: { courses: CourseCatalogItem[] }) {
                                                     pelajaran
                                                 </span>
                                                 <span className="bg-primary inline-flex min-h-11 items-center rounded-xl px-[18px] text-sm font-bold text-white shadow-[3px_7px_0_#9c4913]">
-                                                    Mulai
+                                                    {course.accessTier ===
+                                                    'plus'
+                                                        ? 'Lihat jalur'
+                                                        : 'Mulai'}
                                                 </span>
                                             </div>
                                         </Link>

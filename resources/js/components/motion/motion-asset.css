@@ -1,0 +1,86 @@
+.motion-asset {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    width: var(--motion-size);
+    height: var(--motion-size);
+    vertical-align: middle;
+    isolation: isolate;
+    pointer-events: none;
+    --motion-accent: #f6b936;
+}
+
+.motion-asset--heart,
+.motion-asset--unlimited-heart {
+    --motion-accent: #ed426b;
+}
+.motion-asset--streak,
+.motion-asset--mascot {
+    --motion-accent: #ff8a30;
+}
+
+.motion-asset__body {
+    position: absolute;
+    inset: 0;
+    display: block;
+    transform-origin: 50% 65%;
+}
+
+.motion-asset .motion-asset__body > svg,
+.motion-asset .motion-asset__body > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.motion-asset__empty {
+    fill: #e4e9f0;
+    stroke: #8996a9;
+}
+.dark .motion-asset__empty {
+    fill: #283b56;
+    stroke: #93a4bc;
+}
+.motion-asset[data-active='false'] .motion-asset__body {
+    filter: grayscale(1);
+}
+.motion-asset__infinity {
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.motion-asset__ring {
+    position: absolute;
+    inset: 5%;
+    border: 2px solid var(--motion-accent);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.motion-asset__particle {
+    position: absolute;
+    width: 8%;
+    height: 8%;
+    border-radius: 2px;
+    background: var(--motion-accent);
+    opacity: 0;
+}
+.motion-asset__particle--one {
+    top: 8%;
+    right: 2%;
+    rotate: 25deg;
+}
+.motion-asset__particle--two {
+    top: 32%;
+    left: 0;
+    rotate: -20deg;
+}
+.motion-asset--mascot .motion-asset__ring {
+    inset: 18%;
+}
+.motion-heart-meter {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1px;
+}

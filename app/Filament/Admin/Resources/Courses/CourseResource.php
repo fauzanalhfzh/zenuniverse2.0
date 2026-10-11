@@ -9,6 +9,7 @@ use App\Filament\Admin\Resources\Courses\Pages\ListCourses;
 use App\Filament\Admin\Resources\Courses\RelationManagers\ReleasesRelationManager;
 use App\Filament\Admin\Resources\Courses\RelationManagers\UnitsRelationManager;
 use App\Models\Course;
+use App\Models\CourseDraft;
 use App\Models\User;
 use App\Services\Content\CoursePublisher;
 use App\Services\Content\PublishedContent;
@@ -17,6 +18,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
@@ -150,12 +152,37 @@ class CourseResource extends Resource
                             ->maxLength(255),
                     ])
                     ->action(fn (Course $record, array $data) => self::duplicate($record, $data)),
+                Action::make('stageAccessTier')
+                    ->label('Atur akses')
+                    ->icon(Heroicon::OutlinedLockClosed)
+                    ->modalHeading('Atur akses kursus')
+                    ->modalDescription('Perubahan akses disimpan ke draft dan berlaku setelah kursus diterbitkan.')
+                    ->modalSubmitActionLabel('Simpan ke draft')
+                    ->modalCancelActionLabel('Batal')
+                    ->fillForm(function (Course $record): array {
+                        $draft = CourseDraft::query()->where('course_id', $record->id)->first();
+
+                        return [
+                            'access_tier' => $draft?->document['accessTier'] ?? $record->access_tier,
+                            'expected_revision' => $draft->revision ?? 0,
+                        ];
+                    })
+                    ->schema([
+                        Hidden::make('expected_revision')->required()->rules(['integer', 'min:0']),
+                        Select::make('access_tier')
+                            ->label('Akses kursus')
+                            ->options(['free' => 'Gratis', 'plus' => 'ZenPlus'])
+                            ->required()
+                            ->in(['free', 'plus']),
+                    ])
+                    ->action(fn (Course $record, array $data) => self::stageAccessTier($record, $data)),
                 Action::make('publish')
                     ->label('Terbitkan')
                     ->icon(Heroicon::OutlinedRocketLaunch)
                     ->requiresConfirmation()
                     ->action(fn (Course $record) => self::publish($record))
-                    ->visible(fn (Course $record): bool => $record->status !== 'published'),
+                    ->visible(fn (Course $record): bool => $record->status !== 'published'
+                        || CourseDraft::query()->where('course_id', $record->id)->exists()),
                 Action::make('archive')
                     ->label('Arsipkan')
                     ->icon(Heroicon::OutlinedArchiveBox)
@@ -214,10 +241,33 @@ class CourseResource extends Resource
         }
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private static function stageAccessTier(Course $course, array $data): void
+    {
+        try {
+            app(CoursePublisher::class)->saveAccessTier(
+                self::actor(),
+                $course,
+                (string) $data['access_tier'],
+                (int) $data['expected_revision'],
+            );
+
+            Notification::make()->success()->title('Akses kursus disimpan ke draft')->send();
+        } catch (LearningException $exception) {
+            Notification::make()->danger()->title($exception->getMessage())->send();
+        }
+    }
+
     private static function publish(Course $course): void
     {
         try {
-            $release = app(CoursePublisher::class)->publishProjection($course, self::actor());
+            $service = app(CoursePublisher::class);
+            $draft = CourseDraft::query()->where('course_id', $course->id)->first();
+            $release = $draft === null
+                ? $service->publishProjection($course, self::actor())
+                : $service->publish($course, self::actor(), (int) $draft->revision);
 
             Notification::make()
                 ->success()

@@ -1,6 +1,7 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import type { ReactNode, RefObject } from 'react';
+import { MotionAsset } from '@/components/motion/motion-asset';
 import './lesson-navigation-loading.css';
 
 type Loading = {
@@ -65,11 +66,10 @@ export default function LessonNavigationLoading({
                             className="lesson-loading-screen"
                         >
                             <div className="lesson-loading-content">
-                                <img
-                                    src="/images/loading.png"
-                                    alt=""
-                                    width={160}
-                                    height={160}
+                                <MotionAsset
+                                    kind="mascot"
+                                    size={160}
+                                    playOnMount
                                     className="lesson-loading-character"
                                 />
                                 <Dialog.Title className="font-display lesson-loading-title">

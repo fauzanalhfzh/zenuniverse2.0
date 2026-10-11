@@ -1031,9 +1031,72 @@ body {
     box-shadow: 0 0 0 3px rgb(255 152 93 / 25%);
 }
 
-.lesson-player__code-fill-input:not(:placeholder-shown) {
+input.lesson-player__code-fill-input:not(:placeholder-shown),
+.lesson-player__code-fill-slot--filled {
     border-color: #64d5b4;
     color: #9be7d0;
+}
+
+.lesson-player__code-fill-slot {
+    padding-inline: 12px;
+    cursor: pointer;
+}
+
+.lesson-player__code-fill-bank {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+    color: var(--lesson-ink);
+}
+
+.lesson-player__code-fill-bank strong {
+    font-size: 14px;
+}
+
+.lesson-player__code-fill-bank p {
+    margin: 0;
+    color: var(--lesson-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.lesson-player__code-fill-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-block: 4px;
+}
+
+.lesson-player__code-fill-token {
+    min-width: 52px;
+    min-height: 44px;
+    max-width: 100%;
+    padding: 8px 16px;
+    border: 1px solid #b7c6d6;
+    border-bottom-width: 3px;
+    border-radius: 10px;
+    background: #fff;
+    color: #243552;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.lesson-player__code-fill-token:hover:not([aria-disabled='true']) {
+    border-color: #ed8a46;
+    background: #fff3e8;
+}
+
+.lesson-player__code-fill-token:focus-visible {
+    outline: 3px solid #2866b5;
+    outline-offset: 3px;
+}
+
+.lesson-player__code-fill-token[aria-disabled='true'] {
+    opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .lesson-player__code-fill-actions {
@@ -1140,7 +1203,7 @@ body {
     }
 
     .lesson-player__stats-divider,
-    .lesson-player__stats span:first-child {
+    .lesson-player__stats > .lesson-player__xp {
         display: none;
     }
 
@@ -1378,6 +1441,17 @@ body {
     color: #4a5a70;
     font-size: 12px;
     font-weight: 700;
+}
+
+.lesson-player__xp,
+.lesson-player__streak {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.lesson-player__hearts .motion-heart-meter {
+    max-width: 160px;
 }
 
 .lesson-player__outline-toggle {
@@ -1954,6 +2028,7 @@ body {
 
     .lesson-player__outline-toggle span,
     .lesson-player__xp,
+    .lesson-player__streak,
     .lesson-player__stats-divider {
         display: none;
     }
@@ -2665,7 +2740,10 @@ body {
         display: grid;
         grid-column: 1 / -1;
         grid-row: 2;
-        grid-template-columns: minmax(0, 0.65fr) minmax(0, 1fr) minmax(0, 1.35fr);
+        grid-template-columns: minmax(0, 0.65fr) minmax(0, 1fr) minmax(
+                0,
+                1.35fr
+            );
         padding: 2px 0;
         border-top: 1px solid #cad4e4;
         background: #ffffff;

@@ -92,6 +92,29 @@ void test('queues are isolated per user', () => {
     assert.equal(second.size(), 1);
 });
 
+void test('account switch stops queued sends without deleting unsent answers', async () => {
+    const storage = memoryStorage();
+    const outbox = new ProgressOutbox('user-1', storage);
+    outbox.enqueue(job('a'));
+    outbox.enqueue(job('b'));
+    let current = true;
+    const sent: string[] = [];
+    await outbox.flush(
+        async (entry) => {
+            sent.push(entry.id);
+            current = false;
+            return 'ok';
+        },
+        () => current,
+    );
+    assert.deepEqual(sent, ['a']);
+    assert.deepEqual(
+        outbox.all().map((entry) => entry.id),
+        ['a', 'b'],
+    );
+    assert.equal(new ProgressOutbox('user-2', storage).size(), 0);
+});
+
 void test('pending jobs persist across instances', () => {
     const storage = memoryStorage();
     new ProgressOutbox('user-1', storage).enqueue(job('a'));

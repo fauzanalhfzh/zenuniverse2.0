@@ -56,12 +56,6 @@ class SubmitAttempt
             throw new LearningException('not_found', 'Pelajaran tidak tersedia.', 404);
         }
 
-        app(LessonAccess::class)->ensure($user, $lesson);
-
-        if ($contentRevision !== (int) $course->content_revision) {
-            throw LearningException::contentChanged();
-        }
-
         $payloadHash = hash('sha256', json_encode([
             'lesson' => $lesson->id,
             'step' => $step->id,
@@ -69,6 +63,24 @@ class SubmitAttempt
             'answer' => $answer,
         ], JSON_THROW_ON_ERROR));
 
+        $existing = LessonAttempt::query()
+            ->where('user_id', $user->id)
+            ->where('attempt_id', $attemptId)
+            ->first();
+
+        if ($existing !== null && $existing->payload_hash === $payloadHash && $existing->response !== null) {
+            return $existing->response;
+        }
+
+        if ($contentRevision !== (int) $course->content_revision) {
+            throw LearningException::contentChanged();
+        }
+
+        if ($existing !== null && $existing->payload_hash !== $payloadHash) {
+            throw LearningException::attemptConflict();
+        }
+
+        app(LessonAccess::class)->ensure($user, $lesson);
         $answer = $this->translateAnswer($step, $contentRevision, $answer);
 
         return DB::transaction(function () use ($user, $step, $lesson, $course, $contentRevision, $attemptId, $answer, $payloadHash): array {
@@ -84,7 +96,7 @@ class SubmitAttempt
                 return $this->replay($existing, $step, $answer, $user, $lesson->id, $payloadHash);
             }
 
-            if ($this->costsHeart($step) && $this->gamification->effectiveHearts($state)['hearts'] <= 0) {
+            if ($this->costsHeart($step) && ! $this->gamification->hasUnlimitedHearts($user) && $this->gamification->effectiveHearts($state)['hearts'] <= 0) {
                 throw LearningException::noHearts();
             }
 
@@ -108,6 +120,14 @@ class SubmitAttempt
                 $consumeHeart = $this->gamification->consumeHeart($user, "mistake:{$attemptId}");
             }
 
+            $response = [
+                'correct' => $verification->correct,
+                'consumeHeart' => $consumeHeart,
+                'feedback' => $verification->feedback,
+                'xpAwarded' => $xpAwarded,
+                'completed' => $this->lessonCompleted($user, $lesson->id),
+            ];
+
             try {
                 LessonAttempt::create([
                     'user_id' => $user->id,
@@ -119,6 +139,7 @@ class SubmitAttempt
                     'correct' => $verification->correct,
                     'consume_heart' => $consumeHeart,
                     'xp_awarded' => $xpAwarded,
+                    'response' => $response,
                 ]);
             } catch (QueryException $exception) {
                 $raced = LessonAttempt::query()
@@ -134,13 +155,7 @@ class SubmitAttempt
                 throw $exception;
             }
 
-            return [
-                'correct' => $verification->correct,
-                'consumeHeart' => $consumeHeart,
-                'feedback' => $verification->feedback,
-                'xpAwarded' => $xpAwarded,
-                'completed' => $this->lessonCompleted($user, $lesson->id),
-            ];
+            return $response;
         }, 3);
     }
 
@@ -201,6 +216,27 @@ class SubmitAttempt
             $answer['optionId'] = $map[$answer['optionId']] ?? null;
         }
 
+        if ($step->type === StepType::Unjumble) {
+            $map = [];
+            foreach ($this->objectList($content['tokens'] ?? null) as $token) {
+                $map[PublicId::for('token', $revision, $step->id, (string) $token['id'])] = $token['id'];
+            }
+            $answer['order'] = array_map(fn ($id): string => is_string($id) ? ($map[$id] ?? '') : '', is_array($answer['order'] ?? null) ? $answer['order'] : []);
+        }
+        if ($step->type === StepType::Matching) {
+            $maps = ['left' => [], 'right' => []];
+            foreach (['left', 'right'] as $side) {
+                foreach ($this->objectList($content[$side] ?? null) as $item) {
+                    $maps[$side][PublicId::for($side, $revision, $step->id, (string) $item['id'])] = $item['id'];
+                }
+            }
+            $pairs = [];
+            foreach (is_array($answer['pairs'] ?? null) ? $answer['pairs'] : [] as $left => $right) {
+                $pairs[$maps['left'][$left] ?? ''] = is_string($right) ? ($maps['right'][$right] ?? '') : '';
+            }
+            $answer['pairs'] = $pairs;
+        }
+
         return $answer;
     }
 
@@ -224,6 +260,14 @@ class SubmitAttempt
     {
         if ($attempt->payload_hash !== $payloadHash) {
             throw LearningException::attemptConflict();
+        }
+
+        if ($attempt->response !== null) {
+            return $attempt->response;
+        }
+
+        if ((int) $attempt->content_revision !== (int) $step->lesson->unit->course->content_revision) {
+            throw LearningException::contentChanged();
         }
 
         $replay = $this->verifier->verify($step, $answer);
@@ -321,7 +365,7 @@ class SubmitAttempt
 
     private function costsHeart(LessonStep $step): bool
     {
-        return $step->type !== StepType::Concept;
+        return ! in_array($step->type, [StepType::Concept, StepType::Flashcard], true);
     }
 
     private function lessonCompleted(User $user, string $lessonId): bool

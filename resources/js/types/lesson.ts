@@ -3,7 +3,10 @@ export type LessonStepType =
     | 'quiz'
     | 'blockly'
     | 'code-fill'
-    | 'code';
+    | 'code'
+    | 'unjumble'
+    | 'matching'
+    | 'flashcard';
 
 export interface QuizOption {
     id: string;
@@ -39,6 +42,8 @@ export interface QuizStep {
     reward: StepReward;
     content: {
         question?: string;
+        code?: string;
+        language?: string;
         options: QuizOption[];
     };
 }
@@ -113,7 +118,42 @@ export type LessonStep =
     | QuizStep
     | BlocklyStep
     | CodeFillStep
-    | CodeStep;
+    | CodeStep
+    | UnjumbleStep
+    | MatchingStep
+    | FlashcardStep;
+
+export interface ActivityItem {
+    id: string;
+    label: string;
+}
+export interface UnjumbleStep {
+    id: string;
+    type: 'unjumble';
+    reward: StepReward;
+    content: { title: string; instructions: string; tokens: ActivityItem[] };
+}
+export interface MatchingStep {
+    id: string;
+    type: 'matching';
+    reward: StepReward;
+    content: {
+        title: string;
+        instructions: string;
+        left: ActivityItem[];
+        right: ActivityItem[];
+    };
+}
+export interface FlashcardStep {
+    id: string;
+    type: 'flashcard';
+    reward: StepReward;
+    content: {
+        title: string;
+        instructions: string;
+        cards: { id: string; front: string; back: string }[];
+    };
+}
 
 export interface LessonPayload {
     id: string;
@@ -133,6 +173,7 @@ export interface CourseCatalogItem {
     title: string;
     description: string;
     level: string;
+    accessTier: 'free' | 'plus';
     lessonCount: number;
 }
 
@@ -156,6 +197,7 @@ export interface CourseDetail {
     title: string;
     description: string;
     level: string;
+    accessTier: 'free' | 'plus';
     contentRevision: number;
     units: CourseUnitSummary[];
 }
@@ -165,7 +207,10 @@ export type StepAnswer =
     | { type: 'quiz'; optionId: string }
     | { type: 'blockly'; commands: BlocklyCommand[] }
     | { type: 'code-fill'; answers: Record<string, string> }
-    | { type: 'code'; code: string };
+    | { type: 'code'; code: string }
+    | { type: 'unjumble'; order: string[] }
+    | { type: 'matching'; pairs: Record<string, string> }
+    | { type: 'flashcard'; reviewedIds: string[] };
 
 export interface StepAttemptInput {
     lesson_id: string;
@@ -191,6 +236,7 @@ export interface ProgressSnapshot {
     longestStreak: number;
     lastActivityDate: string | null;
     hearts: number;
+    heartsUnlimited: boolean;
     heartsCapacity: number;
     heartsRegenMinutes: number;
     nextHeartInMs: number | null;

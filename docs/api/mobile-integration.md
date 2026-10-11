@@ -19,11 +19,43 @@ Base URL: `<origin>/api/v1` (contoh lokal `http://localhost:8000/api/v1`). Gunak
 | GET | `/courses/{course}` | Course published, unit/lesson, unlocked/completed |
 | GET | `/lessons/{lesson}` | Published dan unlocked, langkah publik |
 | GET | `/me/progress` | Snapshot authoritative |
+| GET | `/me/subscription` | Status entitlement akun; checkout belum tersedia |
 | GET | `/leaderboard` | Paginasi; rank/displayName/avatarUrl/totalXp |
 | POST | `/learning/attempts` | 60/menit; UUID idempotensi per user |
 | POST | `/learning/lessons/{lesson}/complete` | 60/menit; rekonsiliasi, bukan skip lesson |
 
 Selain login, semua route memerlukan `Authorization: Bearer <Sanctum-token>` dan ability `learner`. Token session web tidak memenuhi middleware learner. Gunakan ID course/lesson/step string dari response, bukan ID yang dikarang. `avatarUrl` nullable memang ada pada leaderboard existing; profil/login tidak memiliki avatar dan tidak ada endpoint avatar.
+
+## Status Plus bersama web/Android
+
+`GET /me/subscription` menggunakan bearer learner yang sama. Web menggunakan `GET /me/subscription` relatif origin, dengan session web dan tanpa envelope. Keduanya membaca service entitlement yang sama berdasarkan `User`, bukan perangkat atau email pembayaran.
+
+Contoh response mobile:
+
+```json
+{
+  "data": {
+    "plusActive": false,
+    "accessUntil": null,
+    "revision": 0,
+    "evaluatedAt": "2026-10-10T00:00:00.000000Z",
+    "checkoutAvailable": false
+  },
+  "meta": { "requestId": "example-request-id" }
+}
+```
+
+Response memakai `Cache-Control: no-store, private`. `accessUntil` nullable, ISO8601 UTC. Sumber terverifikasi aktif digabung dengan OR; periode tidak dijumlahkan. Pembatalan biasa tetap aktif sampai expiry. `revision` melacak perubahan record; expiry akibat waktu dapat mengubah `plusActive` tanpa perubahan revision, sehingga jangan mengabaikan evaluasi terbaru hanya karena revision sama.
+
+Tahap ini belum menyediakan checkout, purchase verification/restore, atau aktivasi dari perangkat. `checkoutAvailable` selalu `false`.
+
+Unlimited hearts kini diterapkan server-side pada attempt dan konsumsi hearts. Snapshot progress menyertakan `heartsUnlimited`; `hearts`, capacity, dan timer tetap menggambarkan saldo Free yang beregenerasi normal. Saat expiry, aturan Free kembali berlaku tanpa refill permanen.
+
+Course catalog/detail menyertakan `accessTier: free|plus`. Metadata roadmap tetap dapat dilihat, tetapi read lesson dan write attempt/completion premium membutuhkan Plus terverifikasi; tanpa akses mendapat `403 plus_required`. Prasyarat tetap berlaku (`403 lesson_locked`) meskipun Plus aktif. Katalog learner menandai roadmap Gratis atau Plus; CTA Plus membuka detail jalur, bukan checkout.
+
+Hak ini dievaluasi ulang oleh server; jangan memakai `updatedAt` gamification sebagai revision entitlement atau mempercayai cache untuk izin attempt. Pisahkan freshness entitlement dari `progress.updatedAt`: expiry bisa mengubah `plusActive` tanpa menaikkan `revision`. Refresh status saat focus, reconnect, setelah hasil pembayaran/restore terverifikasi, dan saat mencapai expiry. Untuk timer perangkat, gunakan selisih `accessUntil` dan `evaluatedAt`, kurangi waktu request yang sudah berlalu; jangan bergantung pada jam kalender perangkat. Response akun lama atau request lama tidak boleh menimpa status terbaru. Saat offline, error, atau periode terverifikasi habis, UI tidak boleh mempertahankan grant dari cache. Server tetap menjadi otoritas akses.
+
+Login web kini memakai resolver Google identity yang sama dengan mobile; email sama tanpa link Google tetap tidak di-auto-link.
 
 ## Google native → backend → Sanctum
 
@@ -100,6 +132,7 @@ Error: `{ "error": { "code": "validation_failed", "message": "Permintaan tidak v
 | 401 `unauthenticated` | Token hilang/expired/revoked; login ulang |
 | 401 `invalid_google_token` | Periksa konfigurasi audience dan hasil SDK; bukan token Sanctum |
 | 403 `forbidden` / `lesson_locked` | Ability salah atau lesson sebelumnya belum selesai |
+| 403 `plus_required` | Jawaban belum diterima; hentikan retry otomatis, refresh entitlement, tampilkan kebutuhan Plus tanpa menghapus progress |
 | 404 `not_found` | ID hilang atau unpublished; refresh katalog |
 | 409 `account_link_required` | Jangan auto-create/link akun berdasarkan email |
 | 409 `content_changed` | Muat ulang lesson dan revisi; tinjau jawaban baru |
@@ -135,7 +168,7 @@ Revisi `1` hanya ilustrasi, selalu pakai `contentRevision` aktual. Bentuk answer
 
 `answer.type` wajib; field jenis lain pada request validator bersifat `sometimes`, jadi missing/mismatch dapat menghasilkan result.correct=false alih-alih 422. UUID wajib, ID string max 160, answer maksimum 32 entri, commands/answers maksimum 500, string isian max 2000 dan code max 20000.
 
-Sukses attempt: `data.result = {correct,consumeHeart,feedback}`, `xpAwarded`, `completed` (lesson), `progress`. Jawaban salah normal HTTP 200. Simpan UUID **dan serialized payload identik** sebelum mengirim; retry akibat timeout memakai UUID/payload sama, jangan buat UUID baru otomatis. Hash server memakai JSON payload, maka hindari mengubah urutan/key saat rekonstruksi retry. Payload berbeda dengan UUID lama konflik. Revisi/access diperiksa sebelum replay; tidak dijamin bisa replay setelah konten berubah. Replay mengembalikan xpAwarded historis dan progress terbaru: jangan menjumlahkan xpAwarded pada local total, gunakan snapshot.
+Sukses attempt: `data.result = {correct,consumeHeart,feedback}`, `xpAwarded`, `completed` (lesson), `progress`. Jawaban salah normal HTTP 200. Simpan UUID **dan serialized payload identik** sebelum mengirim; retry akibat timeout memakai UUID/payload sama, jangan buat UUID baru otomatis. Hash server memakai JSON payload, maka hindari mengubah urutan/key saat rekonstruksi retry. Payload berbeda dengan UUID lama konflik. Attempt baru menyimpan response hasil verifikasi. Retry identik milik akun yang sama mengembalikan hasil tersimpan meskipun Plus kedaluwarsa atau revisi konten berubah, tanpa verifikasi/reward ulang. Lesson tetap harus tersedia. Attempt lama tanpa response tersimpan tetap mengikuti pemeriksaan revisi/akses; replay lintas perubahan tidak dijamin. Replay mengembalikan xpAwarded historis dan progress terbaru: jangan menjumlahkan xpAwarded pada local total, gunakan snapshot.
 
 Attempt benar dapat menyelesaikan lesson/course dan reward otomatis ketika prasyarat terpenuhi. `POST learning/lessons/{lesson}/complete` hanya menerima `{"content_revision": <revision>}`; tidak punya attempt_id dan tidak melompati prasyarat. Jika langkah belum lengkap, response 200 `completed=false, xpAwarded=0`. Repetition tidak memberi reward berulang.
 

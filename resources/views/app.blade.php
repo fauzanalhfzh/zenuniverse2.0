@@ -16,7 +16,7 @@
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         <x-inertia::head>
-            @if(in_array($page['component'], ['home', 'price', 'blog', 'blog-article'], true) && isset($page['props']['seo']))
+            @if(in_array($page['component'], ['home', 'modul', 'price', 'blog', 'blog-article'], true) && isset($page['props']['seo']))
                 <title data-inertia="">{{ $page['props']['seo']['title'] }}</title>
                 <meta name="description" content="{{ $page['props']['seo']['description'] }}" data-inertia="description">
                 <link rel="canonical" href="{{ $page['props']['seo']['canonical'] }}" data-inertia="canonical">

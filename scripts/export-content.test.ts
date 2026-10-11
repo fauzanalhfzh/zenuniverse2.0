@@ -48,6 +48,51 @@ function course(id: string, stepIds: string[]): ExportedCourse {
     };
 }
 
+void test('preserves optional accessTier through JSON and includes it in checksums', () => {
+    const legacy = course('tier-course', ['tier-step']);
+    const free = { ...legacy, accessTier: 'free' as const };
+    const plus = { ...legacy, accessTier: 'plus' as const };
+    const dumps = [legacy, free, plus].map((item) =>
+        buildContentDump([item], 'synthetic', null, EXPORTED_AT),
+    );
+    assert.equal(Object.hasOwn(dumps[0].courses[0], 'accessTier'), false);
+    assert.equal(
+        JSON.parse(JSON.stringify(dumps[1])).courses[0].accessTier,
+        'free',
+    );
+    assert.equal(
+        JSON.parse(JSON.stringify(dumps[2])).courses[0].accessTier,
+        'plus',
+    );
+    const summaries = dumps.map(summarize);
+    assert.equal(
+        new Set(summaries.map((item) => item.contentChecksum)).size,
+        3,
+    );
+    assert.equal(
+        new Set(summaries.map((item) => item.courses[0].checksum)).size,
+        3,
+    );
+    assert.deepEqual(summarize(dumps[2]), summarize(dumps[2]));
+});
+
+void test('rejects explicitly invalid accessTier', () => {
+    for (const accessTier of [undefined, null, '', 'PLUS', 'paid', 0]) {
+        const invalid = {
+            ...course('invalid-tier', []),
+            accessTier,
+        } as ExportedCourse;
+        assert.throws(
+            () => buildContentDump([invalid], 'synthetic', null, EXPORTED_AT),
+            /accessTier must be free or plus/,
+        );
+        assert.throws(
+            () => assertUniqueIds([invalid]),
+            /accessTier must be free or plus/,
+        );
+    }
+});
+
 void test('rejects duplicate ids', () => {
     assert.throws(
         () => assertUniqueIds([course('a', ['same', 'same'])]),

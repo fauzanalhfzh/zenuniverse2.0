@@ -238,6 +238,51 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/ServerError'
+  /me/subscription:
+    get:
+      operationId: getSubscription
+      summary: Status entitlement bersama web/Android; checkout belum tersedia.
+      responses:
+        '200':
+          description: Evaluasi akses UTC; expiry dapat berubah tanpa perubahan revision.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store, private
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Envelope'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      required: [plusActive, accessUntil, revision, evaluatedAt, checkoutAvailable]
+                      properties:
+                        plusActive:
+                          type: boolean
+                        accessUntil:
+                          type: [string, 'null']
+                          format: date-time
+                        revision:
+                          type: integer
+                          minimum: 0
+                          description: Revisi record subscription, bukan clock expiry atau progress.updatedAt.
+                        evaluatedAt:
+                          type: string
+                          format: date-time
+                          description: Waktu evaluasi UTC server; expiry dapat mengubah akses tanpa perubahan revision.
+                        checkoutAvailable:
+                          type: boolean
+                          const: false
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /leaderboard:
     get:
       operationId: getLeaderboard
@@ -437,7 +482,7 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorEnvelope'
     Forbidden:
-      description: forbidden (ability bukan learner) atau lesson_locked.
+      description: forbidden (ability bukan learner), plus_required, atau lesson_locked.
       content:
         application/json:
           schema:
@@ -575,6 +620,7 @@ components:
       - title
       - description
       - level
+      - accessTier
       - lessonCount
       properties:
         id:
@@ -585,6 +631,10 @@ components:
           type: string
         level:
           type: string
+        accessTier:
+          type: string
+          enum: [free, plus]
+          description: Metadata publik; akses lesson tetap diperiksa server, termasuk prasyarat.
         lessonCount:
           type: integer
     Course:
@@ -594,6 +644,7 @@ components:
       - title
       - description
       - level
+      - accessTier
       - contentRevision
       - units
       properties:
@@ -605,6 +656,10 @@ components:
           type: string
         level:
           type: string
+        accessTier:
+          type: string
+          enum: [free, plus]
+          description: Metadata publik; akses lesson tetap diperiksa server, termasuk prasyarat.
         contentRevision:
           type: integer
         units:
@@ -704,6 +759,14 @@ components:
 
         code: title,prompt,language,starterCode,mockOutput,sampleInput,hint.
 
+        unjumble: title,instructions,tokens[{id,label}].
+
+        matching: title,instructions,left[{id,label}],right[{id,label}].
+
+        flashcard: title,instructions,cards[{id,front,back}].
+
+        Token dan kedua sisi pasangan memakai ID opaque dan urutan acak independen.
+
         validation, expectedCode dan quiz explanation tidak disertakan di payload
         publik.
 
@@ -722,6 +785,9 @@ components:
           - blockly
           - code-fill
           - code
+          - unjumble
+          - matching
+          - flashcard
         reward:
           type: object
           required:
@@ -773,6 +839,9 @@ components:
               - blockly
               - code-fill
               - code
+              - unjumble
+              - matching
+              - flashcard
             acknowledged:
               type: boolean
             optionId:
@@ -789,6 +858,29 @@ components:
                 type: string
                 maxLength: 2000
               description: Map blank ID dari content.blanks ke string jawaban.
+            order:
+              type: array
+              maxItems: 50
+              uniqueItems: true
+              items:
+                type: string
+                maxLength: 160
+              description: ID token publik dalam urutan jawaban.
+            pairs:
+              type: object
+              maxProperties: 50
+              additionalProperties:
+                type: string
+                maxLength: 160
+              description: Map ID kiri publik ke ID kanan publik, setiap kanan unik.
+            reviewedIds:
+              type: array
+              maxItems: 50
+              uniqueItems: true
+              items:
+                type: string
+                maxLength: 160
+              description: ID semua flash card yang telah dibuka.
             code:
               type: string
               maxLength: 20000
@@ -817,6 +909,7 @@ components:
       - longestStreak
       - lastActivityDate
       - hearts
+      - heartsUnlimited
       - heartsCapacity
       - heartsRegenMinutes
       - nextHeartInMs
@@ -856,6 +949,10 @@ components:
           format: date
         hearts:
           type: integer
+          description: Counter Free yang tetap diregenerasi saat Plus aktif.
+        heartsUnlimited:
+          type: boolean
+          description: Hak unlimited dari entitlement server saat snapshot dievaluasi, bukan dari angka hearts.
         heartsCapacity:
           type: integer
         heartsRegenMinutes:

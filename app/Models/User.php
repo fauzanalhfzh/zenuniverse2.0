@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, \Laravel\Sanctum\HasApiTokens;
+    use HasFactory, \Laravel\Sanctum\HasApiTokens, Notifiable;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -45,6 +45,12 @@ class User extends Authenticatable implements FilamentUser
     public function oauthAccounts(): HasMany
     {
         return $this->hasMany(OauthAccount::class);
+    }
+
+    /** @return HasMany<Subscription, $this> */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
     }
 
     /**

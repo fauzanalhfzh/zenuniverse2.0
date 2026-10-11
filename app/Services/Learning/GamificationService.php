@@ -10,6 +10,7 @@ use App\Models\StepCompletion;
 use App\Models\User;
 use App\Models\UserBadge;
 use App\Models\UserGamification;
+use App\Services\Billing\Entitlement;
 use Carbon\CarbonInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,13 @@ use Illuminate\Support\Facades\DB;
 class GamificationService
 {
     public const TZ = 'Asia/Jakarta';
+
+    public function __construct(private readonly Entitlement $entitlement) {}
+
+    public function hasUnlimitedHearts(User $user): bool
+    {
+        return $this->entitlement->forUser($user)['plusActive'];
+    }
 
     public function today(?CarbonInterface $now = null): string
     {
@@ -81,6 +89,10 @@ class GamificationService
 
     public function consumeHeart(User $user, string $eventKey, ?CarbonInterface $now = null): bool
     {
+        if ($this->hasUnlimitedHearts($user)) {
+            return false;
+        }
+
         $moment = $now ?? now();
         $state = $this->persistHearts($this->current($user), null, $moment);
 
@@ -296,6 +308,7 @@ class GamificationService
             'longestStreak' => (int) $state->longest_streak,
             'lastActivityDate' => $state->last_activity_date?->toDateString(),
             'hearts' => $hearts['hearts'],
+            'heartsUnlimited' => $this->hasUnlimitedHearts($user),
             'heartsCapacity' => (int) $settings->capacity,
             'heartsRegenMinutes' => (int) $settings->regen_minutes,
             'nextHeartInMs' => $hearts['nextHeartInMs'],

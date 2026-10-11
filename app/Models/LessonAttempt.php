@@ -16,9 +16,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $payload_hash
  * @property bool $correct
  * @property bool $consume_heart
+ * @property array{correct: bool, consumeHeart: bool, feedback: string, xpAwarded: int, completed: bool}|null $response
  * @property int $xp_awarded
  */
-#[Fillable(['user_id', 'attempt_id', 'lesson_id', 'step_id', 'content_revision', 'payload_hash', 'correct', 'consume_heart', 'xp_awarded'])]
+#[Fillable(['user_id', 'attempt_id', 'lesson_id', 'step_id', 'content_revision', 'payload_hash', 'correct', 'consume_heart', 'xp_awarded', 'response'])]
 class LessonAttempt extends Model
 {
     /**
@@ -27,6 +28,7 @@ class LessonAttempt extends Model
     protected function casts(): array
     {
         return [
+            'response' => 'array',
             'correct' => 'boolean',
             'consume_heart' => 'boolean',
         ];

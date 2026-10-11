@@ -2,31 +2,31 @@
   "version": 1,
   "exportedAt": "2026-09-18T11:33:05.322Z",
   "sourceRevision": "d0c3c40",
-  "contentChecksum": "fb5631c18d4032e3c42b5da0f3ea2c666b4c61301cf04b8f0acf155ba31ddd27",
+  "contentChecksum": "af55696aa7b93f08cb137a6a2ade528edc980ac61a3337b61bd70a908fcdfda7",
   "totals": {
-    "courses": 6,
-    "published": 5,
+    "courses": 7,
+    "published": 6,
     "draft": 1,
-    "units": 30,
-    "lessons": 62,
-    "steps": 413
+    "units": 28,
+    "lessons": 90,
+    "steps": 621
   },
   "courses": [
     {
       "id": "blockly-basics",
       "status": "published",
-      "units": 10,
-      "lessons": 10,
-      "steps": 100,
-      "checksum": "f5507165c074a74c02f35162c533084eace8b9f06ef9d2b7bd36801e6189e74e"
+      "units": 2,
+      "lessons": 18,
+      "steps": 140,
+      "checksum": "e1772fb623b57c529a5e7fb41e37babbdf5efdf04c397281237a108058568379"
     },
     {
       "id": "python-fundamentals",
       "status": "published",
-      "units": 10,
-      "lessons": 10,
-      "steps": 111,
-      "checksum": "c47de9d28aecc02e5dfc1fc3e019445dee132b89d8714be1703741ddcb9cc554"
+      "units": 14,
+      "lessons": 22,
+      "steps": 207,
+      "checksum": "642ae58ae39ba92409261af0ce6c8f4d14820b63de58e9feeb371d2ac41f3c70"
     },
     {
       "id": "javascript-fundamentals",
@@ -59,6 +59,14 @@
       "lessons": 12,
       "steps": 61,
       "checksum": "3f2ddd67a7e53138f9a45c396079141a35f5bdd4d3610e20f94773847c0a58e6"
+    },
+    {
+      "id": "ai-fundamentals",
+      "status": "published",
+      "units": 2,
+      "lessons": 8,
+      "steps": 72,
+      "checksum": "3fa11190127f445f889a116da5d70a68b49e0ea61e6dd52563b86a9e718b2bc9"
     }
   ]
 }

@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $title
  * @property string $description
  * @property string $level
+ * @property string $access_tier
  * @property string $status
  * @property int $content_revision
  * @property array<int, string>|null $planned_lesson_ids
  * @property int $sort_order
  */
-#[Fillable(['id', 'title', 'description', 'level', 'status', 'content_revision', 'planned_lesson_ids', 'sort_order'])]
+#[Fillable(['id', 'title', 'description', 'level', 'access_tier', 'status', 'content_revision', 'planned_lesson_ids', 'sort_order'])]
 class Course extends Model
 {
     public $incrementing = false;

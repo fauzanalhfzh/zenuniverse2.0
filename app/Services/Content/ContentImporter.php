@@ -60,6 +60,10 @@ class ContentImporter
      */
     private function importCourse(array $course, int $courseIndex): void
     {
+        if (array_key_exists('accessTier', $course) && ! in_array($course['accessTier'], ['free', 'plus'], true)) {
+            throw new InvalidArgumentException('accessTier must be free or plus.');
+        }
+
         $courseModel = Course::updateOrCreate(
             ['id' => $this->stringMember($course, 'id')],
             [
@@ -69,6 +73,7 @@ class ContentImporter
                 'status' => $this->stringMember($course, 'status'),
                 'planned_lesson_ids' => $course['plannedLessonIds'] ?? null,
                 'sort_order' => $courseIndex,
+                ...(array_key_exists('accessTier', $course) ? ['access_tier' => $course['accessTier']] : []),
             ],
         );
 

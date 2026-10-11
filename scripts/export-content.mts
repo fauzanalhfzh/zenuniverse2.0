@@ -5,7 +5,15 @@ import { existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export type StepType = 'concept' | 'quiz' | 'blockly' | 'code-fill' | 'code';
+export type StepType =
+    | 'concept'
+    | 'quiz'
+    | 'blockly'
+    | 'code-fill'
+    | 'code'
+    | 'unjumble'
+    | 'matching'
+    | 'flashcard';
 
 export interface ExportedStep {
     id: string;
@@ -36,6 +44,7 @@ export interface ExportedCourse {
     title: string;
     description: string;
     level: string;
+    accessTier?: 'free' | 'plus';
     status: 'published' | 'draft';
     plannedLessonIds?: string[];
     units: ExportedUnit[];
@@ -113,6 +122,16 @@ const COURSE_MODULES: ReadonlyArray<{
     },
 ];
 
+function assertAccessTier(course: ExportedCourse): void {
+    if (
+        Object.hasOwn(course, 'accessTier') &&
+        course.accessTier !== 'free' &&
+        course.accessTier !== 'plus'
+    ) {
+        throw new Error('accessTier must be free or plus.');
+    }
+}
+
 export function assertUniqueIds(courses: readonly ExportedCourse[]): void {
     const seen = new Set<string>();
     const claim = (id: string, kind: string): void => {
@@ -123,6 +142,7 @@ export function assertUniqueIds(courses: readonly ExportedCourse[]): void {
     };
 
     for (const course of courses) {
+        assertAccessTier(course);
         claim(course.id, 'course');
         for (const unit of course.units) {
             claim(unit.id, 'unit');
@@ -172,6 +192,8 @@ export function buildContentDump(
     revision: string | null,
     exportedAt: string,
 ): ContentDump {
+    courses.forEach(assertAccessTier);
+
     return {
         version: 1,
         exportedAt,
