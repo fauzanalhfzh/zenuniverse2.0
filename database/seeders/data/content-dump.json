@@ -3863,7 +3863,7 @@
                   "content": {
                     "title": "Perbaiki Sintaks Print",
                     "prompt": "Lengkapi program agar mencetak Kode berjalan.",
-                    "starterCode": "# Perhatikan kurung dan tanda kutip\n print(Kode berjalan)",
+                    "starterCode": "# Perhatikan kurung dan tanda kutip\nprint(Kode berjalan)",
                     "expectedCode": "print(\"Kode berjalan\")",
                     "mockOutput": "Kode berjalan",
                     "hint": "Teks harus berada di dalam tanda kutip dan kurung print().",
