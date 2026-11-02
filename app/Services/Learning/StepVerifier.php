@@ -7,11 +7,33 @@ use App\Models\LessonStep;
 
 /**
  * Server-side verification for every lesson step type. Answers are compared
- * against the private content stored on the published revision; submitted code
- * is never executed.
+ * against the private content stored on the published revision. Submitted code
+ * is executed only inside the CodeRunner sandbox, never on this host.
  */
 class StepVerifier
 {
+    public function __construct(private readonly CodeRunner $runner = new CodeRunner) {}
+
+    /**
+     * Result of JALANKAN: not graded and costs no heart.
+     *
+     * @return array{matches: bool, output: ?string}
+     */
+    public function previewCode(LessonStep $step, string $code): array
+    {
+        $target = (string) ($step->content['mockOutput'] ?? '');
+        $run = $this->runCode($step, $code);
+
+        if ($run !== null) {
+            return ['matches' => $run->matches($target), 'output' => $run->display()];
+        }
+
+        // No sandbox for this language: only the answer key can vouch for the output.
+        $matches = $this->matchesAnswerKey($step, $code);
+
+        return ['matches' => $matches, 'output' => $matches ? $target : null];
+    }
+
     /**
      * @param  array<string, mixed>  $answer
      */
@@ -173,16 +195,43 @@ class StepVerifier
         }
 
         $language = (string) ($step->content['language'] ?? '');
-        $expected = (string) ($step->content['expectedCode'] ?? '');
+        $run = $this->runCode($step, $code);
 
-        if (! CodeVerifier::matches($language, $expected, $code)) {
-            return StepVerificationResult::incorrect(true, 'Kode belum cocok dengan jawaban yang diharapkan.');
+        if ($run !== null && $run->matches((string) ($step->content['mockOutput'] ?? ''))) {
+            return StepVerificationResult::correct((int) $step->reward_xp, 'Output kode sesuai target.');
         }
 
-        $feedback = $language === 'cpp'
-            ? 'Kode sesuai dengan latihan. Output yang ditampilkan adalah simulasi.'
-            : 'Kode menghasilkan output mock yang sesuai.';
+        // The answer key stays accepted even when the sandbox disagrees with the authored output.
+        if ($this->matchesAnswerKey($step, $code)) {
+            $feedback = $run !== null ? 'Kode sesuai dengan latihan.' : ($language === 'cpp'
+                ? 'Kode sesuai dengan latihan. Output yang ditampilkan adalah simulasi.'
+                : 'Kode menghasilkan output mock yang sesuai.');
 
-        return StepVerificationResult::correct((int) $step->reward_xp, $feedback);
+            return StepVerificationResult::correct((int) $step->reward_xp, $feedback);
+        }
+
+        return match (true) {
+            $run === null => StepVerificationResult::incorrect(true, 'Kode belum cocok dengan jawaban yang diharapkan.'),
+            $run->failed() => StepVerificationResult::incorrect(true, 'Kode berhenti dengan error. Perbaiki lalu jalankan lagi.'),
+            default => StepVerificationResult::incorrect(true, 'Output kode belum sesuai target.'),
+        };
+    }
+
+    private function runCode(LessonStep $step, string $code): ?CodeRunResult
+    {
+        return $this->runner->run(
+            (string) ($step->content['language'] ?? ''),
+            $code,
+            (string) ($step->content['sampleInput'] ?? ''),
+        );
+    }
+
+    private function matchesAnswerKey(LessonStep $step, string $code): bool
+    {
+        return CodeVerifier::matches(
+            (string) ($step->content['language'] ?? ''),
+            (string) ($step->content['expectedCode'] ?? ''),
+            $code,
+        );
     }
 }

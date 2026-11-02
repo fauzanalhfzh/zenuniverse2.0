@@ -16,6 +16,7 @@ Route::prefix('v1')->group(function (): void {
         Route::get('me/progress', [LearningController::class, 'progress']);
         Route::get('leaderboard', [LearningController::class, 'leaderboard']);
         Route::post('learning/attempts', [LearningController::class, 'attempt'])->middleware('throttle:60,1');
+        Route::post('learning/run', [LearningController::class, 'run'])->middleware('throttle:30,1');
         Route::post('learning/lessons/{lesson}/complete', [LearningController::class, 'complete'])->middleware('throttle:60,1');
         Route::get('me', [AuthController::class, 'me']);
         Route::post('auth/logout', [AuthController::class, 'logout']);

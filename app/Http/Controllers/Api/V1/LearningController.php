@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\StepType;
+use App\Exceptions\LearningException;
 use App\Http\Requests\SubmitStepRequest;
 use App\Http\Resources\Api\V1\ApiResource;
 use App\Models\Course;
@@ -12,6 +14,7 @@ use App\Models\StepCompletion;
 use App\Services\Content\LessonAccess;
 use App\Services\Content\PublishedContent;
 use App\Services\Learning\ProgressSnapshot;
+use App\Services\Learning\StepVerifier;
 use App\Services\Learning\SubmitAttempt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -70,6 +73,20 @@ class LearningController
         $outcome = $submit->handle($request->user(), $step, $data['lesson_id'], (int) $data['content_revision'], $data['attempt_id'], $data['answer']);
 
         return new ApiResource(['result' => ['correct' => $outcome['correct'], 'consumeHeart' => $outcome['consumeHeart'], 'feedback' => $outcome['feedback']], 'xpAwarded' => $outcome['xpAwarded'], 'completed' => $outcome['completed'], 'progress' => $this->progress->forUser($request->user())]);
+    }
+
+    /** JALANKAN: runs the code in the sandbox for the editor's OUTPUT panel; no grading, rewards, or hearts. */
+    public function run(Request $request, LessonAccess $access, StepVerifier $verifier): ApiResource
+    {
+        $data = $request->validate(['lesson_id' => ['required', 'string', 'max:160'], 'step_id' => ['required', 'string', 'max:160'], 'code' => ['required', 'string', 'max:20000']]);
+        $lesson = Lesson::query()->whereKey($data['lesson_id'])->firstOrFail();
+        $step = LessonStep::query()->whereKey($data['step_id'])->firstOrFail();
+        if ($step->lesson_id !== $lesson->id || $step->type !== StepType::Code) {
+            throw new LearningException('invalid_step', 'Langkah tidak termasuk pelajaran ini.', 422);
+        }
+        $access->ensure($request->user(), $lesson);
+
+        return new ApiResource($verifier->previewCode($step, $data['code']));
     }
 
     public function complete(Request $request, Lesson $lesson, SubmitAttempt $submit): ApiResource

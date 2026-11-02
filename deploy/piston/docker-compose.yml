@@ -1,0 +1,46 @@
+# Sandbox for learner code. Run this on a dedicated VPS, never on the Laravel/cPanel host:
+# Piston needs a privileged container, so the host must hold nothing worth stealing.
+# See docs/code-runner.md.
+services:
+  piston:
+    image: ghcr.io/engineer-man/piston:latest
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - piston-data:/piston
+    tmpfs:
+      - /piston/jobs:exec,uid=1000,gid=1000,mode=711
+      - /tmp:exec
+    environment:
+      PISTON_DISABLE_NETWORKING: "true"
+      PISTON_RUN_TIMEOUT: "3000"
+      PISTON_COMPILE_TIMEOUT: "10000"
+      PISTON_RUN_MEMORY_LIMIT: "134217728"
+      PISTON_COMPILE_MEMORY_LIMIT: "268435456"
+      PISTON_MAX_PROCESS_COUNT: "32"
+      PISTON_MAX_OPEN_FILES: "64"
+      PISTON_MAX_FILE_SIZE: "1000000"
+      PISTON_OUTPUT_MAX_SIZE: "8192"
+      PISTON_MAX_CONCURRENT_JOBS: "8"
+    # Only reachable through the proxy below; package management stays local to this host.
+    ports:
+      - "127.0.0.1:2000:2000"
+
+  proxy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - piston
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PISTON_DOMAIN: ${PISTON_DOMAIN:?set PISTON_DOMAIN}
+      PISTON_TOKEN: ${PISTON_TOKEN:?set PISTON_TOKEN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+
+volumes:
+  piston-data:
+  caddy-data:

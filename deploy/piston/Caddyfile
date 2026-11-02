@@ -1,0 +1,15 @@
+{$PISTON_DOMAIN} {
+	# Only the execute endpoint is public, and only with the shared token from Laravel's PISTON_TOKEN.
+	@execute {
+		method POST
+		path /api/v2/execute
+		header Authorization "Bearer {$PISTON_TOKEN}"
+	}
+	handle @execute {
+		request_body {
+			max_size 64KB
+		}
+		reverse_proxy piston:2000
+	}
+	respond 404
+}

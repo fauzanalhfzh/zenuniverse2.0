@@ -35,6 +35,21 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // Sandbox for learner code (docs/code-runner.md). Empty URL keeps the answer-key comparison only.
+    'piston' => [
+        'url' => env('PISTON_URL', ''),
+        'token' => env('PISTON_TOKEN'),
+        'http_timeout' => (int) env('PISTON_HTTP_TIMEOUT', 15),
+        'compile_timeout_ms' => (int) env('PISTON_COMPILE_TIMEOUT_MS', 10000),
+        'run_timeout_ms' => (int) env('PISTON_RUN_TIMEOUT_MS', 3000),
+        'memory_bytes' => (int) env('PISTON_MEMORY_BYTES', 128 * 1024 * 1024),
+        'runtimes' => [
+            'python' => ['language' => 'python', 'version' => env('PISTON_PYTHON_VERSION', '*'), 'file' => 'main.py'],
+            'javascript' => ['language' => 'javascript', 'version' => env('PISTON_JAVASCRIPT_VERSION', '*'), 'file' => 'main.js'],
+            'cpp' => ['language' => 'c++', 'version' => env('PISTON_CPP_VERSION', '*'), 'file' => 'main.cpp'],
+        ],
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
